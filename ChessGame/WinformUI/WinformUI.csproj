@@ -52,17 +52,59 @@
     <Compile Include="frmChangePassword.Designer.cs">
       <DependentUpon>frmChangePassword.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmFeedBack.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmFeedBack.Designer.cs">
+      <DependentUpon>frmFeedBack.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmForgetPassword.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmForgetPassword.Designer.cs">
       <DependentUpon>frmForgetPassword.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmInvitePlay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmInvitePlay.Designer.cs">
+      <DependentUpon>frmInvitePlay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMainClient.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMainClient.Designer.cs">
+      <DependentUpon>frmMainClient.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmManageAccount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmManageAccount.Designer.cs">
+      <DependentUpon>frmManageAccount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmManual.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmManual.Designer.cs">
+      <DependentUpon>frmManual.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmProfile.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmProfile.Designer.cs">
       <DependentUpon>frmProfile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmRank.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRank.Designer.cs">
+      <DependentUpon>frmRank.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmSetting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSetting.Designer.cs">
+      <DependentUpon>frmSetting.cs</DependentUpon>
     </Compile>
     <Compile Include="frmSignin.cs">
       <SubType>Form</SubType>
@@ -78,14 +120,40 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Toggle\CeLearningToggle.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Toggle\ExtenssionMethods.cs" />
+    <Compile Include="Toggle\MyRectangle.cs" />
     <EmbeddedResource Include="frmChangePassword.resx">
       <DependentUpon>frmChangePassword.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmFeedBack.resx">
+      <DependentUpon>frmFeedBack.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmForgetPassword.resx">
       <DependentUpon>frmForgetPassword.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmInvitePlay.resx">
+      <DependentUpon>frmInvitePlay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMainClient.resx">
+      <DependentUpon>frmMainClient.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmManageAccount.resx">
+      <DependentUpon>frmManageAccount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmManual.resx">
+      <DependentUpon>frmManual.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmProfile.resx">
       <DependentUpon>frmProfile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRank.resx">
+      <DependentUpon>frmRank.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSetting.resx">
+      <DependentUpon>frmSetting.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmSignin.resx">
       <DependentUpon>frmSignin.cs</DependentUpon>
@@ -101,6 +169,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -120,6 +189,12 @@
       <Project>{8e1ad5eb-6791-41f7-b479-e533c65a6f82}</Project>
       <Name>BusinessLogic</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cog.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\user.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

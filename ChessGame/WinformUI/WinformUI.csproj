@@ -46,11 +46,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmAddFriend.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAddFriend.Designer.cs">
+      <DependentUpon>frmAddFriend.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmAddUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAddUser.Designer.cs">
+      <DependentUpon>frmAddUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmChangePassword.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmChangePassword.Designer.cs">
       <DependentUpon>frmChangePassword.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmCheckFeedBack.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCheckFeedBack.Designer.cs">
+      <DependentUpon>frmCheckFeedBack.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmCreateNotify.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCreateNotify.Designer.cs">
+      <DependentUpon>frmCreateNotify.cs</DependentUpon>
     </Compile>
     <Compile Include="frmFeedBack.cs">
       <SubType>Form</SubType>
@@ -58,11 +82,23 @@
     <Compile Include="frmFeedBack.Designer.cs">
       <DependentUpon>frmFeedBack.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmFeedBackDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmFeedBackDetail.Designer.cs">
+      <DependentUpon>frmFeedBackDetail.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmForgetPassword.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmForgetPassword.Designer.cs">
       <DependentUpon>frmForgetPassword.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmInvite.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmInvite.Designer.cs">
+      <DependentUpon>frmInvite.cs</DependentUpon>
     </Compile>
     <Compile Include="frmInvitePlay.cs">
       <SubType>Form</SubType>
@@ -70,11 +106,23 @@
     <Compile Include="frmInvitePlay.Designer.cs">
       <DependentUpon>frmInvitePlay.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmMainAdmin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMainAdmin.Designer.cs">
+      <DependentUpon>frmMainAdmin.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmMainClient.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmMainClient.Designer.cs">
       <DependentUpon>frmMainClient.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMaintaince.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMaintaince.Designer.cs">
+      <DependentUpon>frmMaintaince.cs</DependentUpon>
     </Compile>
     <Compile Include="frmManageAccount.cs">
       <SubType>Form</SubType>
@@ -82,11 +130,41 @@
     <Compile Include="frmManageAccount.Designer.cs">
       <DependentUpon>frmManageAccount.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmManageFriends.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmManageFriends.Designer.cs">
+      <DependentUpon>frmManageFriends.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmManageUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmManageUser.Designer.cs">
+      <DependentUpon>frmManageUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmManual.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmManual.Designer.cs">
       <DependentUpon>frmManual.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMessage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMessage.Designer.cs">
+      <DependentUpon>frmMessage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPickGame.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPickGame.Designer.cs">
+      <DependentUpon>frmPickGame.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPlayGame.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPlayGame.Designer.cs">
+      <DependentUpon>frmPlayGame.cs</DependentUpon>
     </Compile>
     <Compile Include="frmProfile.cs">
       <SubType>Form</SubType>
@@ -125,26 +203,65 @@
     </Compile>
     <Compile Include="Toggle\ExtenssionMethods.cs" />
     <Compile Include="Toggle\MyRectangle.cs" />
+    <EmbeddedResource Include="frmAddFriend.resx">
+      <DependentUpon>frmAddFriend.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAddUser.resx">
+      <DependentUpon>frmAddUser.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmChangePassword.resx">
       <DependentUpon>frmChangePassword.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCheckFeedBack.resx">
+      <DependentUpon>frmCheckFeedBack.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCreateNotify.resx">
+      <DependentUpon>frmCreateNotify.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmFeedBack.resx">
       <DependentUpon>frmFeedBack.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmFeedBackDetail.resx">
+      <DependentUpon>frmFeedBackDetail.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmForgetPassword.resx">
       <DependentUpon>frmForgetPassword.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmInvite.resx">
+      <DependentUpon>frmInvite.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmInvitePlay.resx">
       <DependentUpon>frmInvitePlay.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmMainAdmin.resx">
+      <DependentUpon>frmMainAdmin.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmMainClient.resx">
       <DependentUpon>frmMainClient.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMaintaince.resx">
+      <DependentUpon>frmMaintaince.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmManageAccount.resx">
       <DependentUpon>frmManageAccount.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmManageFriends.resx">
+      <DependentUpon>frmManageFriends.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmManageUser.resx">
+      <DependentUpon>frmManageUser.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmManual.resx">
       <DependentUpon>frmManual.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMessage.resx">
+      <DependentUpon>frmMessage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPickGame.resx">
+      <DependentUpon>frmPickGame.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPlayGame.resx">
+      <DependentUpon>frmPlayGame.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmProfile.resx">
       <DependentUpon>frmProfile.cs</DependentUpon>
@@ -195,6 +312,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\user.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\demoCaro.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\demoVay.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\demoVua.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\demoTuong.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

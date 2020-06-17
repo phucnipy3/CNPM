@@ -31,7 +31,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.dgvFriends = new System.Windows.Forms.DataGridView();
             this.Ingame = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.State = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Action = new System.Windows.Forms.DataGridViewButtonColumn();
             this.Message = new System.Windows.Forms.DataGridViewButtonColumn();
             this.Delete = new System.Windows.Forms.DataGridViewButtonColumn();
@@ -54,7 +54,7 @@
             this.dgvFriends.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvFriends.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Ingame,
-            this.State,
+            this.Status,
             this.Action,
             this.Message,
             this.Delete});
@@ -69,10 +69,10 @@
             this.Ingame.HeaderText = "Ingame";
             this.Ingame.Name = "Ingame";
             // 
-            // State
+            // Status
             // 
-            this.State.HeaderText = "Trạng thái";
-            this.State.Name = "State";
+            this.Status.HeaderText = "Trạng thái";
+            this.Status.Name = "Status";
             // 
             // Action
             // 
@@ -121,7 +121,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.DataGridView dgvFriends;
         private System.Windows.Forms.DataGridViewTextBoxColumn Ingame;
-        private System.Windows.Forms.DataGridViewTextBoxColumn State;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Status;
         private System.Windows.Forms.DataGridViewButtonColumn Action;
         private System.Windows.Forms.DataGridViewButtonColumn Message;
         private System.Windows.Forms.DataGridViewButtonColumn Delete;

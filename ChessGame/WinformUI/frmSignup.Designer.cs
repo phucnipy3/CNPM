@@ -47,6 +47,7 @@
             this.btnSignup.TabIndex = 8;
             this.btnSignup.Text = "Đăng ký";
             this.btnSignup.UseVisualStyleBackColor = true;
+            this.btnSignup.Click += new System.EventHandler(this.btnSignup_Click);
             // 
             // btnCancel
             // 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChessGame.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,13 @@ namespace WinformUI
         public frmSignin()
         {
             InitializeComponent();
+        }
+
+        private void btnSignin_Click(object sender, EventArgs e)
+        {
+            if (BLUser.Login(txtInputUsername.Text.Trim(), txtInputPassword.Text.Trim()))
+                MessageBox.Show("Thành công");
+            else MessageBox.Show("Thất bại");
         }
     }
 }

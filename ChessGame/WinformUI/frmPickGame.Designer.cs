@@ -35,7 +35,7 @@
             this.dgvRoom = new System.Windows.Forms.DataGridView();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Game = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.State = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Action = new System.Windows.Forms.DataGridViewButtonColumn();
             this.btnVay = new System.Windows.Forms.Button();
             this.btnVua = new System.Windows.Forms.Button();
@@ -77,7 +77,7 @@
             this.dgvRoom.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Id,
             this.Game,
-            this.State,
+            this.Status,
             this.Action});
             this.dgvRoom.Location = new System.Drawing.Point(417, 48);
             this.dgvRoom.Name = "dgvRoom";
@@ -94,10 +94,10 @@
             this.Game.HeaderText = "Game";
             this.Game.Name = "Game";
             // 
-            // State
+            // Status
             // 
-            this.State.HeaderText = "Trạng thái";
-            this.State.Name = "State";
+            this.Status.HeaderText = "Trạng thái";
+            this.Status.Name = "Status";
             // 
             // Action
             // 
@@ -191,7 +191,7 @@
         private System.Windows.Forms.DataGridView dgvRoom;
         private System.Windows.Forms.DataGridViewTextBoxColumn Id;
         private System.Windows.Forms.DataGridViewTextBoxColumn Game;
-        private System.Windows.Forms.DataGridViewTextBoxColumn State;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Status;
         private System.Windows.Forms.DataGridViewButtonColumn Action;
         private System.Windows.Forms.Button btnTuong;
         private System.Windows.Forms.Button btnVua;

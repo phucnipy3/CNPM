@@ -16,7 +16,7 @@ namespace WinformUI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmManageUser ());
+            Application.Run(new frmSignin());
         }
     }
 }

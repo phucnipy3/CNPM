@@ -1,8 +1,10 @@
-﻿using Data.Entities;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Data.BusinessLogic
+namespace ChessGame.Data
 {
     public class BLUser
     {

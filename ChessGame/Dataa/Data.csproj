@@ -5,12 +5,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{553053BE-644A-43FD-AEF7-F435C069816A}</ProjectGuid>
+    <ProjectGuid>{8E1AD5EB-6791-41F7-B479-E533C65A6F82}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Data</RootNamespace>
     <AssemblyName>Data</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
@@ -52,31 +52,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BusinessLogic\BLUser.cs" />
-    <Compile Include="Entities\DatabaseContext.cs" />
-    <Compile Include="Entities\Elo.cs" />
-    <Compile Include="Entities\Feedback.cs" />
-    <Compile Include="Entities\Friendship.cs" />
-    <Compile Include="Entities\Game.cs" />
-    <Compile Include="Entities\Log.cs" />
-    <Compile Include="Entities\MaintainceInfomation.cs" />
-    <Compile Include="Entities\Message.cs" />
-    <Compile Include="Entities\Room.cs" />
-    <Compile Include="Entities\User.cs" />
-    <Compile Include="Migrations\202007050404536_Init.cs" />
-    <Compile Include="Migrations\202007050404536_Init.designer.cs">
-      <DependentUpon>202007050404536_Init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Database\DatabaseContext.cs" />
+    <Compile Include="Database\Elo.cs" />
+    <Compile Include="Database\Feedback.cs" />
+    <Compile Include="Database\Friendship.cs" />
+    <Compile Include="Database\Game.cs" />
+    <Compile Include="Database\Log.cs" />
+    <Compile Include="Database\MaintainceInfomation.cs" />
+    <Compile Include="Database\Message.cs" />
+    <Compile Include="Database\Room.cs" />
+    <Compile Include="Database\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\202007050404536_Init.resx">
-      <DependentUpon>202007050404536_Init.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

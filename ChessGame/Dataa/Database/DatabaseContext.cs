@@ -9,7 +9,7 @@ namespace ChessGame.Data
 {
     public class DatabaseContext : DbContext
     {
-        public static string StringConnection = @"Data source=(local);initial catalog=CNPM;integrated security=True;MultipleActiveResultSets=True";
+        public static string StringConnection = @"Data source=(localdb)\MSSQLLocalDB;initial catalog=CNPM;integrated security=True;MultipleActiveResultSets=True";
 
         public DatabaseContext() : base(StringConnection) { }
 

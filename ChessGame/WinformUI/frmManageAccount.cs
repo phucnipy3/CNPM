@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Data.BusinessLogic;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,24 @@ namespace WinformUI
         public frmManageAccount()
         {
             InitializeComponent();
+        }
+
+        private void btnChangePassword_Click(object sender, EventArgs e)
+        {
+            frmChangePassword changePassword = new frmChangePassword();
+            changePassword.Show();
+        }
+
+        private void btnForgetPassword_Click(object sender, EventArgs e)
+        {
+            frmForgetPassword forgetPassword = new frmForgetPassword();
+            forgetPassword.Show();
+        }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            BLUser.ChangeActive(frmSignin.USERNAME);
+            Close();
         }
     }
 }

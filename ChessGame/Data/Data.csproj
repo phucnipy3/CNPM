@@ -52,6 +52,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BusinessLogic\BLUser.cs" />
+    <Compile Include="Common\Encryptor.cs" />
+    <Compile Include="Common\SendEmail.cs" />
     <Compile Include="Entities\DatabaseContext.cs" />
     <Compile Include="Entities\Elo.cs" />
     <Compile Include="Entities\Feedback.cs" />

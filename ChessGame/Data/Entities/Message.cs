@@ -7,13 +7,9 @@ namespace Data.Entities
     {
         [Key]
         public int ID { get; set; }
-
-        public int SenderID { get; set; }
-
-        public int ReceiverID { get; set; }
-
+        public int? SenderID { get; set; }
+        public int? ReceiverID { get; set; }
         public string Content { get; set; }
-
-        public DateTime SendTime { get; set; }
+        public DateTime? SendTime { get; set; }
     }
 }

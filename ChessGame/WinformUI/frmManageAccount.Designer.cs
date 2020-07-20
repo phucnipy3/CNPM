@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.btnLogout = new System.Windows.Forms.Button();
-            this.btnForgetPassword = new System.Windows.Forms.Button();
             this.btnChangePassword = new System.Windows.Forms.Button();
             this.btnProfile = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -37,7 +36,7 @@
             // btnLogout
             // 
             this.btnLogout.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.25F);
-            this.btnLogout.Location = new System.Drawing.Point(81, 405);
+            this.btnLogout.Location = new System.Drawing.Point(81, 300);
             this.btnLogout.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnLogout.Name = "btnLogout";
             this.btnLogout.Size = new System.Drawing.Size(246, 74);
@@ -45,18 +44,6 @@
             this.btnLogout.Text = "Đăng xuất";
             this.btnLogout.UseVisualStyleBackColor = true;
             this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
-            // 
-            // btnForgetPassword
-            // 
-            this.btnForgetPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.25F);
-            this.btnForgetPassword.Location = new System.Drawing.Point(81, 286);
-            this.btnForgetPassword.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnForgetPassword.Name = "btnForgetPassword";
-            this.btnForgetPassword.Size = new System.Drawing.Size(246, 74);
-            this.btnForgetPassword.TabIndex = 3;
-            this.btnForgetPassword.Text = "Quên mật khẩu";
-            this.btnForgetPassword.UseVisualStyleBackColor = true;
-            this.btnForgetPassword.Click += new System.EventHandler(this.btnForgetPassword_Click);
             // 
             // btnChangePassword
             // 
@@ -80,14 +67,14 @@
             this.btnProfile.TabIndex = 5;
             this.btnProfile.Text = "Thông tin cá nhân";
             this.btnProfile.UseVisualStyleBackColor = true;
+            this.btnProfile.Click += new System.EventHandler(this.btnProfile_Click);
             // 
             // frmManageAccount
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(394, 555);
+            this.ClientSize = new System.Drawing.Size(394, 425);
             this.Controls.Add(this.btnLogout);
-            this.Controls.Add(this.btnForgetPassword);
             this.Controls.Add(this.btnChangePassword);
             this.Controls.Add(this.btnProfile);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -102,7 +89,6 @@
         #endregion
 
         private System.Windows.Forms.Button btnLogout;
-        private System.Windows.Forms.Button btnForgetPassword;
         private System.Windows.Forms.Button btnChangePassword;
         private System.Windows.Forms.Button btnProfile;
     }

@@ -15,45 +15,77 @@ namespace WinformUI
 {
     public partial class frmForgetPassword : Form
     {
+        private BLUser bLUser;
+        private SendEmail sendEmail;
+        private Encryptor encryptor;
         public frmForgetPassword()
         {
+            encryptor = new Encryptor();
+            sendEmail = new SendEmail();
+            bLUser = new BLUser();
             InitializeComponent();
         }
 
-        private void btnGetPassword_Click(object sender, EventArgs e)
+        private async void btnGetPassword_Click(object sender, EventArgs e)
         {
+            btnGetPassword.Enabled = false;
             string username = txtInputUsername.Text.Trim().ToString();
 
-            if (ForgotPassword(username))
+            if (await ForgotPasswordAsync(username))
             {
                 MessageBox.Show("Kiểm tra email để lấy lại mật khẩu!");
                 Close();
             }
             else
             {
-                MessageBox.Show("Tài khoản không tồn tại!");
+                
+                btnGetPassword.Enabled = true;
             }
+            
         }
 
-        private bool ForgotPassword(string username)
+        private async Task<bool> ForgotPasswordAsync(string username)
         {
-            List<User> lstUser = BLUser.GetAllUser();
-            for (int i = 0; i < lstUser.Count; i++)
+
+            string pass = Random(8);
+            if (await bLUser.Exists(username))
             {
-                Random random = new Random();
-                //byte[] ch = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-                int pass = random.Next(10000000, 99999999);
-                if (username == lstUser[i].UserName)
+                User user = await bLUser.GetJustUserAsync(username);
+                string email = user.Email;
+                if (await sendEmail.SendEmailAsync(email, pass.ToString()))
                 {
-                    if (SendEmail.Send_Email(lstUser[i].Email, pass.ToString()))
-                    {
-                        //MessageBox.Show("Kiểm tra email để lấy lại mật khẩu!");
-                        BLUser.ChangePassword(username, Encryptor.MD5Hash(pass.ToString()));
-                        return true;
-                    }
+
+                    //MessageBox.Show("Kiểm tra email để lấy lại mật khẩu!");
+                    await bLUser.ChangePasswordAsync(username, encryptor.MD5Hash(pass.ToString()));
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show("Tạm thời không thể gửi mail!");
                 }
             }
+            else
+            {
+                MessageBox.Show("Không tồn tại tài khoản!");
+            }
+
             return false;
+        }
+
+        public string Random(int lenght)
+        {
+            string res = "";
+            Random random = new Random();
+            while (lenght > 0)
+            {
+                char key = (char) random.Next(48, 123);
+                if (Char.IsLetterOrDigit(key))
+                {
+                    res += key;
+                    lenght--;
+                }
+            }
+            return res;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

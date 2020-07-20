@@ -1,4 +1,5 @@
 ﻿using Data.BusinessLogic;
+using Data.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,8 +14,10 @@ namespace WinformUI
 {
     public partial class frmManageAccount : Form
     {
+        private BLUser bLUser;
         public frmManageAccount()
         {
+            bLUser = new BLUser();
             InitializeComponent();
         }
 
@@ -22,17 +25,27 @@ namespace WinformUI
         {
             frmChangePassword changePassword = new frmChangePassword();
             changePassword.Show();
+            Close();
         }
 
-        private void btnForgetPassword_Click(object sender, EventArgs e)
+        //private void btnForgetPassword_Click(object sender, EventArgs e)
+        //{
+        //    frmForgetPassword forgetPassword = new frmForgetPassword();
+        //    forgetPassword.Show();
+        //    Close();
+        //}
+
+        private async void btnLogout_Click(object sender, EventArgs e)
         {
-            frmForgetPassword forgetPassword = new frmForgetPassword();
-            forgetPassword.Show();
+            await bLUser.ChangeActiveAsync(Constant.USERNAME, false);
+            //Close();
+            Application.Exit();
         }
 
-        private void btnLogout_Click(object sender, EventArgs e)
+        private void btnProfile_Click(object sender, EventArgs e)
         {
-            BLUser.ChangeActive(frmSignin.USERNAME);
+            frmProfile profile = new frmProfile();
+            profile.Show();
             Close();
         }
     }

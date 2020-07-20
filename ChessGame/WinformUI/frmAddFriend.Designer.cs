@@ -36,38 +36,43 @@
             // btnAddFriend
             // 
             this.btnAddFriend.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
-            this.btnAddFriend.Location = new System.Drawing.Point(260, 67);
+            this.btnAddFriend.Location = new System.Drawing.Point(390, 103);
+            this.btnAddFriend.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnAddFriend.Name = "btnAddFriend";
-            this.btnAddFriend.Size = new System.Drawing.Size(70, 24);
+            this.btnAddFriend.Size = new System.Drawing.Size(105, 37);
             this.btnAddFriend.TabIndex = 6;
             this.btnAddFriend.Text = "Kết bạn";
             this.btnAddFriend.UseVisualStyleBackColor = true;
+            this.btnAddFriend.Click += new System.EventHandler(this.btnAddFriend_Click);
             // 
             // txtInputIngame
             // 
-            this.txtInputIngame.Location = new System.Drawing.Point(129, 32);
+            this.txtInputIngame.Location = new System.Drawing.Point(194, 49);
+            this.txtInputIngame.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtInputIngame.Name = "txtInputIngame";
-            this.txtInputIngame.Size = new System.Drawing.Size(201, 20);
+            this.txtInputIngame.Size = new System.Drawing.Size(300, 26);
             this.txtInputIngame.TabIndex = 5;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.25F);
-            this.label1.Location = new System.Drawing.Point(29, 31);
+            this.label1.Location = new System.Drawing.Point(44, 48);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(73, 22);
+            this.label1.Size = new System.Drawing.Size(112, 31);
             this.label1.TabIndex = 4;
             this.label1.Text = "Ingame:";
             // 
             // frmAddFriend
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(377, 127);
+            this.ClientSize = new System.Drawing.Size(566, 195);
             this.Controls.Add(this.btnAddFriend);
             this.Controls.Add(this.txtInputIngame);
             this.Controls.Add(this.label1);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmAddFriend";

@@ -10,7 +10,7 @@ namespace Data.Common
 {
     public class SendEmail
     {
-        public static bool Send_Email(string SendTo, string pass)
+        public async Task<bool> SendEmailAsync(string SendTo, string pass)
         {
             try
             {
@@ -31,11 +31,11 @@ namespace Data.Common
                     msg.Subject = "Mật khẩu";
                     msg.Body = pass;
                     msg.IsBodyHtml = true;
-                    smtp.Send(msg);
+                    await smtp.SendMailAsync(msg);
                     return true;
                 }
             }
-            catch
+            catch 
             {
                 return false;
             }

@@ -1,5 +1,6 @@
 ﻿using Data.BusinessLogic;
 using Data.Common;
+using Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,13 +15,18 @@ namespace WinformUI
 {
     public partial class frmChangePassword : Form
     {
+        private BLUser bLUser;
+        private Encryptor encryptor;
         public frmChangePassword()
         {
+            encryptor = new Encryptor();
+            bLUser = new BLUser();
             InitializeComponent();
         }
 
-        private void btnChange_Click(object sender, EventArgs e)
+        private async void btnChange_Click(object sender, EventArgs e)
         {
+            btnChange.Enabled = false;
             string oldpass = txtInputOld.Text.Trim().ToString();
             string newpass = txtInputNew.Text.Trim().ToString();
             string confirm = txtInputConfirm.Text.Trim().ToString();
@@ -28,15 +34,17 @@ namespace WinformUI
             if (oldpass == "" || newpass == "" || confirm == "")
             {
                 MessageBox.Show("Làm ơn điền thông tin đầy đủ!");
-
+                
             }
             else
             {
                 if (newpass == confirm)
                 {
-                    if (Encryptor.MD5Hash(oldpass) == BLUser.GetJustUser(frmSignin.USERNAME).Password)
+                    string passEncrypt = await Task.Run(() => encryptor.MD5Hash(oldpass));
+                    User user = await bLUser.GetJustUserAsync(Constant.USERNAME);
+                    if (passEncrypt == user.Password)
                     {
-                        BLUser.ChangePassword(frmSignin.USERNAME, Encryptor.MD5Hash(newpass));
+                        await bLUser.ChangePasswordAsync(Constant.USERNAME, encryptor.MD5Hash(newpass));
                         //MessageBox.Show("Đổi mật khẩu thành công!");
                         Close();
                     }
@@ -50,6 +58,7 @@ namespace WinformUI
                     MessageBox.Show("Xác nhận mật khẩu không chính xác!");
                 }
             }
+            btnChange.Enabled = true;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

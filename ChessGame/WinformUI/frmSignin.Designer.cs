@@ -140,6 +140,7 @@
             this.MinimizeBox = false;
             this.Name = "frmSignin";
             this.Text = "Đăng nhập";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmSignin_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -150,11 +151,11 @@
         private System.Windows.Forms.Label lblTextSignin;
         private System.Windows.Forms.Label lblForUsername;
         private System.Windows.Forms.Label lblForPassword;
-        private System.Windows.Forms.TextBox txtInputUsername;
-        private System.Windows.Forms.TextBox txtInputPassword;
         private System.Windows.Forms.Button btnSignin;
         private System.Windows.Forms.Button btnSignup;
         private System.Windows.Forms.Button btnForgetPassword;
+        public System.Windows.Forms.TextBox txtInputUsername;
+        public System.Windows.Forms.TextBox txtInputPassword;
     }
 }
 

@@ -30,8 +30,7 @@
         {
             this.dgvFeedBack = new System.Windows.Forms.DataGridView();
             this.Sender = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Subject = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Content = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFeedBack)).BeginInit();
             this.SuspendLayout();
             // 
@@ -41,38 +40,43 @@
             this.dgvFeedBack.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvFeedBack.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Sender,
-            this.Date,
-            this.Subject});
-            this.dgvFeedBack.Location = new System.Drawing.Point(13, 13);
+            this.Content});
+            this.dgvFeedBack.Location = new System.Drawing.Point(20, 20);
+            this.dgvFeedBack.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dgvFeedBack.Name = "dgvFeedBack";
-            this.dgvFeedBack.Size = new System.Drawing.Size(464, 282);
+            this.dgvFeedBack.RowHeadersWidth = 62;
+            this.dgvFeedBack.Size = new System.Drawing.Size(696, 434);
             this.dgvFeedBack.TabIndex = 0;
+            this.dgvFeedBack.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFeedBack_CellClick);
             // 
             // Sender
             // 
+            this.Sender.DataPropertyName = "Sender";
+            this.Sender.FillWeight = 113.6364F;
             this.Sender.HeaderText = "Người gửi";
+            this.Sender.MinimumWidth = 8;
             this.Sender.Name = "Sender";
             // 
-            // Date
+            // Content
             // 
-            this.Date.HeaderText = "Ngày nhận";
-            this.Date.Name = "Date";
-            // 
-            // Subject
-            // 
-            this.Subject.HeaderText = "Chủ đề";
-            this.Subject.Name = "Subject";
+            this.Content.DataPropertyName = "Content";
+            this.Content.FillWeight = 86.36364F;
+            this.Content.HeaderText = "Nội dung";
+            this.Content.MinimumWidth = 8;
+            this.Content.Name = "Content";
             // 
             // frmCheckFeedBack
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(487, 306);
+            this.ClientSize = new System.Drawing.Size(730, 471);
             this.Controls.Add(this.dgvFeedBack);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmCheckFeedBack";
             this.Text = "Góp ý";
+            this.Load += new System.EventHandler(this.frmCheckFeedBack_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvFeedBack)).EndInit();
             this.ResumeLayout(false);
 
@@ -82,7 +86,6 @@
 
         private System.Windows.Forms.DataGridView dgvFeedBack;
         private System.Windows.Forms.DataGridViewTextBoxColumn Sender;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Date;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Subject;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Content;
     }
 }

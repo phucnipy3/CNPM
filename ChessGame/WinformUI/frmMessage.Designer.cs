@@ -36,38 +36,43 @@
             // btnSendMessage
             // 
             this.btnSendMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
-            this.btnSendMessage.Location = new System.Drawing.Point(259, 68);
+            this.btnSendMessage.Location = new System.Drawing.Point(388, 105);
+            this.btnSendMessage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnSendMessage.Name = "btnSendMessage";
-            this.btnSendMessage.Size = new System.Drawing.Size(70, 24);
+            this.btnSendMessage.Size = new System.Drawing.Size(105, 37);
             this.btnSendMessage.TabIndex = 9;
             this.btnSendMessage.Text = "Gửi";
             this.btnSendMessage.UseVisualStyleBackColor = true;
+            this.btnSendMessage.Click += new System.EventHandler(this.btnSendMessage_Click);
             // 
             // txtInputMessage
             // 
-            this.txtInputMessage.Location = new System.Drawing.Point(128, 33);
+            this.txtInputMessage.Location = new System.Drawing.Point(192, 51);
+            this.txtInputMessage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtInputMessage.Name = "txtInputMessage";
-            this.txtInputMessage.Size = new System.Drawing.Size(201, 20);
+            this.txtInputMessage.Size = new System.Drawing.Size(300, 26);
             this.txtInputMessage.TabIndex = 8;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.25F);
-            this.label1.Location = new System.Drawing.Point(28, 32);
+            this.label1.Location = new System.Drawing.Point(42, 49);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(86, 22);
+            this.label1.Size = new System.Drawing.Size(127, 31);
             this.label1.TabIndex = 7;
             this.label1.Text = "Tin nhắn:";
             // 
             // frmMessage
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(365, 126);
+            this.ClientSize = new System.Drawing.Size(548, 194);
             this.Controls.Add(this.btnSendMessage);
             this.Controls.Add(this.txtInputMessage);
             this.Controls.Add(this.label1);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmMessage";

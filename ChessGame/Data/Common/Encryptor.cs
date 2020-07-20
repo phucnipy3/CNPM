@@ -9,7 +9,7 @@ namespace Data.Common
 {
     public class Encryptor
     {
-        public static string MD5Hash(string pass)
+        public string MD5Hash(string pass)
         {
             MD5 md5 = new MD5CryptoServiceProvider();
             md5.ComputeHash(ASCIIEncoding.ASCII.GetBytes(pass));

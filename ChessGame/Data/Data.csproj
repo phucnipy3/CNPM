@@ -51,8 +51,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessLogic\BLElo.cs" />
+    <Compile Include="BusinessLogic\BLFeedback.cs" />
+    <Compile Include="BusinessLogic\BLFriend.cs" />
+    <Compile Include="BusinessLogic\BLGame.cs" />
+    <Compile Include="BusinessLogic\BLMaintaince.cs" />
+    <Compile Include="BusinessLogic\BLMesssage.cs" />
+    <Compile Include="BusinessLogic\BLNotification.cs" />
     <Compile Include="BusinessLogic\BLUser.cs" />
+    <Compile Include="Common\CheckFeedback.cs" />
+    <Compile Include="Common\Constant.cs" />
     <Compile Include="Common\Encryptor.cs" />
+    <Compile Include="Common\Friend.cs" />
+    <Compile Include="Common\InviteUser.cs" />
+    <Compile Include="Common\ManagerUser.cs" />
+    <Compile Include="Common\RankTable.cs" />
     <Compile Include="Common\SendEmail.cs" />
     <Compile Include="Entities\DatabaseContext.cs" />
     <Compile Include="Entities\Elo.cs" />
@@ -62,11 +75,16 @@
     <Compile Include="Entities\Log.cs" />
     <Compile Include="Entities\MaintainceInfomation.cs" />
     <Compile Include="Entities\Message.cs" />
+    <Compile Include="Entities\Notification.cs" />
     <Compile Include="Entities\Room.cs" />
     <Compile Include="Entities\User.cs" />
-    <Compile Include="Migrations\202007050404536_Init.cs" />
-    <Compile Include="Migrations\202007050404536_Init.designer.cs">
-      <DependentUpon>202007050404536_Init.cs</DependentUpon>
+    <Compile Include="Migrations\202007180326142_Init.cs" />
+    <Compile Include="Migrations\202007180326142_Init.designer.cs">
+      <DependentUpon>202007180326142_Init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007180330331_Edit01.cs" />
+    <Compile Include="Migrations\202007180330331_Edit01.designer.cs">
+      <DependentUpon>202007180330331_Edit01.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -76,8 +94,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202007050404536_Init.resx">
-      <DependentUpon>202007050404536_Init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202007180326142_Init.resx">
+      <DependentUpon>202007180326142_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007180330331_Edit01.resx">
+      <DependentUpon>202007180330331_Edit01.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

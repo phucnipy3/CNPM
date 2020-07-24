@@ -28,25 +28,28 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnAddFriend = new System.Windows.Forms.Button();
             this.dgvFriends = new System.Windows.Forms.DataGridView();
             this.Ingame = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Active = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Action = new System.Windows.Forms.DataGridViewButtonColumn();
             this.Message = new System.Windows.Forms.DataGridViewButtonColumn();
             this.Delete = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.btnRefresh = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFriends)).BeginInit();
             this.SuspendLayout();
             // 
-            // button1
+            // btnAddFriend
             // 
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
-            this.button1.Location = new System.Drawing.Point(12, 12);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(91, 31);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Thêm bạn";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnAddFriend.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
+            this.btnAddFriend.Location = new System.Drawing.Point(18, 18);
+            this.btnAddFriend.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnAddFriend.Name = "btnAddFriend";
+            this.btnAddFriend.Size = new System.Drawing.Size(136, 48);
+            this.btnAddFriend.TabIndex = 0;
+            this.btnAddFriend.Text = "Thêm bạn";
+            this.btnAddFriend.UseVisualStyleBackColor = true;
+            this.btnAddFriend.Click += new System.EventHandler(this.btnAddFriend_Click);
             // 
             // dgvFriends
             // 
@@ -54,29 +57,38 @@
             this.dgvFriends.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvFriends.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Ingame,
-            this.Status,
+            this.Active,
             this.Action,
             this.Message,
             this.Delete});
-            this.dgvFriends.Location = new System.Drawing.Point(13, 57);
+            this.dgvFriends.Location = new System.Drawing.Point(20, 88);
+            this.dgvFriends.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dgvFriends.Name = "dgvFriends";
-            this.dgvFriends.Size = new System.Drawing.Size(544, 194);
+            this.dgvFriends.RowHeadersWidth = 62;
+            this.dgvFriends.Size = new System.Drawing.Size(847, 298);
             this.dgvFriends.TabIndex = 1;
+            this.dgvFriends.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFriends_CellClick);
+            this.dgvFriends.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFriends_CellContentClick);
             this.dgvFriends.Paint += new System.Windows.Forms.PaintEventHandler(this.dataGridView2_Paint);
             // 
             // Ingame
             // 
+            this.Ingame.DataPropertyName = "UserName";
             this.Ingame.HeaderText = "Ingame";
+            this.Ingame.MinimumWidth = 8;
             this.Ingame.Name = "Ingame";
             // 
-            // Status
+            // Active
             // 
-            this.Status.HeaderText = "Trạng thái";
-            this.Status.Name = "Status";
+            this.Active.DataPropertyName = "Active";
+            this.Active.HeaderText = "Trạng thái";
+            this.Active.MinimumWidth = 8;
+            this.Active.Name = "Active";
             // 
             // Action
             // 
             this.Action.HeaderText = "Mời";
+            this.Action.MinimumWidth = 8;
             this.Action.Name = "Action";
             this.Action.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.Action.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
@@ -86,6 +98,7 @@
             // Message
             // 
             this.Message.HeaderText = "Tin nhắn";
+            this.Message.MinimumWidth = 8;
             this.Message.Name = "Message";
             this.Message.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.Message.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
@@ -95,21 +108,35 @@
             // Delete
             // 
             this.Delete.HeaderText = "Xóa";
+            this.Delete.MinimumWidth = 8;
             this.Delete.Name = "Delete";
             this.Delete.Text = "Xóa";
             this.Delete.UseColumnTextForButtonValue = true;
             // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Location = new System.Drawing.Point(733, 18);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(85, 35);
+            this.btnRefresh.TabIndex = 2;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
             // frmManageFriends
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(569, 266);
+            this.ClientSize = new System.Drawing.Size(892, 409);
+            this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.dgvFriends);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnAddFriend);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmManageFriends";
             this.Text = "Bạn bè";
+            this.Activated += new System.EventHandler(this.frmManageFriends_Activated);
             this.Load += new System.EventHandler(this.frmManageFriends_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvFriends)).EndInit();
             this.ResumeLayout(false);
@@ -118,12 +145,13 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.DataGridView dgvFriends;
+        private System.Windows.Forms.Button btnAddFriend;
         private System.Windows.Forms.DataGridViewTextBoxColumn Ingame;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Status;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Active;
         private System.Windows.Forms.DataGridViewButtonColumn Action;
         private System.Windows.Forms.DataGridViewButtonColumn Message;
         private System.Windows.Forms.DataGridViewButtonColumn Delete;
+        private System.Windows.Forms.Button btnRefresh;
+        public System.Windows.Forms.DataGridView dgvFriends;
     }
 }

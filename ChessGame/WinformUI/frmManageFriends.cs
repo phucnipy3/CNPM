@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Data.BusinessLogic;
+using Data.Common;
+using Data.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,16 +15,25 @@ namespace WinformUI
 {
     public partial class frmManageFriends : Form
     {
+        private BLFriend bLFriend;
+        private BLUser bLUser;
         public frmManageFriends()
         {
+            bLUser = new BLUser();
+            bLFriend = new BLFriend();
             InitializeComponent();
         }
 
-        private void frmManageFriends_Load(object sender, EventArgs e)
+        private async void frmManageFriends_Load(object sender, EventArgs e)
         {
-            
+            await LoadFriendAsync();
         }
 
+        private async Task LoadFriendAsync()
+        {
+            List<Friend> lstFriends = await bLFriend.GetFriendByUserNameAsync(Constant.USER_ID);
+            dgvFriends.DataSource = lstFriends;
+        }
         private void dataGridView2_Paint(object sender, PaintEventArgs e)
         {
             //Offsets to adjust the position of the merged Header.
@@ -56,6 +68,60 @@ namespace WinformUI
 
             //Draw the merged Header Column Text.
             e.Graphics.DrawString("Thao tác", dgvFriends.ColumnHeadersDefaultCellStyle.Font, Brushes.Black, xCord + 2, yCord + 3);
+        }
+
+        private void btnAddFriend_Click(object sender, EventArgs e)
+        {
+            frmAddFriend addFriend = new frmAddFriend();
+            addFriend.Show();
+        }
+
+        private void dgvFriends_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private async void dgvFriends_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var dgv = sender as DataGridView;
+            int row_index = e.RowIndex;
+            if (row_index != -1)
+            {
+                User user = await bLUser.GetJustUserAsync(dgv.Rows[row_index].Cells[3].Value.ToString());
+
+                //MessageBox.Show(user.ID.ToString());
+                int friend_ID = user.ID;
+
+                if (dgv.Columns[e.ColumnIndex].Name == "Action")
+                {
+                    MessageBox.Show("Mời");
+                }
+                else if (dgv.Columns[e.ColumnIndex].Name == "Message")
+                {
+                    Constant.FRIENDNAME = dgv.Rows[row_index].Cells[3].Value.ToString();
+                    Constant.FRIEND_ID = friend_ID;
+                    frmMessage message = new frmMessage();
+                    message.Show();
+                }
+                else if (dgv.Columns[e.ColumnIndex].Name == "Delete")
+                {
+                    Friendship friendship = await bLFriend.GetJustFriendAsync(Constant.USER_ID, friend_ID);
+
+                    await bLFriend.DeleteFriendAsync(friendship);
+                    await LoadFriendAsync();
+
+                }  
+            }
+        }
+
+        public async void btnRefresh_Click(object sender, EventArgs e)
+        {
+            await LoadFriendAsync();
+        }
+
+        private async void frmManageFriends_Activated(object sender, EventArgs e)
+        {
+            await LoadFriendAsync();
         }
     }
 }

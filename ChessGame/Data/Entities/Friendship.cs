@@ -6,12 +6,10 @@ namespace Data.Entities
 {
     public class Friendship
     {
-        [Key, Column(Order = 0)]
-        public int UserID { get; set; }
-
-        [Key, Column(Order = 1)]
-        public int FriendID { get; set; }
-
-        public DateTime AddTime { get; set; }
+        [Key]
+        public int Id { get; set; }
+        public int? UserID { get; set; }
+        public int? FriendID { get; set; }
+        public DateTime? AddTime { get; set; }
     }
 }

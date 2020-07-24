@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Data.BusinessLogic;
+using Data.Common;
+using Data.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,8 +15,10 @@ namespace WinformUI
 {
     public partial class frmManageUser : Form
     {
+        private BLUser bLUser;
         public frmManageUser()
         {
+            bLUser = new BLUser();
             InitializeComponent();
         }
 
@@ -51,6 +56,64 @@ namespace WinformUI
 
             //Draw the merged Header Column Text.
             e.Graphics.DrawString("Thao tác", dgvUser.ColumnHeadersDefaultCellStyle.Font, Brushes.Black, xCord + 2, yCord + 3);
+        }
+
+        private async void frmManageUser_Load(object sender, EventArgs e)
+        {
+            List<ManagerUser> managerUsers = await bLUser.ManagerUserAsync(Constant.USER_ID);
+            dgvUser.DataSource = managerUsers;
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            frmAddUser frmAddUser = new frmAddUser();
+            frmAddUser.Show();
+        }
+
+        private async void frmManageUser_Activated(object sender, EventArgs e)
+        {
+            List<ManagerUser> managerUsers = await bLUser.ManagerUserAsync(Constant.USER_ID);
+            dgvUser.DataSource = managerUsers;
+        }
+
+        private async void dgvUser_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var dgv = sender as DataGridView;
+            int row_index = e.RowIndex;
+            if (row_index != -1)
+            {
+                User user = await bLUser.GetJustUserAsync(dgv.Rows[row_index].Cells[3].Value.ToString());
+
+                //MessageBox.Show(user.ID.ToString());
+
+                if (dgv.Columns[e.ColumnIndex].Name == "Lock")
+                {
+                    bool status = !user.Status.GetValueOrDefault();
+                    await bLUser.ChangeStatusAsync(user.UserName, status);
+                    if (status)
+                    {
+                        MessageBox.Show("Bạn vừa mở tài khoản " + user.UserName);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Bạn vừa khóa tài khoản " + user.UserName);
+                    }
+                    
+                }
+                else if (dgv.Columns[e.ColumnIndex].Name == "Logout")
+                {
+                    bool active = user.Active.GetValueOrDefault();
+                    if (active)
+                    {
+                        await bLUser.ChangeActiveAsync(user.UserName, !active);
+                        MessageBox.Show("Đăng xuất tài khoản " + user.UserName);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Tài khoản " + user.UserName +" đang ở trạng thái đăng xuất!" );
+                    }
+                }
+            }
         }
     }
 }

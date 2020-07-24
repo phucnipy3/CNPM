@@ -41,17 +41,19 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
-            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Location = new System.Drawing.Point(18, 14);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(81, 17);
+            this.label1.Size = new System.Drawing.Size(121, 25);
             this.label1.TabIndex = 0;
             this.label1.Text = "Thông báo:";
             // 
             // rchTxtInputNotify
             // 
-            this.rchTxtInputNotify.Location = new System.Drawing.Point(105, 9);
+            this.rchTxtInputNotify.Location = new System.Drawing.Point(158, 14);
+            this.rchTxtInputNotify.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.rchTxtInputNotify.Name = "rchTxtInputNotify";
-            this.rchTxtInputNotify.Size = new System.Drawing.Size(247, 114);
+            this.rchTxtInputNotify.Size = new System.Drawing.Size(368, 173);
             this.rchTxtInputNotify.TabIndex = 1;
             this.rchTxtInputNotify.Text = "";
             // 
@@ -59,9 +61,10 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
-            this.label2.Location = new System.Drawing.Point(12, 134);
+            this.label2.Location = new System.Drawing.Point(18, 206);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(120, 17);
+            this.label2.Size = new System.Drawing.Size(181, 25);
             this.label2.TabIndex = 0;
             this.label2.Text = "Ngày giờ bắt đầu:";
             // 
@@ -69,41 +72,46 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
-            this.label3.Location = new System.Drawing.Point(12, 164);
+            this.label3.Location = new System.Drawing.Point(18, 252);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(122, 17);
+            this.label3.Size = new System.Drawing.Size(185, 25);
             this.label3.TabIndex = 0;
             this.label3.Text = "Ngày giờ kết thúc:";
             // 
             // dateStart
             // 
-            this.dateStart.Location = new System.Drawing.Point(152, 134);
+            this.dateStart.Location = new System.Drawing.Point(228, 206);
+            this.dateStart.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dateStart.Name = "dateStart";
-            this.dateStart.Size = new System.Drawing.Size(200, 20);
+            this.dateStart.Size = new System.Drawing.Size(298, 26);
             this.dateStart.TabIndex = 2;
             // 
             // dateEnd
             // 
-            this.dateEnd.Location = new System.Drawing.Point(152, 164);
+            this.dateEnd.Location = new System.Drawing.Point(228, 252);
+            this.dateEnd.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dateEnd.Name = "dateEnd";
-            this.dateEnd.Size = new System.Drawing.Size(200, 20);
+            this.dateEnd.Size = new System.Drawing.Size(298, 26);
             this.dateEnd.TabIndex = 2;
             // 
             // btnConfirm
             // 
-            this.btnConfirm.Location = new System.Drawing.Point(269, 193);
+            this.btnConfirm.Location = new System.Drawing.Point(404, 297);
+            this.btnConfirm.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnConfirm.Name = "btnConfirm";
-            this.btnConfirm.Size = new System.Drawing.Size(82, 26);
+            this.btnConfirm.Size = new System.Drawing.Size(123, 40);
             this.btnConfirm.TabIndex = 3;
             this.btnConfirm.Text = "Xác nhận";
             this.btnConfirm.UseVisualStyleBackColor = true;
+            this.btnConfirm.Click += new System.EventHandler(this.btnConfirm_Click);
             // 
             // frmCreateNotify
             // 
             this.AcceptButton = this.btnConfirm;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(362, 226);
+            this.ClientSize = new System.Drawing.Size(543, 348);
             this.Controls.Add(this.btnConfirm);
             this.Controls.Add(this.dateEnd);
             this.Controls.Add(this.dateStart);
@@ -111,6 +119,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmCreateNotify";

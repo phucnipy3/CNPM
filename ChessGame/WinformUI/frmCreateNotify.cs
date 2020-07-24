@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Data.BusinessLogic;
+using Data.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,9 +14,37 @@ namespace WinformUI
 {
     public partial class frmCreateNotify : Form
     {
+        private BLNotification bLNotification;
         public frmCreateNotify()
         {
+            bLNotification = new BLNotification();
             InitializeComponent();
+        }
+
+        private async void btnConfirm_Click(object sender, EventArgs e)
+        {
+            btnConfirm.Enabled = false;
+            string content = rchTxtInputNotify.Text.Trim().ToString();
+            string timeBegin = dateStart.Text.Trim().ToString();
+            string timeEnd = dateEnd.Text.Trim().ToString();
+
+            if (content == "")
+            {
+                MessageBox.Show("Điền nội dung thông báo!");
+                btnConfirm.Enabled = true;
+            }
+            else
+            {
+                Notification notification = new Notification();
+                notification.Content = content;
+                notification.TimeBegin = DateTime.Parse(timeBegin);
+                notification.TimeEnd = DateTime.Parse(timeEnd);
+                notification.Status = true;
+
+                await bLNotification.AddNotificationAsync(notification);
+                MessageBox.Show("Đã cập nhật thông báo!");
+                Close();
+            }
         }
     }
 }

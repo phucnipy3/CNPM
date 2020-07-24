@@ -4,7 +4,7 @@ namespace Data.Entities
 {
     public class DatabaseContext : DbContext
     {
-        public static string StringConnection = @"Data source=(local);initial catalog=CNPM;integrated security=True;MultipleActiveResultSets=True";
+        public const string StringConnection = @"Data source=(localdb)\MSSQLLocalDB;initial catalog=CNPM;integrated security=True;MultipleActiveResultSets=True";
 
         public DatabaseContext() : base(StringConnection) { }
 
@@ -17,5 +17,6 @@ namespace Data.Entities
         public virtual DbSet<Message> Messages { get; set; }
         public virtual DbSet<Room> Rooms { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Notification> Notifications { get; set; }
     }
 }

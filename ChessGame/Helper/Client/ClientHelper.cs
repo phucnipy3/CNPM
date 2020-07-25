@@ -161,5 +161,16 @@ namespace Helper.Client
 
             return JsonConvert.DeserializeObject<List<GameModel>>(messageModel.Data.ToString());
         }
+
+        public static async Task<List<RoomModel>> GetRoomsAsync(int gameId)
+        {
+            await SendingMessageAsync((int)MessageCode.GetRooms, gameId);
+
+            MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(await Client.SendingClient.ReceiveMessageAsync());
+            if (messageModel.Data == null)
+                return new List<RoomModel>();
+
+            return JsonConvert.DeserializeObject<List<RoomModel>>(messageModel.Data.ToString());
+        }
     }
 }

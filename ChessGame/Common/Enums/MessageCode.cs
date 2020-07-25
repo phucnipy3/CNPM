@@ -10,6 +10,7 @@
         ChangePassword = 6,
         UpdateProfile = 7,
         ForgetPassword = 8,
-        GameGuide = 9
+        GameGuide = 9,
+        GetRooms = 10
     }
 }

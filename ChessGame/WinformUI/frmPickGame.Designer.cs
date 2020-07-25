@@ -33,14 +33,13 @@
             this.txtInputSearchRoom = new System.Windows.Forms.TextBox();
             this.btnNewRoom = new System.Windows.Forms.Button();
             this.dgvRoom = new System.Windows.Forms.DataGridView();
-            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Game = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Action = new System.Windows.Forms.DataGridViewButtonColumn();
             this.btnVay = new System.Windows.Forms.Button();
             this.btnVua = new System.Windows.Forms.Button();
             this.btnTuong = new System.Windows.Forms.Button();
             this.btnCaro = new System.Windows.Forms.Button();
+            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Action = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRoom)).BeginInit();
             this.SuspendLayout();
             // 
@@ -76,35 +75,12 @@
             this.dgvRoom.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvRoom.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Id,
-            this.Game,
             this.Status,
             this.Action});
             this.dgvRoom.Location = new System.Drawing.Point(417, 48);
             this.dgvRoom.Name = "dgvRoom";
             this.dgvRoom.Size = new System.Drawing.Size(378, 258);
             this.dgvRoom.TabIndex = 4;
-            // 
-            // Id
-            // 
-            this.Id.HeaderText = "Id";
-            this.Id.Name = "Id";
-            // 
-            // Game
-            // 
-            this.Game.HeaderText = "Game";
-            this.Game.Name = "Game";
-            // 
-            // Status
-            // 
-            this.Status.HeaderText = "Trạng thái";
-            this.Status.Name = "Status";
-            // 
-            // Action
-            // 
-            this.Action.HeaderText = "Thao tác";
-            this.Action.Name = "Action";
-            this.Action.Text = "Tham gia";
-            this.Action.UseColumnTextForButtonValue = true;
             // 
             // btnVay
             // 
@@ -158,6 +134,24 @@
             this.btnCaro.Text = "Cờ caro";
             this.btnCaro.UseVisualStyleBackColor = true;
             // 
+            // Id
+            // 
+            this.Id.HeaderText = "Id";
+            this.Id.Name = "Id";
+            // 
+            // Status
+            // 
+            this.Status.HeaderText = "Trạng thái";
+            this.Status.Name = "Status";
+            // 
+            // Action
+            // 
+            this.Action.DataPropertyName = "Action";
+            this.Action.HeaderText = "Thao tác";
+            this.Action.Name = "Action";
+            this.Action.Text = "Tham gia";
+            this.Action.UseColumnTextForButtonValue = true;
+            // 
             // frmPickGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -190,12 +184,11 @@
         private System.Windows.Forms.TextBox txtInputSearchRoom;
         private System.Windows.Forms.Button btnNewRoom;
         private System.Windows.Forms.DataGridView dgvRoom;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Game;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Status;
-        private System.Windows.Forms.DataGridViewButtonColumn Action;
         private System.Windows.Forms.Button btnTuong;
         private System.Windows.Forms.Button btnVua;
         private System.Windows.Forms.Button btnVay;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Status;
+        private System.Windows.Forms.DataGridViewButtonColumn Action;
     }
 }

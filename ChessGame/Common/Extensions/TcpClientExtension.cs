@@ -14,6 +14,7 @@ namespace Common.Extensions
             try
             {
                 message = message + NetworkConstant.MESSAGE_KEY;
+                
                 byte[] buffer = new byte[NetworkConstant.BUFFER_MAX_LENGTH];
                 Encoding.UTF8.GetBytes(message, 0, message.Length, buffer, 0);
 

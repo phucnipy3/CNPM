@@ -43,6 +43,7 @@ namespace Server
 
                     var userModel = await new BLUser().LoginAsync(loginModel.Username, loginModel.Password);
                     await e.Client.SendMessageAsync(JsonConvert.SerializeObject(new MessageModel() { Code = (int)MessageCode.Login, Data = userModel }));
+                    
                     if (userModel != null)
                     {
                         users.Add(new UserOnServerSide(userModel, e.Client));
@@ -103,6 +104,7 @@ namespace Server
                 }
             }
             await e.Client.SendMessageAsync(JsonConvert.SerializeObject(new MessageModel() { Code = (int)MessageCode.Error, Data = "Lỗi" }));
+        
         }
 
         private async void CommunicationServer_MessageReceivedAsync(object sender, MessageReceivedEventArgs e)
@@ -168,7 +170,7 @@ namespace Server
                     messageModel.Data = await BLRoom.CreateRoom(createRoomModel.UserId, createRoomModel.GameId);
                     ConsoleLog(client.User.Name + " create rooms");
 
-                    SendingAllUser(new MessageModel() { Code = (int)MessageCode.RefreshRooms });
+                    _ = SendingAllUserAsync(new MessageModel() { Code = (int)MessageCode.RefreshRooms });
 
                     await client.ReceivingClient.SendMessageAsync(JsonConvert.SerializeObject(messageModel));
                     break;
@@ -190,19 +192,19 @@ namespace Server
                         await opponent.SendingClient.SendMessageAsync(JsonConvert.SerializeObject(new MessageModel() { Code = (int)MessageCode.RefreshCurrentRoom, Data = roomInfo }));
                     }
 
-                    SendingAllUser(new MessageModel() { Code = (int)MessageCode.RefreshRooms });
+                    _ = SendingAllUserAsync(new MessageModel() { Code = (int)MessageCode.RefreshRooms });
 
                     await client.ReceivingClient.SendMessageAsync(JsonConvert.SerializeObject(messageModel));
                     break;
             }
         }
 
-        private void SendingAllUser(MessageModel message)
+        private async Task SendingAllUserAsync(MessageModel message)
         {
             foreach (var user in users)
             {
                 var str = JsonConvert.SerializeObject(message);
-                _ = user.SendingClient.SendMessageAsync(str);
+                await user.SendingClient.SendMessageAsync(str);
             }
         }
 

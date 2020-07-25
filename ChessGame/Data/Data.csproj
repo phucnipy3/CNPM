@@ -58,6 +58,7 @@
     <Compile Include="BusinessLogic\BLMaintaince.cs" />
     <Compile Include="BusinessLogic\BLMesssage.cs" />
     <Compile Include="BusinessLogic\BLNotification.cs" />
+    <Compile Include="BusinessLogic\BLRoom.cs" />
     <Compile Include="BusinessLogic\BLUser.cs" />
     <Compile Include="Common\CheckFeedback.cs" />
     <Compile Include="Common\Constant.cs" />

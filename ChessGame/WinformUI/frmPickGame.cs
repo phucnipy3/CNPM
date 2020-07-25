@@ -26,7 +26,7 @@ namespace WinformUI
                     Id = x.RoomId,
                     Status = GetStatus(x),
                     Action = true
-                });
+                }).ToList();
         }
 
         private string GetStatus(RoomModel room)

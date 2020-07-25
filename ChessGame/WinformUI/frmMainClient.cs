@@ -69,8 +69,15 @@ namespace WinformUI
 
         private void btnPlay_Click(object sender, EventArgs e)
         {
-            //frmInvite invite = new frmInvite();
-            //invite.Show();
+            frmPickGame frmPickGame = new frmPickGame();
+            Hide();
+            frmPickGame.FormClosed += FrmPickGame_FormClosed;
+            frmPickGame.Show();
+        }
+
+        private void FrmPickGame_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Show();
         }
     }
 }

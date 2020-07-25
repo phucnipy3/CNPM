@@ -11,7 +11,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Sockets;
 using System.Threading.Tasks;
 
 namespace Server
@@ -106,11 +105,6 @@ namespace Server
             await e.Client.SendMessageAsync(JsonConvert.SerializeObject(new MessageModel() { Code = (int)MessageCode.Error, Data = "Lỗi" }));
         }
 
-        /// <summary>
-        /// fghj
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private async void CommunicationServer_MessageReceivedAsync(object sender, MessageReceivedEventArgs e)
         {
             MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(e.Message);
@@ -141,7 +135,7 @@ namespace Server
                     break;
                 case (int)MessageCode.GetListFriend:
                     int id;
-                    if(int.TryParse(messageModel.Data.ToString(), out id))
+                    if (int.TryParse(messageModel.Data.ToString(), out id))
                     {
                         ConsoleLog(client.User.Name + " get list friend");
                         messageModel.Data = await new BLFriend().GetFriendByUserNameAsync(id);
@@ -150,6 +144,17 @@ namespace Server
                     {
                         messageModel.Data = null;
                     }
+                    await client.ReceivingClient.SendMessageAsync(JsonConvert.SerializeObject(messageModel));
+                    break;
+                case (int)MessageCode.GetRooms:
+                    int gameId;
+                    if (int.TryParse(messageModel.Data.ToString(), out gameId))
+                    {
+                        ConsoleLog(client.User.Name + " get rooms");
+                        messageModel.Data = await BLRoom.GetRoomsAsync(gameId);
+                    }
+                    else messageModel.Data = null;
+
                     await client.ReceivingClient.SendMessageAsync(JsonConvert.SerializeObject(messageModel));
                     break;
             }

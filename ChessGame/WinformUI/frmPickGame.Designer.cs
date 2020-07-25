@@ -79,6 +79,7 @@
             this.Action});
             this.dgvRoom.Location = new System.Drawing.Point(417, 48);
             this.dgvRoom.Name = "dgvRoom";
+            this.dgvRoom.RowHeadersVisible = false;
             this.dgvRoom.Size = new System.Drawing.Size(378, 258);
             this.dgvRoom.TabIndex = 4;
             // 
@@ -136,17 +137,26 @@
             // 
             // Id
             // 
-            this.Id.HeaderText = "Id";
+            this.Id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Id.DataPropertyName = "Id";
+            this.Id.FillWeight = 59.80394F;
+            this.Id.HeaderText = "Mã phòng";
             this.Id.Name = "Id";
+            this.Id.Width = 80;
             // 
             // Status
             // 
+            this.Status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Status.DataPropertyName = "Status";
+            this.Status.FillWeight = 87.91179F;
             this.Status.HeaderText = "Trạng thái";
             this.Status.Name = "Status";
             // 
             // Action
             // 
+            this.Action.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.Action.DataPropertyName = "Action";
+            this.Action.FillWeight = 152.2843F;
             this.Action.HeaderText = "Thao tác";
             this.Action.Name = "Action";
             this.Action.Text = "Tham gia";

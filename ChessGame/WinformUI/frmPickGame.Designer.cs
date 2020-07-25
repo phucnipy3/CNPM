@@ -174,6 +174,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmPickGame";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Chọn game";
             this.Load += new System.EventHandler(this.frmPickGame_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvRoom)).EndInit();

@@ -4,7 +4,7 @@ namespace Data.Entities
 {
     public class DatabaseContext : DbContext
     {
-        public const string StringConnection = @"Data source=(localdb)\MSSQLLocalDB;initial catalog=CNPM;integrated security=True;MultipleActiveResultSets=True";
+        public const string StringConnection = @"Data source=.;initial catalog=CNPM;integrated security=True;MultipleActiveResultSets=True";
 
         public DatabaseContext() : base(StringConnection) { }
 

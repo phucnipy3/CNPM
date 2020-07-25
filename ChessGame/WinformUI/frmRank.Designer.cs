@@ -45,11 +45,10 @@
             this.Rank,
             this.Ingame,
             this.Elo});
-            this.dgvRank.Location = new System.Drawing.Point(18, 59);
-            this.dgvRank.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.dgvRank.Location = new System.Drawing.Point(12, 38);
             this.dgvRank.Name = "dgvRank";
             this.dgvRank.RowHeadersWidth = 62;
-            this.dgvRank.Size = new System.Drawing.Size(564, 348);
+            this.dgvRank.Size = new System.Drawing.Size(376, 226);
             this.dgvRank.TabIndex = 0;
             // 
             // Rank
@@ -76,9 +75,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(307, 11);
+            this.label1.Location = new System.Drawing.Point(205, 7);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(57, 20);
+            this.label1.Size = new System.Drawing.Size(38, 13);
             this.label1.TabIndex = 1;
             this.label1.Text = "Game:";
             // 
@@ -87,25 +87,25 @@
             this.cmbGames.FormattingEnabled = true;
             this.cmbGames.Items.AddRange(new object[] {
             "caro"});
-            this.cmbGames.Location = new System.Drawing.Point(400, 8);
+            this.cmbGames.Location = new System.Drawing.Point(267, 5);
+            this.cmbGames.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cmbGames.Name = "cmbGames";
-            this.cmbGames.Size = new System.Drawing.Size(182, 28);
+            this.cmbGames.Size = new System.Drawing.Size(123, 21);
             this.cmbGames.TabIndex = 2;
-            //this.cmbGames.SelectedIndexChanged += new System.EventHandler(this.cmbGames_SelectedIndexChanged);
             this.cmbGames.SelectionChangeCommitted += new System.EventHandler(this.cmbGames_SelectionChangeCommitted);
             // 
             // frmRank
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(606, 417);
+            this.ClientSize = new System.Drawing.Size(404, 271);
             this.Controls.Add(this.cmbGames);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dgvRank);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmRank";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Bảng xếp hạng";
             this.Load += new System.EventHandler(this.frmRank_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvRank)).EndInit();

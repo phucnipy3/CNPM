@@ -1,27 +1,16 @@
-﻿using Data.BusinessLogic;
-using Data.Common;
-using Data.Entities;
+﻿using Common.Enums;
+using Common.Models;
+using Helper.Client;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace WinformUI
 {
     public partial class frmSignup : Form
     {
-        private BLUser bLUser;
-        private Encryptor encryptor;
-
         public frmSignup()
         {
-            encryptor = new Encryptor();
-            bLUser = new BLUser();
             InitializeComponent();
         }
 
@@ -32,7 +21,7 @@ namespace WinformUI
             string pass = txtInputPassword.Text.Trim().ToString();
             string confirm = txtInputConfirm.Text.Trim().ToString();
 
-            if (username == "" || pass == "" || confirm == "")
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(username) || string.IsNullOrEmpty(username))
             {
                 MessageBox.Show("Làm ơn điền thông tin đầy đủ!");
             }
@@ -44,45 +33,31 @@ namespace WinformUI
                 }
                 else
                 {
-                    if (await CheckUserAsync(username))
+                    UserModel userModel = await ClientHelper.RegisterAsync(username, pass);
+                    if (userModel != null)
                     {
-                        User user = new User();
-                        user.UserName = username;
-                        user.Password = encryptor.MD5Hash(pass);
-                        user.Experience = 0;
-                        user.Active = false;
-                        user.Status = true;
-                        user.Permission = 2; //  2 là user
-
-                        await bLUser.SignupAsync(user);
-                        // MessageBox.Show("Đăng ký thành công!");
-                        frmSignin signin = new frmSignin();
-                        signin.txtInputUsername.Text = username;
-                        signin.txtInputPassword.Text = pass;
-                        signin.btnSignin_Click(null, null);
-                        
-                        Close();
-                       
+                        if (userModel.Permission == (int)UserRole.Player)
+                        {
+                            Hide();
+                            frmMainClient mainClient = new frmMainClient();
+                            mainClient.Show();
+                        }
+                        else if (userModel.Permission == (int)UserRole.Admin)
+                        {
+                            Hide();
+                            frmMainAdmin mainAdmin = new frmMainAdmin();
+                            mainAdmin.Show();
+                        }
+                        else MessageBox.Show("Lỗi hệ thống phân quyền!");
+                        OnFormClosed(new FormClosedEventArgs(CloseReason.FormOwnerClosing));
                     }
                     else
                     {
-                        MessageBox.Show("Tên tài khoản đã tồn tại!");
+                        MessageBox.Show("Đăng ký không thành công!");
                     }
                 }
             }
-        }
-
-        private async Task<bool> CheckUserAsync(string username)
-        {
-            List<User> lstAllUser = await bLUser.GetAllUserAsync();
-            for (int i = 0; i < lstAllUser.Count; i++)
-            {
-                if (username == lstAllUser[i].UserName)
-                {
-                    return false;
-                }
-            }
-            return true;
+            btnSignup.Enabled = true;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

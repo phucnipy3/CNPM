@@ -35,11 +35,11 @@
             // 
             // btnLogout
             // 
+            this.btnLogout.DialogResult = System.Windows.Forms.DialogResult.Abort;
             this.btnLogout.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.25F);
-            this.btnLogout.Location = new System.Drawing.Point(81, 300);
-            this.btnLogout.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnLogout.Location = new System.Drawing.Point(54, 195);
             this.btnLogout.Name = "btnLogout";
-            this.btnLogout.Size = new System.Drawing.Size(246, 74);
+            this.btnLogout.Size = new System.Drawing.Size(164, 48);
             this.btnLogout.TabIndex = 2;
             this.btnLogout.Text = "Đăng xuất";
             this.btnLogout.UseVisualStyleBackColor = true;
@@ -48,10 +48,9 @@
             // btnChangePassword
             // 
             this.btnChangePassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.25F);
-            this.btnChangePassword.Location = new System.Drawing.Point(81, 174);
-            this.btnChangePassword.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnChangePassword.Location = new System.Drawing.Point(54, 113);
             this.btnChangePassword.Name = "btnChangePassword";
-            this.btnChangePassword.Size = new System.Drawing.Size(246, 74);
+            this.btnChangePassword.Size = new System.Drawing.Size(164, 48);
             this.btnChangePassword.TabIndex = 4;
             this.btnChangePassword.Text = "Đổi mật khẩu";
             this.btnChangePassword.UseVisualStyleBackColor = true;
@@ -60,10 +59,9 @@
             // btnProfile
             // 
             this.btnProfile.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.25F);
-            this.btnProfile.Location = new System.Drawing.Point(81, 66);
-            this.btnProfile.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnProfile.Location = new System.Drawing.Point(54, 43);
             this.btnProfile.Name = "btnProfile";
-            this.btnProfile.Size = new System.Drawing.Size(246, 74);
+            this.btnProfile.Size = new System.Drawing.Size(164, 48);
             this.btnProfile.TabIndex = 5;
             this.btnProfile.Text = "Thông tin cá nhân";
             this.btnProfile.UseVisualStyleBackColor = true;
@@ -71,16 +69,16 @@
             // 
             // frmManageAccount
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(394, 425);
+            this.ClientSize = new System.Drawing.Size(263, 276);
             this.Controls.Add(this.btnLogout);
             this.Controls.Add(this.btnChangePassword);
             this.Controls.Add(this.btnProfile);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmManageAccount";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Quản lý tài khoản";
             this.ResumeLayout(false);
 

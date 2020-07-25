@@ -66,7 +66,6 @@
     <Compile Include="Common\InviteUser.cs" />
     <Compile Include="Common\ManagerUser.cs" />
     <Compile Include="Common\RankTable.cs" />
-    <Compile Include="Common\SendEmail.cs" />
     <Compile Include="Entities\DatabaseContext.cs" />
     <Compile Include="Entities\Elo.cs" />
     <Compile Include="Entities\Feedback.cs" />
@@ -100,6 +99,12 @@
     <EmbeddedResource Include="Migrations\202007180330331_Edit01.resx">
       <DependentUpon>202007180330331_Edit01.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{8CFD75A8-8768-4CE5-A4FD-1523DE8A0CF1}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

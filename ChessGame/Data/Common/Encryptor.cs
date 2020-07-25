@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Data.Common
 {
     public class Encryptor
     {
-        public string MD5Hash(string pass)
+        public static string MD5Hash(string pass)
         {
             MD5 md5 = new MD5CryptoServiceProvider();
             md5.ComputeHash(ASCIIEncoding.ASCII.GetBytes(pass));

@@ -90,6 +90,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmInvitePlay";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Lời mời chơi";
             this.ResumeLayout(false);
 

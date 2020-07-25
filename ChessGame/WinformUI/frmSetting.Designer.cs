@@ -131,6 +131,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmSetting";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Cài đặt";
             this.ResumeLayout(false);
             this.PerformLayout();

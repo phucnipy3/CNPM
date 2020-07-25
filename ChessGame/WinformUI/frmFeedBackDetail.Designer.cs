@@ -85,6 +85,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmFeedBackDetail";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Chi tiết góp ý";
             this.ResumeLayout(false);
             this.PerformLayout();

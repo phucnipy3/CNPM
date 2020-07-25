@@ -1,20 +1,24 @@
-﻿using Data.Entities;
-using System;
+﻿using Common.Models;
+using Data.Entities;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Data.BusinessLogic
 {
     public class BLGame
     {
-        public async Task<List<Game>> GetAllGameAsync()
+        public async Task<List<GameModel>> GetGamesAsync()
         {
             using (DatabaseContext db = new DatabaseContext())
             {
-                return await db.Games.Where(x=>x.Status == true).ToListAsync();
+                return await db.Games.Where(x => x.Status == true).Select(x => new GameModel() 
+                {
+                    Id = x.ID,
+                    Name = x.Name,
+                    Description = x.Describe
+                }).ToListAsync();
             }
         }
 

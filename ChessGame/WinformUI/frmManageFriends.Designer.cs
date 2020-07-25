@@ -42,10 +42,9 @@
             // btnAddFriend
             // 
             this.btnAddFriend.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
-            this.btnAddFriend.Location = new System.Drawing.Point(18, 18);
-            this.btnAddFriend.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnAddFriend.Location = new System.Drawing.Point(12, 12);
             this.btnAddFriend.Name = "btnAddFriend";
-            this.btnAddFriend.Size = new System.Drawing.Size(136, 48);
+            this.btnAddFriend.Size = new System.Drawing.Size(91, 31);
             this.btnAddFriend.TabIndex = 0;
             this.btnAddFriend.Text = "Thêm bạn";
             this.btnAddFriend.UseVisualStyleBackColor = true;
@@ -61,11 +60,10 @@
             this.Action,
             this.Message,
             this.Delete});
-            this.dgvFriends.Location = new System.Drawing.Point(20, 88);
-            this.dgvFriends.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.dgvFriends.Location = new System.Drawing.Point(13, 57);
             this.dgvFriends.Name = "dgvFriends";
             this.dgvFriends.RowHeadersWidth = 62;
-            this.dgvFriends.Size = new System.Drawing.Size(847, 298);
+            this.dgvFriends.Size = new System.Drawing.Size(565, 194);
             this.dgvFriends.TabIndex = 1;
             this.dgvFriends.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFriends_CellClick);
             this.dgvFriends.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFriends_CellContentClick);
@@ -115,9 +113,10 @@
             // 
             // btnRefresh
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(733, 18);
+            this.btnRefresh.Location = new System.Drawing.Point(489, 12);
+            this.btnRefresh.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(85, 35);
+            this.btnRefresh.Size = new System.Drawing.Size(57, 23);
             this.btnRefresh.TabIndex = 2;
             this.btnRefresh.Text = "Refresh";
             this.btnRefresh.UseVisualStyleBackColor = true;
@@ -125,16 +124,16 @@
             // 
             // frmManageFriends
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(892, 409);
+            this.ClientSize = new System.Drawing.Size(595, 266);
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.dgvFriends);
             this.Controls.Add(this.btnAddFriend);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmManageFriends";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Bạn bè";
             this.Activated += new System.EventHandler(this.frmManageFriends_Activated);
             this.Load += new System.EventHandler(this.frmManageFriends_Load);

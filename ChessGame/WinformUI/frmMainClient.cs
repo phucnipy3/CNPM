@@ -1,13 +1,7 @@
 ﻿using Data.BusinessLogic;
 using Data.Common;
+using Helper.Client;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WinformUI
@@ -15,6 +9,8 @@ namespace WinformUI
     public partial class frmMainClient : Form
     {
         private BLUser bLUser;
+        private bool loggingOut = false;
+
         public frmMainClient()
         {
             bLUser = new BLUser();
@@ -24,19 +20,21 @@ namespace WinformUI
         private void btnSetting_Click(object sender, EventArgs e)
         {
             frmManageAccount manageAccount = new frmManageAccount();
-            manageAccount.ShowDialog();
+            if (manageAccount.ShowDialog() == DialogResult.Abort)
+            {
+                loggingOut = true;
+                Close();
+            }
         }
 
         private async void frmMainClient_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (e.CloseReason != CloseReason.ApplicationExitCall)
+            if (!loggingOut)
             {
-
                 DialogResult result = MessageBox.Show("Bạn có muốn thoát không?", "Thoát", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information);
                 if (result == DialogResult.Yes)
                 {
-                    await bLUser.ChangeActiveAsync(Constant.USERNAME, false);
-                    Application.Exit();
+                    await ClientHelper.LogoutAsync();
                 }
                 else
                 {
@@ -48,8 +46,7 @@ namespace WinformUI
         private void btnManual_Click(object sender, EventArgs e)
         {
             frmManual manual = new frmManual();
-
-            manual.Show();
+            manual.ShowDialog();
         }
 
         private void btnFriend_Click(object sender, EventArgs e)

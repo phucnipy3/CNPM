@@ -41,11 +41,10 @@
             this.dgvFeedBack.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Sender,
             this.Content});
-            this.dgvFeedBack.Location = new System.Drawing.Point(20, 20);
-            this.dgvFeedBack.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.dgvFeedBack.Location = new System.Drawing.Point(13, 13);
             this.dgvFeedBack.Name = "dgvFeedBack";
             this.dgvFeedBack.RowHeadersWidth = 62;
-            this.dgvFeedBack.Size = new System.Drawing.Size(696, 434);
+            this.dgvFeedBack.Size = new System.Drawing.Size(464, 282);
             this.dgvFeedBack.TabIndex = 0;
             this.dgvFeedBack.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFeedBack_CellClick);
             // 
@@ -67,14 +66,14 @@
             // 
             // frmCheckFeedBack
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(730, 471);
+            this.ClientSize = new System.Drawing.Size(487, 306);
             this.Controls.Add(this.dgvFeedBack);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmCheckFeedBack";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Góp ý";
             this.Load += new System.EventHandler(this.frmCheckFeedBack_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvFeedBack)).EndInit();

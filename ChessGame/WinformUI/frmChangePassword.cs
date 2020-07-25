@@ -1,13 +1,10 @@
-﻿using Data.BusinessLogic;
+﻿using Common.Enums;
+using Common.Models;
+using Data.BusinessLogic;
 using Data.Common;
 using Data.Entities;
+using Helper.Client;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -16,10 +13,8 @@ namespace WinformUI
     public partial class frmChangePassword : Form
     {
         private BLUser bLUser;
-        private Encryptor encryptor;
         public frmChangePassword()
         {
-            encryptor = new Encryptor();
             bLUser = new BLUser();
             InitializeComponent();
         }
@@ -31,27 +26,18 @@ namespace WinformUI
             string newpass = txtInputNew.Text.Trim().ToString();
             string confirm = txtInputConfirm.Text.Trim().ToString();
 
-            if (oldpass == "" || newpass == "" || confirm == "")
+            if (string.IsNullOrEmpty(oldpass) || string.IsNullOrEmpty(newpass) || string.IsNullOrEmpty(confirm))
             {
                 MessageBox.Show("Làm ơn điền thông tin đầy đủ!");
-                
             }
             else
             {
                 if (newpass == confirm)
                 {
-                    string passEncrypt = await Task.Run(() => encryptor.MD5Hash(oldpass));
-                    User user = await bLUser.GetJustUserAsync(Constant.USERNAME);
-                    if (passEncrypt == user.Password)
-                    {
-                        await bLUser.ChangePasswordAsync(Constant.USERNAME, encryptor.MD5Hash(newpass));
-                        //MessageBox.Show("Đổi mật khẩu thành công!");
+                    MessageModel messageModel = await ClientHelper.ChangePasswordAsync(oldpass, newpass);
+                    if (messageModel.Code == (int)MessageCode.Success)
                         Close();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Mật khẩu cũ không trùng khớp!");
-                    }
+                    MessageBox.Show(messageModel.Data.ToString());
                 }
                 else
                 {

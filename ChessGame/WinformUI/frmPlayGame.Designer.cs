@@ -152,6 +152,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmPlayGame";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Trò chơi";
             ((System.ComponentModel.ISupportInitialize)(this.ptbPlayGround)).EndInit();
             this.ResumeLayout(false);

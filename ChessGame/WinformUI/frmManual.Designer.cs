@@ -36,34 +36,33 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.25F);
-            this.label1.Location = new System.Drawing.Point(18, 14);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(313, 35);
+            this.label1.Size = new System.Drawing.Size(222, 25);
             this.label1.TabIndex = 0;
             this.label1.Text = "Hướng dẫn chơi game";
             // 
             // rchTxtManual
             // 
-            this.rchTxtManual.Enabled = false;
-            this.rchTxtManual.Location = new System.Drawing.Point(26, 74);
-            this.rchTxtManual.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.rchTxtManual.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rchTxtManual.Location = new System.Drawing.Point(17, 48);
             this.rchTxtManual.Name = "rchTxtManual";
-            this.rchTxtManual.Size = new System.Drawing.Size(508, 350);
+            this.rchTxtManual.ReadOnly = true;
+            this.rchTxtManual.Size = new System.Drawing.Size(340, 229);
             this.rchTxtManual.TabIndex = 1;
             this.rchTxtManual.Text = "";
             // 
             // frmManual
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(560, 445);
+            this.ClientSize = new System.Drawing.Size(373, 289);
             this.Controls.Add(this.rchTxtManual);
             this.Controls.Add(this.label1);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmManual";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Hướng dẫn";
             this.Load += new System.EventHandler(this.frmManual_Load);
             this.ResumeLayout(false);

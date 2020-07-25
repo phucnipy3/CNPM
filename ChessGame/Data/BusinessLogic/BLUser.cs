@@ -1,8 +1,10 @@
-﻿using Data.Common;
+﻿using Common.Enums;
+using Common.Models;
+using Data.Common;
 using Data.Entities;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.OleDb;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,11 +12,6 @@ namespace Data.BusinessLogic
 {
     public class BLUser
     {
-        private Encryptor encryptor;
-        public BLUser()
-        {
-            encryptor = new Encryptor();
-        }
         public async Task<List<User>> GetUsersAsync()
         {
             using (DatabaseContext db = new DatabaseContext())
@@ -23,23 +20,43 @@ namespace Data.BusinessLogic
             }
         }
 
-        public async Task<int> LoginAsync(string userName, string pass)
+        //public async Task<int> LoginAsync(string userName, string pass)
+        //{
+        //    using (DatabaseContext db = new DatabaseContext())
+        //    {
+        //        string passEncrypt = encryptor.MD5Hash(pass);
+        //        if (await db.Users.AnyAsync(x => x.UserName == userName && x.Password == passEncrypt && x.Status == true && x.Permission == 2))
+        //        {
+        //            return 2; // user
+        //        }
+        //        else if (await db.Users.AnyAsync(x => x.UserName == userName && x.Password == passEncrypt && x.Status == true && x.Permission == 1))
+        //        {
+        //            return 1; // admin
+        //        }
+        //        else
+        //        {
+        //            return 0;
+        //        }                    
+        //    }
+        //}
+
+        public async Task<UserModel> LoginAsync(string userName, string pass)
         {
             using (DatabaseContext db = new DatabaseContext())
             {
-                string passEncrypt = encryptor.MD5Hash(pass);
-                if (await db.Users.AnyAsync(x => x.UserName == userName && x.Password == passEncrypt && x.Status == true && x.Permission == 2))
+                string passEncrypt = Encryptor.MD5Hash(pass);
+                var user = await db.Users.Where(x => x.UserName == userName && x.Password == passEncrypt).Select(x => new UserModel()
                 {
-                    return 2; // user
-                }
-                else if (await db.Users.AnyAsync(x => x.UserName == userName && x.Password == passEncrypt && x.Status == true && x.Permission == 1))
-                {
-                    return 1; // admin
-                }
-                else
-                {
-                    return 0;
-                }                    
+                    Id = x.ID,
+                    Username = x.UserName,
+                    Name = x.Name,
+                    Avatar = x.Avatar,
+                    Phone = x.Phone,
+                    Email = x.Email,
+                    Experience = x.ID,
+                    Permission = x.Permission ?? 0
+                }).FirstOrDefaultAsync();
+                return user;
             }
         }
 
@@ -48,6 +65,14 @@ namespace Data.BusinessLogic
             using (DatabaseContext db = new DatabaseContext())
             {
                 return await db.Users.ToListAsync();
+            }
+        }
+
+        public async Task<string> GetEmailByUsernameAsync(string username)
+        {
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                return await db.Users.Where(x => x.UserName == username).Select(x => x.Email).FirstOrDefaultAsync();
             }
         }
 
@@ -84,11 +109,42 @@ namespace Data.BusinessLogic
             }
         }
 
+        public async Task SignupAsync(RegisterModel registerModel)
+        {
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                User newUser = new User();
+                newUser.UserName = registerModel.Username;
+                newUser.Name = registerModel.Username;
+                newUser.Password = Encryptor.MD5Hash(registerModel.Password);
+                newUser.Experience = 0;
+                newUser.Active = false;
+                newUser.Status = true;
+                newUser.Permission = (int)UserRole.Player;
+
+                db.Users.Add(newUser);
+                await db.SaveChangesAsync();
+            }
+        }
+
         public async Task ChangeActiveAsync(string userName, bool active)
         {
             using (DatabaseContext db = new DatabaseContext())
             {
                 User user = await db.Users.Where(x => x.UserName == userName).SingleOrDefaultAsync();
+                if (user != null)
+                {
+                    user.Active = active;
+                    await db.SaveChangesAsync();
+                }
+            }
+        }
+
+        public async Task ChangeActiveAsync(int userId, bool active)
+        {
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                User user = await db.Users.Where(x => x.ID == userId).SingleOrDefaultAsync();
                 if (user != null)
                 {
                     user.Active = active;
@@ -106,8 +162,8 @@ namespace Data.BusinessLogic
                 {
                     user.Status = status;
                     await db.SaveChangesAsync();
-                }    
-                
+                }
+
             }
         }
 
@@ -115,8 +171,8 @@ namespace Data.BusinessLogic
         {
             using (DatabaseContext db = new DatabaseContext())
             {
-                User user = await db.Users.Where(x => x.UserName == userName).SingleOrDefaultAsync();
-                user.Password = newpass;
+                User user = await db.Users.Where(x => x.UserName == userName).FirstOrDefaultAsync();
+                user.Password = Encryptor.MD5Hash(newpass);
                 await db.SaveChangesAsync();
             }
         }
@@ -128,7 +184,7 @@ namespace Data.BusinessLogic
                 List<ManagerUser> lstManagerUsers = new List<ManagerUser>();
                 List<User> lstUsers = await GetAllUserAsync();
 
-                for (int i =0; i< lstUsers.Count; i++)
+                for (int i = 0; i < lstUsers.Count; i++)
                 {
                     if (lstUsers[i].ID != id && lstUsers[i].Permission != 1)
                     {
@@ -138,7 +194,7 @@ namespace Data.BusinessLogic
                         managerUser.Status = lstUsers[i].Status.GetValueOrDefault();
 
                         lstManagerUsers.Add(managerUser);
-                    }      
+                    }
                 }
 
                 return lstManagerUsers;
@@ -164,6 +220,55 @@ namespace Data.BusinessLogic
                 }
 
                 return lstInviteUsers;
+            }
+        }
+
+        public async Task<MessageModel> ChangePassword(ChangePasswordModel changePasswordModel)
+        {
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                MessageModel messageModel = new MessageModel();
+                var user = await db.Users.Where(x => x.ID == changePasswordModel.UserId).FirstOrDefaultAsync();
+                if (user != null)
+                {
+                    if (user.Password == Encryptor.MD5Hash(changePasswordModel.OldPassword))
+                    {
+                        user.Password = Encryptor.MD5Hash(changePasswordModel.NewPassword);
+                        await db.SaveChangesAsync();
+                        messageModel.Code = (int)MessageCode.Success;
+                        messageModel.Data = "Đổi mật khẩu thành công";
+                        return messageModel;
+                    }
+                    else messageModel.Data = "Mật khẩu cũ không chính xác";
+                } 
+                else messageModel.Data = "Không tìm thấy tài khoản trên máy chủ";
+
+                messageModel.Code = (int)MessageCode.Error;
+                return messageModel;
+            }
+        }
+
+        public async Task<MessageModel> UpdateProfile(UserModel userModel)
+        {
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                MessageModel messageModel = new MessageModel();
+                var user = await db.Users.Where(x => x.ID == userModel.Id).FirstOrDefaultAsync();
+                if (user != null)
+                {
+                    user.Name = userModel.Name;
+                    user.Phone = userModel.Phone;
+                    user.Email = userModel.Email;
+                    await db.SaveChangesAsync();
+
+                    messageModel.Code = (int)MessageCode.Success;
+                    messageModel.Data = userModel;
+                    return messageModel;
+                }
+                else messageModel.Data = "Không tìm thấy tài khoản trên máy chủ";
+
+                messageModel.Code = (int)MessageCode.Error;
+                return messageModel;
             }
         }
     }

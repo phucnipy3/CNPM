@@ -41,11 +41,10 @@
             this.dgvInvite.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Ingame,
             this.Action});
-            this.dgvInvite.Location = new System.Drawing.Point(30, 17);
-            this.dgvInvite.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.dgvInvite.Location = new System.Drawing.Point(20, 11);
             this.dgvInvite.Name = "dgvInvite";
             this.dgvInvite.RowHeadersWidth = 62;
-            this.dgvInvite.Size = new System.Drawing.Size(442, 380);
+            this.dgvInvite.Size = new System.Drawing.Size(295, 247);
             this.dgvInvite.TabIndex = 0;
             this.dgvInvite.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvInvite_CellClick);
             this.dgvInvite.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvInvite_CellContentClick);
@@ -67,12 +66,12 @@
             // 
             // frmInvite
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(506, 418);
+            this.ClientSize = new System.Drawing.Size(337, 272);
             this.Controls.Add(this.dgvInvite);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "frmInvite";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Mời người chơi";
             this.Load += new System.EventHandler(this.frmInvite_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvInvite)).EndInit();

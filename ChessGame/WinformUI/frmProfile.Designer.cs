@@ -32,32 +32,32 @@
             this.lblForIngame = new System.Windows.Forms.Label();
             this.lblIngame = new System.Windows.Forms.Label();
             this.lblForLevel = new System.Windows.Forms.Label();
-            this.lblname = new System.Windows.Forms.Label();
             this.lblForElo = new System.Windows.Forms.Label();
-            this.lblPhone = new System.Windows.Forms.Label();
             this.lblForEmail = new System.Windows.Forms.Label();
-            this.lblEmail = new System.Windows.Forms.Label();
             this.lblExperince = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.txtName = new System.Windows.Forms.TextBox();
+            this.txtPhone = new System.Windows.Forms.TextBox();
+            this.txtEmail = new System.Windows.Forms.TextBox();
+            this.btnUpdate = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblTextProfile
             // 
             this.lblTextProfile.AutoSize = true;
             this.lblTextProfile.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.25F);
-            this.lblTextProfile.Location = new System.Drawing.Point(18, 29);
-            this.lblTextProfile.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblTextProfile.Location = new System.Drawing.Point(12, 19);
             this.lblTextProfile.Name = "lblTextProfile";
-            this.lblTextProfile.Size = new System.Drawing.Size(260, 35);
+            this.lblTextProfile.Size = new System.Drawing.Size(185, 25);
             this.lblTextProfile.TabIndex = 0;
             this.lblTextProfile.Text = "Thông tin cá nhân";
             // 
             // lblForIngame
             // 
-            this.lblForIngame.Location = new System.Drawing.Point(26, 83);
-            this.lblForIngame.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblForIngame.Location = new System.Drawing.Point(17, 54);
             this.lblForIngame.Name = "lblForIngame";
-            this.lblForIngame.Size = new System.Drawing.Size(92, 46);
+            this.lblForIngame.Size = new System.Drawing.Size(61, 30);
             this.lblForIngame.TabIndex = 1;
             this.lblForIngame.Text = "Ingame: ";
             this.lblForIngame.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -65,118 +65,127 @@
             // lblIngame
             // 
             this.lblIngame.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.25F);
-            this.lblIngame.Location = new System.Drawing.Point(138, 83);
-            this.lblIngame.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblIngame.Location = new System.Drawing.Point(92, 54);
             this.lblIngame.Name = "lblIngame";
-            this.lblIngame.Size = new System.Drawing.Size(330, 46);
+            this.lblIngame.Size = new System.Drawing.Size(220, 30);
             this.lblIngame.TabIndex = 1;
             this.lblIngame.Text = "phucni";
             this.lblIngame.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblForLevel
             // 
-            this.lblForLevel.Location = new System.Drawing.Point(26, 129);
-            this.lblForLevel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblForLevel.Location = new System.Drawing.Point(17, 84);
             this.lblForLevel.Name = "lblForLevel";
-            this.lblForLevel.Size = new System.Drawing.Size(92, 46);
+            this.lblForLevel.Size = new System.Drawing.Size(61, 30);
             this.lblForLevel.TabIndex = 1;
             this.lblForLevel.Text = "Name:";
             this.lblForLevel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lblname
-            // 
-            this.lblname.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.25F);
-            this.lblname.Location = new System.Drawing.Point(138, 129);
-            this.lblname.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblname.Name = "lblname";
-            this.lblname.Size = new System.Drawing.Size(330, 46);
-            this.lblname.TabIndex = 1;
-            this.lblname.Text = "Phúc";
-            this.lblname.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // lblForElo
             // 
-            this.lblForElo.Location = new System.Drawing.Point(26, 175);
-            this.lblForElo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblForElo.Location = new System.Drawing.Point(17, 114);
             this.lblForElo.Name = "lblForElo";
-            this.lblForElo.Size = new System.Drawing.Size(92, 46);
+            this.lblForElo.Size = new System.Drawing.Size(61, 30);
             this.lblForElo.TabIndex = 1;
             this.lblForElo.Text = "Phone:";
             this.lblForElo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lblPhone
-            // 
-            this.lblPhone.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.25F);
-            this.lblPhone.Location = new System.Drawing.Point(138, 175);
-            this.lblPhone.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblPhone.Name = "lblPhone";
-            this.lblPhone.Size = new System.Drawing.Size(330, 46);
-            this.lblPhone.TabIndex = 1;
-            this.lblPhone.Text = "0987654321";
-            this.lblPhone.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // lblForEmail
             // 
-            this.lblForEmail.Location = new System.Drawing.Point(26, 289);
-            this.lblForEmail.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblForEmail.Location = new System.Drawing.Point(17, 188);
             this.lblForEmail.Name = "lblForEmail";
-            this.lblForEmail.Size = new System.Drawing.Size(92, 46);
+            this.lblForEmail.Size = new System.Drawing.Size(61, 30);
             this.lblForEmail.TabIndex = 1;
             this.lblForEmail.Text = "Email: ";
             this.lblForEmail.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lblEmail
-            // 
-            this.lblEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.25F);
-            this.lblEmail.Location = new System.Drawing.Point(138, 289);
-            this.lblEmail.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblEmail.Name = "lblEmail";
-            this.lblEmail.Size = new System.Drawing.Size(423, 46);
-            this.lblEmail.TabIndex = 1;
-            this.lblEmail.Text = "phucnipy3@gmail.com";
-            this.lblEmail.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // lblExperince
             // 
             this.lblExperince.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.25F);
-            this.lblExperince.Location = new System.Drawing.Point(138, 232);
-            this.lblExperince.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblExperince.Location = new System.Drawing.Point(92, 151);
             this.lblExperince.Name = "lblExperince";
-            this.lblExperince.Size = new System.Drawing.Size(330, 46);
+            this.lblExperince.Size = new System.Drawing.Size(220, 30);
             this.lblExperince.TabIndex = 2;
             this.lblExperince.Text = "50";
             this.lblExperince.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(26, 232);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(17, 151);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(104, 46);
+            this.label2.Size = new System.Drawing.Size(69, 30);
             this.label2.TabIndex = 3;
             this.label2.Text = "Experience:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // txtName
+            // 
+            this.txtName.Location = new System.Drawing.Point(96, 90);
+            this.txtName.Name = "txtName";
+            this.txtName.Size = new System.Drawing.Size(288, 20);
+            this.txtName.TabIndex = 4;
+            // 
+            // txtPhone
+            // 
+            this.txtPhone.Location = new System.Drawing.Point(96, 120);
+            this.txtPhone.Name = "txtPhone";
+            this.txtPhone.Size = new System.Drawing.Size(288, 20);
+            this.txtPhone.TabIndex = 4;
+            // 
+            // txtEmail
+            // 
+            this.txtEmail.Location = new System.Drawing.Point(96, 194);
+            this.txtEmail.Name = "txtEmail";
+            this.txtEmail.Size = new System.Drawing.Size(288, 20);
+            this.txtEmail.TabIndex = 4;
+            // 
+            // btnUpdate
+            // 
+            this.btnUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnUpdate.Location = new System.Drawing.Point(309, 235);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(75, 29);
+            this.btnUpdate.TabIndex = 5;
+            this.btnUpdate.Text = "Cập nhật";
+            this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCancel.Location = new System.Drawing.Point(228, 235);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(75, 29);
+            this.btnCancel.TabIndex = 5;
+            this.btnCancel.Text = "Hủy";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
             // frmProfile
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AcceptButton = this.btnUpdate;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(574, 376);
+            this.CancelButton = this.btnCancel;
+            this.ClientSize = new System.Drawing.Size(401, 274);
+            this.Controls.Add(this.btnCancel);
+            this.Controls.Add(this.btnUpdate);
+            this.Controls.Add(this.txtEmail);
+            this.Controls.Add(this.txtPhone);
+            this.Controls.Add(this.txtName);
             this.Controls.Add(this.lblExperince);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.lblEmail);
             this.Controls.Add(this.lblForEmail);
-            this.Controls.Add(this.lblPhone);
             this.Controls.Add(this.lblForElo);
-            this.Controls.Add(this.lblname);
             this.Controls.Add(this.lblForLevel);
             this.Controls.Add(this.lblIngame);
             this.Controls.Add(this.lblForIngame);
             this.Controls.Add(this.lblTextProfile);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmProfile";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Thông tin cá nhân";
             this.Load += new System.EventHandler(this.frmProfile_Load);
             this.ResumeLayout(false);
@@ -190,12 +199,14 @@
         private System.Windows.Forms.Label lblForIngame;
         private System.Windows.Forms.Label lblIngame;
         private System.Windows.Forms.Label lblForLevel;
-        private System.Windows.Forms.Label lblname;
         private System.Windows.Forms.Label lblForElo;
-        private System.Windows.Forms.Label lblPhone;
         private System.Windows.Forms.Label lblForEmail;
-        private System.Windows.Forms.Label lblEmail;
         private System.Windows.Forms.Label lblExperince;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtName;
+        private System.Windows.Forms.TextBox txtPhone;
+        private System.Windows.Forms.TextBox txtEmail;
+        private System.Windows.Forms.Button btnUpdate;
+        private System.Windows.Forms.Button btnCancel;
     }
 }

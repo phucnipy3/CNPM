@@ -27,7 +27,7 @@ namespace WinformUI
 
         private async void frmRank_Load(object sender, EventArgs e)
         {
-            List<Game> lstGame = await bLGame.GetAllGameAsync();
+            var lstGame = await bLGame.GetGamesAsync();
             cmbGames.DataSource = lstGame;
             cmbGames.DisplayMember = "Name";
             cmbGames.ValueMember = "Name";

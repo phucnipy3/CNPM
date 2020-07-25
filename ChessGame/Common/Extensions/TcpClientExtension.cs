@@ -1,5 +1,6 @@
 ﻿using Common.Constants;
-using System.Net;
+using Common.Logger;
+using System;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,8 +21,9 @@ namespace Common.Extensions
                 await networkStream.WriteAsync(buffer, 0, buffer.Length);
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                _ = Logger<TcpClient>.LogAsync(ex.Message);
                 return false;
             }
         }
@@ -38,9 +40,9 @@ namespace Common.Extensions
                 string message = Encoding.UTF8.GetString(buffer);
                 return message.Substring(0, message.LastIndexOf(NetworkConstant.MESSAGE_KEY));
             }
-            catch
+            catch 
             {
-                return null;
+                throw;
             }
         }
     }

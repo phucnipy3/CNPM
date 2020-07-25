@@ -14,6 +14,9 @@
         GetListFriend = 10,
         GetRooms = 11,
         DeleteFriendship = 12,
-
+        CreateRoom = 13,
+        RefreshRooms = 15,
+        JoinRoom = 17,
+        RefreshCurrentRoom = 19
     }
 }

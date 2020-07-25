@@ -1,6 +1,4 @@
-﻿using Data.BusinessLogic;
-using Data.Common;
-using Helper.Client;
+﻿using Helper.Client;
 using System;
 using System.Windows.Forms;
 
@@ -8,12 +6,10 @@ namespace WinformUI
 {
     public partial class frmMainClient : Form
     {
-        private BLUser bLUser;
         private bool loggingOut = false;
 
         public frmMainClient()
         {
-            bLUser = new BLUser();
             InitializeComponent();
         }
 
@@ -29,7 +25,7 @@ namespace WinformUI
 
         private async void frmMainClient_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!loggingOut)
+            if (!loggingOut && e.CloseReason != CloseReason.ApplicationExitCall)
             {
                 DialogResult result = MessageBox.Show("Bạn có muốn thoát không?", "Thoát", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information);
                 if (result == DialogResult.Yes)

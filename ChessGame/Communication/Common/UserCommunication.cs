@@ -1,4 +1,5 @@
 ﻿using Common.Extensions;
+using Common.Logger;
 using Common.Models;
 using System;
 using System.Net.Sockets;
@@ -12,6 +13,7 @@ namespace Communication.Common
         public TcpClient SendingClient { get; set; }
         public TcpClient ReceivingClient { get; protected set; }
         public event EventHandler<MessageReceivedEventArgs> MessageReceived;
+        public event EventHandler Disconnected;
 
         public UserCommunication(TcpClient receivingClient)
         {
@@ -21,17 +23,34 @@ namespace Communication.Common
 
         public async Task StartReceiveAsync()
         {
-            while (true)
+            try
             {
-                string message = await ReceivingClient.ReceiveMessageAsync();
-                if (!string.IsNullOrEmpty(message))
-                    OnMessageReceived(new MessageReceivedEventArgs() { Message = message });
+                while (true)
+                {
+                    string message = await ReceivingClient.ReceiveMessageAsync();
+                    if (!string.IsNullOrEmpty(message))
+                        OnMessageReceived(new MessageReceivedEventArgs() { Message = message });
+                }
+            }
+            catch (Exception ex)
+            {
+                _ = Logger<UserCommunication>.LogAsync(ex.Message);
+                OnDisconnected(EventArgs.Empty);
             }
         }
 
         protected virtual void OnMessageReceived(MessageReceivedEventArgs e)
         {
             EventHandler<MessageReceivedEventArgs> handler = MessageReceived;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
+
+        protected virtual void OnDisconnected(EventArgs e)
+        {
+            EventHandler handler = Disconnected;
             if (handler != null)
             {
                 handler(this, e);

@@ -3,6 +3,8 @@
     public enum GameType
     {
         Caro = 1,
-        Chess = 2
+        ChessT = 2,
+        ChessV = 3,
+        ChessVa = 4
     }
 }

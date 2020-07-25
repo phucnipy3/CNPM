@@ -154,6 +154,7 @@
             this.Name = "frmPlayGame";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Trò chơi";
+            this.Load += new System.EventHandler(this.frmPlayGame_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ptbPlayGround)).EndInit();
             this.ResumeLayout(false);
 

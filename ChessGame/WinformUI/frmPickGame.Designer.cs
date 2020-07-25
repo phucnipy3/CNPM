@@ -33,13 +33,13 @@
             this.txtInputSearchRoom = new System.Windows.Forms.TextBox();
             this.btnNewRoom = new System.Windows.Forms.Button();
             this.dgvRoom = new System.Windows.Forms.DataGridView();
+            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Action = new System.Windows.Forms.DataGridViewButtonColumn();
             this.btnVay = new System.Windows.Forms.Button();
             this.btnVua = new System.Windows.Forms.Button();
             this.btnTuong = new System.Windows.Forms.Button();
             this.btnCaro = new System.Windows.Forms.Button();
-            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Action = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRoom)).BeginInit();
             this.SuspendLayout();
             // 
@@ -59,6 +59,7 @@
             this.txtInputSearchRoom.Name = "txtInputSearchRoom";
             this.txtInputSearchRoom.Size = new System.Drawing.Size(135, 20);
             this.txtInputSearchRoom.TabIndex = 2;
+            this.txtInputSearchRoom.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInputSearchRoom_KeyDown);
             // 
             // btnNewRoom
             // 
@@ -68,6 +69,7 @@
             this.btnNewRoom.TabIndex = 3;
             this.btnNewRoom.Text = "Tạo phòng";
             this.btnNewRoom.UseVisualStyleBackColor = true;
+            this.btnNewRoom.Click += new System.EventHandler(this.btnNewRoom_Click);
             // 
             // dgvRoom
             // 
@@ -82,58 +84,7 @@
             this.dgvRoom.RowHeadersVisible = false;
             this.dgvRoom.Size = new System.Drawing.Size(378, 258);
             this.dgvRoom.TabIndex = 4;
-            // 
-            // btnVay
-            // 
-            this.btnVay.BackgroundImage = global::WinformUI.Properties.Resources.demoVay;
-            this.btnVay.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnVay.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F);
-            this.btnVay.ForeColor = System.Drawing.Color.Black;
-            this.btnVay.Location = new System.Drawing.Point(12, 249);
-            this.btnVay.Name = "btnVay";
-            this.btnVay.Size = new System.Drawing.Size(386, 57);
-            this.btnVay.TabIndex = 0;
-            this.btnVay.Text = "Cờ vây";
-            this.btnVay.UseVisualStyleBackColor = true;
-            // 
-            // btnVua
-            // 
-            this.btnVua.BackgroundImage = global::WinformUI.Properties.Resources.demoVua;
-            this.btnVua.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnVua.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F);
-            this.btnVua.ForeColor = System.Drawing.Color.Black;
-            this.btnVua.Location = new System.Drawing.Point(12, 170);
-            this.btnVua.Name = "btnVua";
-            this.btnVua.Size = new System.Drawing.Size(386, 57);
-            this.btnVua.TabIndex = 0;
-            this.btnVua.Text = "Cờ vua";
-            this.btnVua.UseVisualStyleBackColor = true;
-            // 
-            // btnTuong
-            // 
-            this.btnTuong.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnTuong.BackgroundImage")));
-            this.btnTuong.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnTuong.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F);
-            this.btnTuong.ForeColor = System.Drawing.Color.Black;
-            this.btnTuong.Location = new System.Drawing.Point(12, 90);
-            this.btnTuong.Name = "btnTuong";
-            this.btnTuong.Size = new System.Drawing.Size(386, 57);
-            this.btnTuong.TabIndex = 0;
-            this.btnTuong.Text = "Cờ tướng";
-            this.btnTuong.UseVisualStyleBackColor = true;
-            // 
-            // btnCaro
-            // 
-            this.btnCaro.BackgroundImage = global::WinformUI.Properties.Resources.demoCaro;
-            this.btnCaro.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnCaro.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F);
-            this.btnCaro.ForeColor = System.Drawing.Color.Black;
-            this.btnCaro.Location = new System.Drawing.Point(12, 12);
-            this.btnCaro.Name = "btnCaro";
-            this.btnCaro.Size = new System.Drawing.Size(386, 57);
-            this.btnCaro.TabIndex = 0;
-            this.btnCaro.Text = "Cờ caro";
-            this.btnCaro.UseVisualStyleBackColor = true;
+            this.dgvRoom.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvRoom_CellClick);
             // 
             // Id
             // 
@@ -161,6 +112,66 @@
             this.Action.Name = "Action";
             this.Action.Text = "Tham gia";
             this.Action.UseColumnTextForButtonValue = true;
+            // 
+            // btnVay
+            // 
+            this.btnVay.BackgroundImage = global::WinformUI.Properties.Resources.demoVay;
+            this.btnVay.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnVay.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F);
+            this.btnVay.ForeColor = System.Drawing.Color.Black;
+            this.btnVay.Location = new System.Drawing.Point(12, 249);
+            this.btnVay.Name = "btnVay";
+            this.btnVay.Size = new System.Drawing.Size(386, 57);
+            this.btnVay.TabIndex = 0;
+            this.btnVay.Tag = "4";
+            this.btnVay.Text = "Cờ vây";
+            this.btnVay.UseVisualStyleBackColor = true;
+            this.btnVay.Click += new System.EventHandler(this.btnGame_Click);
+            // 
+            // btnVua
+            // 
+            this.btnVua.BackgroundImage = global::WinformUI.Properties.Resources.demoVua;
+            this.btnVua.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnVua.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F);
+            this.btnVua.ForeColor = System.Drawing.Color.Black;
+            this.btnVua.Location = new System.Drawing.Point(12, 170);
+            this.btnVua.Name = "btnVua";
+            this.btnVua.Size = new System.Drawing.Size(386, 57);
+            this.btnVua.TabIndex = 0;
+            this.btnVua.Tag = "3";
+            this.btnVua.Text = "Cờ vua";
+            this.btnVua.UseVisualStyleBackColor = true;
+            this.btnVua.Click += new System.EventHandler(this.btnGame_Click);
+            // 
+            // btnTuong
+            // 
+            this.btnTuong.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnTuong.BackgroundImage")));
+            this.btnTuong.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnTuong.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F);
+            this.btnTuong.ForeColor = System.Drawing.Color.Black;
+            this.btnTuong.Location = new System.Drawing.Point(12, 90);
+            this.btnTuong.Name = "btnTuong";
+            this.btnTuong.Size = new System.Drawing.Size(386, 57);
+            this.btnTuong.TabIndex = 0;
+            this.btnTuong.Tag = "2";
+            this.btnTuong.Text = "Cờ tướng";
+            this.btnTuong.UseVisualStyleBackColor = true;
+            this.btnTuong.Click += new System.EventHandler(this.btnGame_Click);
+            // 
+            // btnCaro
+            // 
+            this.btnCaro.BackgroundImage = global::WinformUI.Properties.Resources.demoCaro;
+            this.btnCaro.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnCaro.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F);
+            this.btnCaro.ForeColor = System.Drawing.Color.Black;
+            this.btnCaro.Location = new System.Drawing.Point(12, 12);
+            this.btnCaro.Name = "btnCaro";
+            this.btnCaro.Size = new System.Drawing.Size(386, 57);
+            this.btnCaro.TabIndex = 0;
+            this.btnCaro.Tag = "1";
+            this.btnCaro.Text = "Cờ caro";
+            this.btnCaro.UseVisualStyleBackColor = true;
+            this.btnCaro.Click += new System.EventHandler(this.btnGame_Click);
             // 
             // frmPickGame
             // 

@@ -60,7 +60,7 @@ namespace Data.BusinessLogic
             }
         }
 
-        public async Task<List<User>> GetAllUserAsync()
+        public async static Task<List<User>> GetAllUserAsync()
         {
             using (DatabaseContext db = new DatabaseContext())
             {
@@ -177,7 +177,7 @@ namespace Data.BusinessLogic
             }
         }
 
-        public async Task<List<ManagerUser>> ManagerUserAsync(int id)
+        public async static Task<List<ManagerUser>> ManagerUserAsync(int id)
         {
             using (DatabaseContext db = new DatabaseContext())
             {

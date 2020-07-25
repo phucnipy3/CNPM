@@ -1,4 +1,5 @@
-﻿using Data.Common;
+﻿using Common.Models;
+using Data.Common;
 using Data.Entities;
 using System;
 using System.Collections.Generic;
@@ -12,27 +13,28 @@ namespace Data.BusinessLogic
     public class BLElo
     {
         
-        public async Task<List<RankTable>> GetRankTableAsync(int game_ID)
+        public async static Task<List<RankTable>> GetRankTableAsync(RankConditionModel rankCondition)
         {
             using (DatabaseContext db = new DatabaseContext())
             {
-                List<RankTable> lstRank = new List<RankTable>();
-                List<Elo> lstElos = await GetEloByGameIDAsync(game_ID);
-                
-                for (int i = 0; i< lstElos.Count; i++)
+                var model = await db.Elos.Where(x => x.GameId == rankCondition.GameId).Select(y => new RankTable
                 {
-                    BLUser bLUser = new BLUser();
-                    User user = new User();
-                    user = await bLUser.GetJustUserByIDAsync(lstElos[i].UserId.Value);
+                    Id = y.User.Id,
+                    Ingame = y.User.Username,
+                    Point = y.EloPoint ?? 0
+                }).OrderByDescending(z => z.Point).Take(10).ToListAsync();
 
-                    RankTable rankTable = new RankTable();
-                    rankTable.rank = i + 1;
-                    rankTable.ingame = user.Username;
-                    rankTable.point = lstElos[i].EloPoint.GetValueOrDefault();
-
-                    lstRank.Add(rankTable);
+                if(!model.Select(x => x.Id).Contains(rankCondition.UserId))
+                {
+                    model.Add(await db.Elos.Where(x => x.GameId == rankCondition.GameId && x.UserId == rankCondition.UserId).Select(y => new RankTable
+                    {
+                        Id = y.User.Id,
+                        Ingame = y.User.Username,
+                        Point = y.EloPoint ?? 0
+                    }).FirstOrDefaultAsync());
                 }
-                return lstRank;
+
+                return model;
             }
         }
 

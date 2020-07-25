@@ -1,6 +1,9 @@
-﻿using Data.BusinessLogic;
+﻿using Common.Enums;
+using Common.Models;
+using Data.BusinessLogic;
 using Data.Common;
 using Data.Entities;
+using Helper.Client;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,14 +32,15 @@ namespace WinformUI
             string content = rchTxtInputFeedBack.Text.Trim().ToString();
 
             Feedback feedback = new Feedback();
-            feedback.UserId = Constant.USER_ID;
+            feedback.UserId = ClientHelper.Client.User.Id;
             feedback.Email = email;
             feedback.Content = content;
             feedback.SendTime = DateTime.Now;
             feedback.Seen = false;
             feedback.Status = true;
 
-            if (await bLFeedback.AddFeedbackAsync(feedback))
+            var result = await ClientHelper.AddFeedbackAsync(feedback);
+            if (result.Code == (int)MessageCode.Success)
             {
                 MessageBox.Show("Gửi góp ý thành công!");
                 Close();

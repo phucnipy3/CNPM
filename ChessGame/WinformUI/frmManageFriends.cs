@@ -1,6 +1,7 @@
 ﻿using Data.BusinessLogic;
 using Data.Common;
 using Data.Entities;
+using Helper.Client;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -31,7 +32,7 @@ namespace WinformUI
 
         private async Task LoadFriendAsync()
         {
-            List<Friend> lstFriends = await bLFriend.GetFriendByUserNameAsync(Constant.USER_ID);
+            List<Friend> lstFriends = await ClientHelper.GetListFriendAsync();
             dgvFriends.DataSource = lstFriends;
         }
         private void dataGridView2_Paint(object sender, PaintEventArgs e)

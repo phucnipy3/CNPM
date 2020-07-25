@@ -5,6 +5,7 @@ using Common.Logger;
 using Common.Models;
 using Communication.Client;
 using Communication.Common;
+using Data.Common;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -151,7 +152,7 @@ namespace Helper.Client
             return messageModel;
         }
 
-        public static async Task<List<GameModel>> GameGuideAsync()
+        public static async Task<List<GameModel>> GetGameGuideAsync()
         {
             await SendingMessageAsync((int)MessageCode.GameGuide, null);
 
@@ -160,6 +161,17 @@ namespace Helper.Client
                 return new List<GameModel>();
 
             return JsonConvert.DeserializeObject<List<GameModel>>(messageModel.Data.ToString());
+        }
+
+        public static async Task<List<Friend>>GetListFriendAsync()
+        {
+            await SendingMessageAsync((int)MessageCode.GetListFriend, Client.User.Id);
+
+            MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(await Client.SendingClient.ReceiveMessageAsync());
+            if (messageModel.Data == null)
+                return new List<Friend>();
+
+            return JsonConvert.DeserializeObject<List<Friend>>(messageModel.Data.ToString());
         }
     }
 }

@@ -66,6 +66,7 @@
     <Compile Include="Common\InviteUser.cs" />
     <Compile Include="Common\ManagerUser.cs" />
     <Compile Include="Common\RankTable.cs" />
+    <Compile Include="Entities\ConnectionString.cs" />
     <Compile Include="Entities\DatabaseContext.cs" />
     <Compile Include="Entities\Elo.cs" />
     <Compile Include="Entities\Feedback.cs" />

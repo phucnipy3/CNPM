@@ -15,9 +15,9 @@ namespace Data.BusinessLogic
             {
                 return await db.Games.Where(x => x.Status == true).Select(x => new GameModel() 
                 {
-                    Id = x.ID,
+                    Id = x.Id,
                     Name = x.Name,
-                    Description = x.Describe
+                    Description = x.Description
                 }).ToListAsync();
             }
         }

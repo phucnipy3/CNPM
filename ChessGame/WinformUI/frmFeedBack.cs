@@ -29,7 +29,7 @@ namespace WinformUI
             string content = rchTxtInputFeedBack.Text.Trim().ToString();
 
             Feedback feedback = new Feedback();
-            feedback.UserID = Constant.USER_ID;
+            feedback.UserId = Constant.USER_ID;
             feedback.Email = email;
             feedback.Content = content;
             feedback.SendTime = DateTime.Now;

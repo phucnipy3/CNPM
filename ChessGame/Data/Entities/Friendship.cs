@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Data.Entities
 {
@@ -8,8 +7,11 @@ namespace Data.Entities
     {
         [Key]
         public int Id { get; set; }
-        public int? UserID { get; set; }
-        public int? FriendID { get; set; }
+        public int? UserId { get; set; }
+        public int? FriendId { get; set; }
         public DateTime? AddTime { get; set; }
+
+        public virtual User User { get; set; }
+        public virtual User Friend { get; set; }
     }
 }

@@ -41,7 +41,7 @@ namespace Data.BusinessLogic
                 for (int i=0; i< feedbacks.Count; i++)
                 {
                     BLUser bLUser = new BLUser();
-                    User user = await bLUser.GetJustUserByIDAsync(feedbacks[i].UserID.Value);
+                    User user = await bLUser.GetJustUserByIDAsync(feedbacks[i].UserId.Value);
                     CheckFeedback checkFeedback = new CheckFeedback();
                     checkFeedback.sender = user.Name;
                     checkFeedback.content = feedbacks[i].Content;

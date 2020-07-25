@@ -23,11 +23,11 @@ namespace Data.BusinessLogic
                 {
                     BLUser bLUser = new BLUser();
                     User user = new User();
-                    user = await bLUser.GetJustUserByIDAsync(lstElos[i].UserID.Value);
+                    user = await bLUser.GetJustUserByIDAsync(lstElos[i].UserId.Value);
 
                     RankTable rankTable = new RankTable();
                     rankTable.rank = i + 1;
-                    rankTable.ingame = user.UserName;
+                    rankTable.ingame = user.Username;
                     rankTable.point = lstElos[i].EloPoint.GetValueOrDefault();
 
                     lstRank.Add(rankTable);
@@ -40,7 +40,7 @@ namespace Data.BusinessLogic
         {
             using (DatabaseContext db = new DatabaseContext())
             {
-                return await db.Elos.Where(x => x.GameID == game_ID).OrderByDescending(x=>x.EloPoint).ToListAsync();
+                return await db.Elos.Where(x => x.GameId == game_ID).OrderByDescending(x=>x.EloPoint).ToListAsync();
             }
         }
     }

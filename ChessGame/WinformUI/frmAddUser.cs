@@ -35,7 +35,7 @@ namespace WinformUI
                 if (await CheckUserAsync(username))
                 {
                     User user = new User();
-                    user.UserName = username;
+                    user.Username = username;
                     user.Password = Encryptor.MD5Hash(pass);
                     user.Experience = 0;
                     user.Active = false;
@@ -61,7 +61,7 @@ namespace WinformUI
             List<User> lstAllUser = await bLUser.GetAllUserAsync();
             for (int i = 0; i < lstAllUser.Count; i++)
             {
-                if (username == lstAllUser[i].UserName)
+                if (username == lstAllUser[i].Username)
                 {
                     return false;
                 }

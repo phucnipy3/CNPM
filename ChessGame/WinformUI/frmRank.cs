@@ -40,7 +40,7 @@ namespace WinformUI
         private async Task LoadDataAsync(string name)
         {
             Game game = await bLGame.GetJustGameByNameAsync(name);
-            int id = game.ID;
+            int id = game.Id;
 
             List<RankTable> lstRank = await bLElo.GetRankTableAsync(id);
 

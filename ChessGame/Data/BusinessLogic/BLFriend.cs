@@ -21,16 +21,16 @@ namespace Data.BusinessLogic
         {
             using (DatabaseContext db = new DatabaseContext())
             {
-                List<Friendship> lstFriendships = db.Friendships.Where(x => x.UserID == ID).ToList();
+                List<Friendship> lstFriendships = db.Friendships.Where(x => x.UserId == ID).ToList();
 
                 List<Friend> lstUsers = new List<Friend>();
                 for (int i = 0; i < lstFriendships.Count; i++)
                 {
                     User users = new User();
-                    users = await bLUser.GetJustUserByIDAsync(lstFriendships[i].FriendID.Value);
+                    users = await bLUser.GetJustUserByIDAsync(lstFriendships[i].FriendId.Value);
                     Friend friend = new Friend();
-                    friend.Id = users.ID;
-                    friend.Username = users.UserName;
+                    friend.Id = users.Id;
+                    friend.Username = users.Username;
                     friend.Active = users.Active.GetValueOrDefault();
                     lstUsers.Add(friend);
                 }
@@ -42,7 +42,7 @@ namespace Data.BusinessLogic
         {
             using (DatabaseContext db = new DatabaseContext())
             {
-                return await db.Friendships.Where(x => x.UserID == user_ID && x.FriendID == friend_ID).SingleOrDefaultAsync();
+                return await db.Friendships.Where(x => x.UserId == user_ID && x.FriendId == friend_ID).SingleOrDefaultAsync();
             }
         }
 
@@ -68,7 +68,7 @@ namespace Data.BusinessLogic
         {
             using (DatabaseContext db = new DatabaseContext())
             {
-                var friendshipToDelete = await db.Friendships.Where(x => x.FriendID == friendship.FriendId && x.UserID == friendship.UserId).FirstOrDefaultAsync();
+                var friendshipToDelete = await db.Friendships.Where(x => x.FriendId == friendship.FriendId && x.UserId == friendship.UserId).FirstOrDefaultAsync();
                 if (friendshipToDelete != null)
                 {
                     db.Friendships.Remove(friendshipToDelete);
@@ -81,7 +81,7 @@ namespace Data.BusinessLogic
         {
             using (DatabaseContext db = new DatabaseContext())
             {
-                return await db.Friendships.AnyAsync(x => x.UserID == user_ID && x.FriendID == friend_ID);
+                return await db.Friendships.AnyAsync(x => x.UserId == user_ID && x.FriendId == friend_ID);
             }
         }
     }

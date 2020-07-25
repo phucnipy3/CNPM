@@ -26,8 +26,8 @@ namespace WinformUI
         {
             btnSendMessage.Enabled = false;
             Data.Entities.Message message = new Data.Entities.Message();
-            message.SenderID = Constant.USER_ID;
-            message.ReceiverID = Constant.FRIEND_ID;
+            message.SenderId = Constant.USER_ID;
+            message.ReceiverId = Constant.FRIEND_ID;
             message.Content = txtInputMessage.Text.Trim().ToString();
             message.SendTime = DateTime.Now;
 

@@ -89,14 +89,14 @@ namespace WinformUI
                 if (dgv.Columns[e.ColumnIndex].Name == "Lock")
                 {
                     bool status = !user.Status.GetValueOrDefault();
-                    await bLUser.ChangeStatusAsync(user.UserName, status);
+                    await bLUser.ChangeStatusAsync(user.Username, status);
                     if (status)
                     {
-                        MessageBox.Show("Bạn vừa mở tài khoản " + user.UserName);
+                        MessageBox.Show("Bạn vừa mở tài khoản " + user.Username);
                     }
                     else
                     {
-                        MessageBox.Show("Bạn vừa khóa tài khoản " + user.UserName);
+                        MessageBox.Show("Bạn vừa khóa tài khoản " + user.Username);
                     }
                     
                 }
@@ -105,12 +105,12 @@ namespace WinformUI
                     bool active = user.Active.GetValueOrDefault();
                     if (active)
                     {
-                        await bLUser.ChangeActiveAsync(user.UserName, !active);
-                        MessageBox.Show("Đăng xuất tài khoản " + user.UserName);
+                        await bLUser.ChangeActiveAsync(user.Username, !active);
+                        MessageBox.Show("Đăng xuất tài khoản " + user.Username);
                     }
                     else
                     {
-                        MessageBox.Show("Tài khoản " + user.UserName +" đang ở trạng thái đăng xuất!" );
+                        MessageBox.Show("Tài khoản " + user.Username +" đang ở trạng thái đăng xuất!" );
                     }
                 }
             }

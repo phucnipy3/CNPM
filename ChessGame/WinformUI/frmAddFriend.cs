@@ -36,11 +36,11 @@ namespace WinformUI
             {
                
                 User friend = await bLUser.GetJustUserAsync(friend_name);
-                if (! await bLFriend.ExistsFriendship(Constant.USER_ID, friend.ID))
+                if (! await bLFriend.ExistsFriendship(Constant.USER_ID, friend.Id))
                 {
                     Friendship friendship = new Friendship();
-                    friendship.UserID = Constant.USER_ID;
-                    friendship.FriendID = friend.ID;
+                    friendship.UserId = Constant.USER_ID;
+                    friendship.FriendId = friend.Id;
                     friendship.AddTime = DateTime.Now;
 
                     await bLFriend.AddFriendAsync(friendship);

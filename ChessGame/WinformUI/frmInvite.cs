@@ -40,7 +40,7 @@ namespace WinformUI
 
                 if (dgv.Columns[e.ColumnIndex].Name == "Action")
                 {
-                    MessageBox.Show("Mời tài khoản " + user.UserName);
+                    MessageBox.Show("Mời tài khoản " + user.Username);
                 }
                
             }

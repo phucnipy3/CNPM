@@ -7,8 +7,8 @@ namespace Data.Entities
     {
         [Key]
         public int Id { get; set; }
-        public int? UserID { get; set; }
-        public int? GameID { get; set; }
+        public int? UserId { get; set; }
+        public int? GameId { get; set; }
         public int? EloPoint { get; set; }
         public int? TotalWin { get; set; }
         public int? TotalMatches { get; set; }

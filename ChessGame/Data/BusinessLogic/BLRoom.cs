@@ -13,12 +13,12 @@ namespace Data.BusinessLogic
         {
             using (DatabaseContext db = new DatabaseContext())
             {
-                var data = await db.Rooms.Where(x => x.GameID == gameId).Select(x => new RoomModel()
+                var data = await db.Rooms.Where(x => x.GameId == gameId).Select(x => new RoomModel()
                 {
-                    RoomId = x.ID,
-                    GameId = x.ID,
-                    FirstPlayerId = x.FirstPlayerID,
-                    SecondPlayerId = x.SecondPlayerID
+                    RoomId = x.Id,
+                    GameId = x.Id,
+                    FirstPlayerId = x.FirstPlayerId,
+                    SecondPlayerId = x.SecondPlayerId
                 }).ToListAsync();
                 return data;
             }

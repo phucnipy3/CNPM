@@ -91,7 +91,7 @@ namespace WinformUI
                 User friend = await bLUser.GetJustUserAsync(dgv.Rows[row_index].Cells[3].Value.ToString());
 
                 //MessageBox.Show(user.ID.ToString());
-                int friend_ID = friend.ID;
+                int friend_ID = friend.Id;
 
                 if (dgv.Columns[e.ColumnIndex].Name == "Action")
                 {

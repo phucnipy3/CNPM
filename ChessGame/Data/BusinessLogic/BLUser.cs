@@ -45,15 +45,15 @@ namespace Data.BusinessLogic
             using (DatabaseContext db = new DatabaseContext())
             {
                 string passEncrypt = Encryptor.MD5Hash(pass);
-                var user = await db.Users.Where(x => x.UserName == userName && x.Password == passEncrypt).Select(x => new UserModel()
+                var user = await db.Users.Where(x => x.Username == userName && x.Password == passEncrypt).Select(x => new UserModel()
                 {
-                    Id = x.ID,
-                    Username = x.UserName,
+                    Id = x.Id,
+                    Username = x.Username,
                     Name = x.Name,
                     Avatar = x.Avatar,
                     Phone = x.Phone,
                     Email = x.Email,
-                    Experience = x.ID,
+                    Experience = x.Id,
                     Permission = x.Permission ?? 0
                 }).FirstOrDefaultAsync();
                 return user;
@@ -72,7 +72,7 @@ namespace Data.BusinessLogic
         {
             using (DatabaseContext db = new DatabaseContext())
             {
-                return await db.Users.Where(x => x.UserName == username).Select(x => x.Email).FirstOrDefaultAsync();
+                return await db.Users.Where(x => x.Username == username).Select(x => x.Email).FirstOrDefaultAsync();
             }
         }
 
@@ -80,7 +80,7 @@ namespace Data.BusinessLogic
         {
             using (DatabaseContext db = new DatabaseContext())
             {
-                return await db.Users.AnyAsync(x => x.UserName == username);
+                return await db.Users.AnyAsync(x => x.Username == username);
             }
         }
 
@@ -88,7 +88,7 @@ namespace Data.BusinessLogic
         {
             using (DatabaseContext db = new DatabaseContext())
             {
-                return await db.Users.Where(x => x.UserName == username).SingleOrDefaultAsync();
+                return await db.Users.Where(x => x.Username == username).SingleOrDefaultAsync();
             }
         }
 
@@ -96,7 +96,7 @@ namespace Data.BusinessLogic
         {
             using (DatabaseContext db = new DatabaseContext())
             {
-                return await db.Users.Where(x => x.ID == ID).SingleOrDefaultAsync();
+                return await db.Users.Where(x => x.Id == ID).SingleOrDefaultAsync();
             }
         }
 
@@ -114,7 +114,7 @@ namespace Data.BusinessLogic
             using (DatabaseContext db = new DatabaseContext())
             {
                 User newUser = new User();
-                newUser.UserName = registerModel.Username;
+                newUser.Username = registerModel.Username;
                 newUser.Name = registerModel.Username;
                 newUser.Password = Encryptor.MD5Hash(registerModel.Password);
                 newUser.Experience = 0;
@@ -131,7 +131,7 @@ namespace Data.BusinessLogic
         {
             using (DatabaseContext db = new DatabaseContext())
             {
-                User user = await db.Users.Where(x => x.UserName == userName).SingleOrDefaultAsync();
+                User user = await db.Users.Where(x => x.Username == userName).SingleOrDefaultAsync();
                 if (user != null)
                 {
                     user.Active = active;
@@ -144,7 +144,7 @@ namespace Data.BusinessLogic
         {
             using (DatabaseContext db = new DatabaseContext())
             {
-                User user = await db.Users.Where(x => x.ID == userId).SingleOrDefaultAsync();
+                User user = await db.Users.Where(x => x.Id == userId).SingleOrDefaultAsync();
                 if (user != null)
                 {
                     user.Active = active;
@@ -157,7 +157,7 @@ namespace Data.BusinessLogic
         {
             using (DatabaseContext db = new DatabaseContext())
             {
-                User user = await db.Users.Where(x => x.UserName == userName).SingleOrDefaultAsync();
+                User user = await db.Users.Where(x => x.Username == userName).SingleOrDefaultAsync();
                 if (user != null)
                 {
                     user.Status = status;
@@ -171,7 +171,7 @@ namespace Data.BusinessLogic
         {
             using (DatabaseContext db = new DatabaseContext())
             {
-                User user = await db.Users.Where(x => x.UserName == userName).FirstOrDefaultAsync();
+                User user = await db.Users.Where(x => x.Username == userName).FirstOrDefaultAsync();
                 user.Password = Encryptor.MD5Hash(newpass);
                 await db.SaveChangesAsync();
             }
@@ -186,11 +186,11 @@ namespace Data.BusinessLogic
 
                 for (int i = 0; i < lstUsers.Count; i++)
                 {
-                    if (lstUsers[i].ID != id && lstUsers[i].Permission != 1)
+                    if (lstUsers[i].Id != id && lstUsers[i].Permission != 1)
                     {
                         ManagerUser managerUser = new ManagerUser();
-                        managerUser.ID = lstUsers[i].ID;
-                        managerUser.Ingame = lstUsers[i].UserName;
+                        managerUser.ID = lstUsers[i].Id;
+                        managerUser.Ingame = lstUsers[i].Username;
                         managerUser.Status = lstUsers[i].Status.GetValueOrDefault();
 
                         lstManagerUsers.Add(managerUser);
@@ -210,10 +210,10 @@ namespace Data.BusinessLogic
 
                 for (int i = 0; i < lstUsers.Count; i++)
                 {
-                    if (lstUsers[i].ID != id && lstUsers[i].Permission != 1)
+                    if (lstUsers[i].Id != id && lstUsers[i].Permission != 1)
                     {
                         InviteUser invite = new InviteUser();
-                        invite.ingame = lstUsers[i].UserName;
+                        invite.ingame = lstUsers[i].Username;
 
                         lstInviteUsers.Add(invite);
                     }
@@ -228,7 +228,7 @@ namespace Data.BusinessLogic
             using (DatabaseContext db = new DatabaseContext())
             {
                 MessageModel messageModel = new MessageModel();
-                var user = await db.Users.Where(x => x.ID == changePasswordModel.UserId).FirstOrDefaultAsync();
+                var user = await db.Users.Where(x => x.Id == changePasswordModel.UserId).FirstOrDefaultAsync();
                 if (user != null)
                 {
                     if (user.Password == Encryptor.MD5Hash(changePasswordModel.OldPassword))
@@ -253,7 +253,7 @@ namespace Data.BusinessLogic
             using (DatabaseContext db = new DatabaseContext())
             {
                 MessageModel messageModel = new MessageModel();
-                var user = await db.Users.Where(x => x.ID == userModel.Id).FirstOrDefaultAsync();
+                var user = await db.Users.Where(x => x.Id == userModel.Id).FirstOrDefaultAsync();
                 if (user != null)
                 {
                     user.Name = userModel.Name;

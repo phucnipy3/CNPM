@@ -11,6 +11,7 @@
         UpdateProfile = 7,
         ForgetPassword = 8,
         GameGuide = 9,
-        GetRooms = 10
+        GetListFriend = 10,
+        GetRooms = 11
     }
 }

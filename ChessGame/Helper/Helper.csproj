@@ -59,6 +59,10 @@
       <Project>{D8842320-3889-4BEB-A00B-065060E5C074}</Project>
       <Name>Communication</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Data\Data.csproj">
+      <Project>{553053BE-644A-43FD-AEF7-F435C069816A}</Project>
+      <Name>Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

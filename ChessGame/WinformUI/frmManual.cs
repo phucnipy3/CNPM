@@ -13,7 +13,7 @@ namespace WinformUI
 
         private async void frmManual_Load(object sender, EventArgs e)
         {
-            var lstGames = await ClientHelper.GameGuideAsync();
+            var lstGames = await ClientHelper.GetGameGuideAsync();
 
             foreach (var game in lstGames)
             {

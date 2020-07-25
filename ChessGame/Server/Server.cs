@@ -106,6 +106,11 @@ namespace Server
             await e.Client.SendMessageAsync(JsonConvert.SerializeObject(new MessageModel() { Code = (int)MessageCode.Error, Data = "Lỗi" }));
         }
 
+        /// <summary>
+        /// fghj
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void CommunicationServer_MessageReceivedAsync(object sender, MessageReceivedEventArgs e)
         {
             MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(e.Message);
@@ -132,6 +137,19 @@ namespace Server
                 case (int)MessageCode.GameGuide:
                     ConsoleLog(client.User.Name + " get game guide");
                     messageModel.Data = await new BLGame().GetGamesAsync();
+                    await client.ReceivingClient.SendMessageAsync(JsonConvert.SerializeObject(messageModel));
+                    break;
+                case (int)MessageCode.GetListFriend:
+                    int id;
+                    if(int.TryParse(messageModel.Data.ToString(), out id))
+                    {
+                        ConsoleLog(client.User.Name + " get list friend");
+                        messageModel.Data = await new BLFriend().GetFriendByUserNameAsync(id);
+                    }
+                    else
+                    {
+                        messageModel.Data = null;
+                    }
                     await client.ReceivingClient.SendMessageAsync(JsonConvert.SerializeObject(messageModel));
                     break;
             }

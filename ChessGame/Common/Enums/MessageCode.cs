@@ -12,6 +12,8 @@
         ForgetPassword = 8,
         GameGuide = 9,
         GetListFriend = 10,
-        GetRooms = 11
+        GetRooms = 11,
+        DeleteFriendship = 12,
+
     }
 }

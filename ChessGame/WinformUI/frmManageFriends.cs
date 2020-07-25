@@ -88,10 +88,10 @@ namespace WinformUI
             int row_index = e.RowIndex;
             if (row_index != -1)
             {
-                User user = await bLUser.GetJustUserAsync(dgv.Rows[row_index].Cells[3].Value.ToString());
+                User friend = await bLUser.GetJustUserAsync(dgv.Rows[row_index].Cells[3].Value.ToString());
 
                 //MessageBox.Show(user.ID.ToString());
-                int friend_ID = user.ID;
+                int friend_ID = friend.ID;
 
                 if (dgv.Columns[e.ColumnIndex].Name == "Action")
                 {
@@ -106,9 +106,8 @@ namespace WinformUI
                 }
                 else if (dgv.Columns[e.ColumnIndex].Name == "Delete")
                 {
-                    Friendship friendship = await bLFriend.GetJustFriendAsync(Constant.USER_ID, friend_ID);
 
-                    await bLFriend.DeleteFriendAsync(friendship);
+                    await ClientHelper.DeleteFriendshipAsync(friend_ID);
                     await LoadFriendAsync();
 
                 }  

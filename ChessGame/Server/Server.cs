@@ -152,6 +152,12 @@ namespace Server
                     }
                     await client.ReceivingClient.SendMessageAsync(JsonConvert.SerializeObject(messageModel));
                     break;
+                case (int)MessageCode.DeleteFriendship:
+                    ConsoleLog(client.User.Name + " delete friend");
+                    await new BLFriend().DeleteFriendAsync(JsonConvert.DeserializeObject<FriendshipModel>(messageModel.Data.ToString()));
+                    await client.ReceivingClient.SendMessageAsync(JsonConvert.SerializeObject(new MessageModel { Code = (int)MessageCode.Success}));
+                    break;
+
             }
         }
 

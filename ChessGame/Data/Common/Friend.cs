@@ -8,6 +8,7 @@ namespace Data.Common
 {
     public class Friend
     {
+        public int Id { get; set; }
         public string Username { get; set; }
         public bool Active { get; set; }
     }

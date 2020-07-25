@@ -184,5 +184,15 @@ namespace Helper.Client
 
             return JsonConvert.DeserializeObject<List<RoomModel>>(messageModel.Data.ToString());
         }
+
+        public static async Task<MessageModel> DeleteFriendshipAsync(int friendId)
+        {
+            await SendingMessageAsync((int)MessageCode.DeleteFriendship, new FriendshipModel { UserId = Client.User.Id, FriendId = friendId});
+
+            MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(await Client.SendingClient.ReceiveMessageAsync());
+            if (messageModel == null)
+                messageModel = new MessageModel() { Code = (int)MessageCode.Error, Data = "Lỗi không xác định" };
+            return messageModel;
+        }
     }
 }

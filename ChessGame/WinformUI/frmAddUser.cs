@@ -58,7 +58,7 @@ namespace WinformUI
 
         private async Task<bool> CheckUserAsync(string username)
         {
-            List<User> lstAllUser = await bLUser.GetAllUserAsync();
+            List<User> lstAllUser = await BLUser.GetAllUserAsync();
             for (int i = 0; i < lstAllUser.Count; i++)
             {
                 if (username == lstAllUser[i].Username)

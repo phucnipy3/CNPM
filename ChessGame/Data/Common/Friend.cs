@@ -10,6 +10,6 @@ namespace Data.Common
     {
         public int Id { get; set; }
         public string Username { get; set; }
-        public bool Active { get; set; }
+        public string State { get; set; }
     }
 }

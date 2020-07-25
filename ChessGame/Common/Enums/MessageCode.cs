@@ -14,6 +14,9 @@
         GetListFriend = 10,
         GetRooms = 11,
         DeleteFriendship = 12,
-
+        GetGame = 14,
+        GetRank = 16,
+        AddFeedback = 18,
+        ManageUser = 20,
     }
 }

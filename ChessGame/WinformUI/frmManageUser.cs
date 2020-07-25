@@ -1,6 +1,7 @@
 ﻿using Data.BusinessLogic;
 using Data.Common;
 using Data.Entities;
+using Helper.Client;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -31,7 +32,7 @@ namespace WinformUI
             int yOffset = 4;
 
             //Index of Header column from where the merging will start.
-            int columnIndex = 2;
+            int columnIndex = 0;
 
             //Number of Header columns to be merged.
             int columnCount = 2;
@@ -60,7 +61,7 @@ namespace WinformUI
 
         private async void frmManageUser_Load(object sender, EventArgs e)
         {
-            List<ManagerUser> managerUsers = await bLUser.ManagerUserAsync(Constant.USER_ID);
+            List<ManagerUser> managerUsers = await ClientHelper.GetManagerUserAsync(ClientHelper.Client.User.Id);
             dgvUser.DataSource = managerUsers;
         }
 
@@ -72,7 +73,7 @@ namespace WinformUI
 
         private async void frmManageUser_Activated(object sender, EventArgs e)
         {
-            List<ManagerUser> managerUsers = await bLUser.ManagerUserAsync(Constant.USER_ID);
+            List<ManagerUser> managerUsers = await ClientHelper.GetManagerUserAsync(ClientHelper.Client.User.Id);
             dgvUser.DataSource = managerUsers;
         }
 

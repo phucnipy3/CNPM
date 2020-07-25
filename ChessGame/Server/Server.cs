@@ -7,6 +7,7 @@ using Common.SendMail;
 using Communication.Common;
 using Communication.Server;
 using Data.BusinessLogic;
+using Data.Entities;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -161,6 +162,26 @@ namespace Server
                     }
                     else messageModel.Data = null;
 
+                    await client.ReceivingClient.SendMessageAsync(JsonConvert.SerializeObject(messageModel));
+                    break;
+                case (int)MessageCode.GetGame:
+                    ConsoleLog(client.User.Name + " get game");
+                    messageModel.Data = await new BLGame().GetGamesAsync();
+                    await client.ReceivingClient.SendMessageAsync(JsonConvert.SerializeObject(messageModel));
+                    break;
+                case (int)MessageCode.GetRank:
+                    ConsoleLog(client.User.Name + " get rank ");
+                    messageModel.Data = await BLElo.GetRankTableAsync(JsonConvert.DeserializeObject<RankConditionModel>(messageModel.Data.ToString()));
+                    await client.ReceivingClient.SendMessageAsync(JsonConvert.SerializeObject(messageModel));
+                    break;
+                case (int)MessageCode.AddFeedback:
+                    ConsoleLog(client.User.Name + " Add feedback");
+                    await BLFeedback.AddFeedbackAsync(JsonConvert.DeserializeObject<Feedback>(messageModel.Data.ToString()));
+                    await client.ReceivingClient.SendMessageAsync(JsonConvert.SerializeObject(new MessageModel { Code = (int)MessageCode.Success }));
+                    break;
+                case (int)MessageCode.ManageUser:
+                    ConsoleLog(client.User.Name + " manage users ");
+                    messageModel.Data = await BLUser.ManagerUserAsync(int.Parse(messageModel.Data.ToString()));
                     await client.ReceivingClient.SendMessageAsync(JsonConvert.SerializeObject(messageModel));
                     break;
             }

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,24 +18,18 @@ namespace Data.BusinessLogic
         {
             bLUser = new BLUser();
         }
-        public async Task<List<Friend>> GetFriendByUserNameAsync(int ID)
+        public async Task<List<Friend>> GetFriendByUserNameAsync(int id)
         {
             using (DatabaseContext db = new DatabaseContext())
             {
-                List<Friendship> lstFriendships = db.Friendships.Where(x => x.UserId == ID).ToList();
-
-                List<Friend> lstUsers = new List<Friend>();
-                for (int i = 0; i < lstFriendships.Count; i++)
+                var model = await db.Friendships.Where(x => x.UserId == id).Select(y => new Friend
                 {
-                    User users = new User();
-                    users = await bLUser.GetJustUserByIDAsync(lstFriendships[i].FriendId.Value);
-                    Friend friend = new Friend();
-                    friend.Id = users.Id;
-                    friend.Username = users.Username;
-                    friend.Active = users.Active.GetValueOrDefault();
-                    lstUsers.Add(friend);
-                }
-                return lstUsers;
+                    Id = y.FriendId.Value,
+                    State = y.Friend.Active.Value? "Hoạt động" : "Ngoại tuyến",
+                    Username = y.Friend.Username
+                }).ToListAsync();
+
+                return model;
             }
         }
 

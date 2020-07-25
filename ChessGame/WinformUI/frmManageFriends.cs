@@ -88,10 +88,8 @@ namespace WinformUI
             int row_index = e.RowIndex;
             if (row_index != -1)
             {
-                User friend = await bLUser.GetJustUserAsync(dgv.Rows[row_index].Cells[3].Value.ToString());
-
-                //MessageBox.Show(user.ID.ToString());
-                int friend_ID = friend.Id;
+               
+                int friend_ID = int.Parse(dgv.Rows[row_index].Cells["ID"].Value.ToString());
 
                 if (dgv.Columns[e.ColumnIndex].Name == "Action")
                 {
@@ -107,8 +105,14 @@ namespace WinformUI
                 else if (dgv.Columns[e.ColumnIndex].Name == "Delete")
                 {
 
-                    await ClientHelper.DeleteFriendshipAsync(friend_ID);
-                    await LoadFriendAsync();
+                    var result = MessageBox.Show("Bạn có muôn xóa người bạn này không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    if (result == DialogResult.Yes)
+                    {
+                        await ClientHelper.DeleteFriendshipAsync(friend_ID);
+                        await LoadFriendAsync();
+                    }    
+                    
+
 
                 }  
             }

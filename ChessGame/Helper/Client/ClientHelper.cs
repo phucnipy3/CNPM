@@ -6,6 +6,7 @@ using Common.Models;
 using Communication.Client;
 using Communication.Common;
 using Data.Common;
+using Data.Entities;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -193,6 +194,48 @@ namespace Helper.Client
             if (messageModel == null)
                 messageModel = new MessageModel() { Code = (int)MessageCode.Error, Data = "Lỗi không xác định" };
             return messageModel;
+        }
+        public static async Task<List<GameModel>> GetGameAsync()
+        {
+            await SendingMessageAsync((int)MessageCode.GetGame, null);
+
+            MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(await Client.SendingClient.ReceiveMessageAsync());
+            if (messageModel.Data == null)
+                return new List<GameModel>();
+
+            return JsonConvert.DeserializeObject<List<GameModel>>(messageModel.Data.ToString());
+        }
+
+        public static async Task<List<RankTable>> GetRankAsync(RankConditionModel rankCondition)
+        {
+            await SendingMessageAsync((int)MessageCode.GetRank, rankCondition);
+
+            MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(await Client.SendingClient.ReceiveMessageAsync());
+            if (messageModel.Data == null)
+                return new List<RankTable>();
+
+            return JsonConvert.DeserializeObject<List<RankTable>>(messageModel.Data.ToString());
+        }
+
+        public static async Task<MessageModel> AddFeedbackAsync(Feedback feedback)
+        {
+            await SendingMessageAsync((int)MessageCode.AddFeedback, feedback);
+
+            MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(await Client.SendingClient.ReceiveMessageAsync());
+            if (messageModel == null)
+                messageModel = new MessageModel() { Code = (int)MessageCode.Error, Data = "Lỗi không xác định" };
+            return messageModel;
+        }
+
+        public static async Task<List<ManagerUser>> GetManagerUserAsync(int id)
+        {
+            await SendingMessageAsync((int)MessageCode.ManageUser, id);
+
+            MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(await Client.SendingClient.ReceiveMessageAsync());
+            if (messageModel.Data == null)
+                return new List<ManagerUser>();
+
+            return JsonConvert.DeserializeObject<List<ManagerUser>>(messageModel.Data.ToString());
         }
     }
 }

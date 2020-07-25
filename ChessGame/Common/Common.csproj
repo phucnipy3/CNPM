@@ -53,10 +53,12 @@
     <Compile Include="Extensions\TcpClientExtension.cs" />
     <Compile Include="Logger\Logger.cs" />
     <Compile Include="Models\ChangePasswordModel.cs" />
+    <Compile Include="Models\FeedbackModel.cs" />
     <Compile Include="Models\FriendshipModel.cs" />
     <Compile Include="Models\GameModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\MessageModel.cs" />
+    <Compile Include="Models\RankConditionModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\RoomModel.cs" />
     <Compile Include="Models\UserModel.cs" />

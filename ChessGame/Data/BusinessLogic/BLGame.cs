@@ -26,7 +26,7 @@ namespace Data.BusinessLogic
         {
             using (DatabaseContext db = new DatabaseContext())
             {
-                return await db.Games.Where(x => x.Name == name).SingleOrDefaultAsync();
+                return await db.Games.Where(x => x.Name == name).FirstOrDefaultAsync();
             }
         }
     }

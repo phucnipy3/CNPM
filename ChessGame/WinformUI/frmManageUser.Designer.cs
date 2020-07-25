@@ -41,9 +41,10 @@
             // btnAdd
             // 
             this.btnAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
-            this.btnAdd.Location = new System.Drawing.Point(15, 12);
+            this.btnAdd.Location = new System.Drawing.Point(22, 18);
+            this.btnAdd.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(102, 30);
+            this.btnAdd.Size = new System.Drawing.Size(153, 46);
             this.btnAdd.TabIndex = 0;
             this.btnAdd.Text = "Thêm mới";
             this.btnAdd.UseVisualStyleBackColor = true;
@@ -51,6 +52,7 @@
             // 
             // dgvUser
             // 
+            this.dgvUser.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvUser.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvUser.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Id,
@@ -58,40 +60,45 @@
             this.Status,
             this.Lock,
             this.Logout});
-            this.dgvUser.Location = new System.Drawing.Point(15, 55);
+            this.dgvUser.Location = new System.Drawing.Point(22, 85);
+            this.dgvUser.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dgvUser.Name = "dgvUser";
             this.dgvUser.RowHeadersWidth = 62;
-            this.dgvUser.Size = new System.Drawing.Size(538, 261);
+            this.dgvUser.Size = new System.Drawing.Size(807, 402);
             this.dgvUser.TabIndex = 1;
             this.dgvUser.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUser_CellClick);
             this.dgvUser.Paint += new System.Windows.Forms.PaintEventHandler(this.dgvUser_Paint);
             // 
             // Id
             // 
+            this.Id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.Id.DataPropertyName = "ID";
             this.Id.HeaderText = "Id";
             this.Id.MinimumWidth = 8;
             this.Id.Name = "Id";
-            this.Id.Width = 150;
+            this.Id.Width = 80;
             // 
             // Ingame
             // 
+            this.Ingame.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.Ingame.DataPropertyName = "Ingame";
             this.Ingame.HeaderText = "Ingame";
             this.Ingame.MinimumWidth = 8;
             this.Ingame.Name = "Ingame";
-            this.Ingame.Width = 150;
+            this.Ingame.Width = 190;
             // 
             // Status
             // 
+            this.Status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.Status.DataPropertyName = "Status";
             this.Status.HeaderText = "Trạng thái";
             this.Status.MinimumWidth = 8;
             this.Status.Name = "Status";
-            this.Status.Width = 150;
+            this.Status.Width = 180;
             // 
             // Lock
             // 
+            this.Lock.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.Lock.HeaderText = "Khóa/ Mở";
             this.Lock.MinimumWidth = 8;
             this.Lock.Name = "Lock";
@@ -99,10 +106,11 @@
             this.Lock.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.Lock.Text = "Khóa/ Mở";
             this.Lock.UseColumnTextForButtonValue = true;
-            this.Lock.Width = 150;
+            this.Lock.Width = 147;
             // 
             // Logout
             // 
+            this.Logout.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.Logout.HeaderText = "Đăng xuất";
             this.Logout.MinimumWidth = 8;
             this.Logout.Name = "Logout";
@@ -110,15 +118,16 @@
             this.Logout.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.Logout.Text = "Đăng xuất";
             this.Logout.UseColumnTextForButtonValue = true;
-            this.Logout.Width = 150;
+            this.Logout.Width = 146;
             // 
             // frmManageUser
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(571, 335);
+            this.ClientSize = new System.Drawing.Size(856, 515);
             this.Controls.Add(this.dgvUser);
             this.Controls.Add(this.btnAdd);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmManageUser";

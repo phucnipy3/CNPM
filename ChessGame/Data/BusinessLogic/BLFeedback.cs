@@ -1,4 +1,5 @@
-﻿using Data.Common;
+﻿using Common.Models;
+using Data.Common;
 using Data.Entities;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace Data.BusinessLogic
     public class BLFeedback
     {
 
-        public async Task<bool> AddFeedbackAsync(Feedback feedback)
+        public async static Task<bool> AddFeedbackAsync(Feedback feedback)
         {
             using (DatabaseContext db = new DatabaseContext())
             {

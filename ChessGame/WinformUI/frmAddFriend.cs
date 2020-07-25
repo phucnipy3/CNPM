@@ -34,7 +34,6 @@ namespace WinformUI
             string friend_name = txtInputIngame.Text.Trim().ToString();
             if (await bLUser.Exists(friend_name))
             {
-               
                 User friend = await bLUser.GetJustUserAsync(friend_name);
                 if (! await bLFriend.ExistsFriendship(Constant.USER_ID, friend.Id))
                 {
@@ -46,10 +45,6 @@ namespace WinformUI
                     await bLFriend.AddFriendAsync(friendship);
 
                     MessageBox.Show("Kết bạn thành công!");
-
-
-                    frmManageFriends manageFriends = new frmManageFriends();
-                    manageFriends.btnRefresh_Click(null, null);
 
                     Close();
                 }

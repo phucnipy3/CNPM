@@ -1,6 +1,8 @@
-﻿using Data.BusinessLogic;
+﻿using Common.Models;
+using Data.BusinessLogic;
 using Data.Common;
 using Data.Entities;
+using Helper.Client;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -27,24 +29,45 @@ namespace WinformUI
 
         private async void frmRank_Load(object sender, EventArgs e)
         {
-            var lstGame = await bLGame.GetGamesAsync();
+            var lstGame = await ClientHelper.GetGameAsync();
             cmbGames.DataSource = lstGame;
             cmbGames.DisplayMember = "Name";
-            cmbGames.ValueMember = "Name";
-            cmbGames.Text = lstGame[0].Name.ToString();
+            cmbGames.ValueMember = "Id";
 
-            await LoadDataAsync(cmbGames.Text.Trim().ToString());
+            cmbGames.SelectedIndex = 0;
+
+            await LoadDataAsync(int.Parse(cmbGames.SelectedValue.ToString()));
         }
 
 
-        private async Task LoadDataAsync(string name)
+        private async Task LoadDataAsync(int GameId)
         {
-            Game game = await bLGame.GetJustGameByNameAsync(name);
-            int id = game.Id;
+            RankConditionModel rankCondition = new RankConditionModel();
+            rankCondition.GameId = GameId;
+            rankCondition.UserId = ClientHelper.Client.User.Id;
 
-            List<RankTable> lstRank = await bLElo.GetRankTableAsync(id);
+            List<RankTable> lstRank = await BLElo.GetRankTableAsync(rankCondition);
+            for (int i = 0; i < lstRank.Count; i ++)
+            {
+                if (i > 9)
+                {
+                    lstRank[i].Rank = "10+";
+                }    
+                lstRank[i].Rank = (i+1).ToString();
+            }    
 
+            
             dgvRank.DataSource = lstRank;
+
+            foreach(DataGridViewRow row in dgvRank.Rows)
+            {
+                if (row.Cells["Id"].Value.ToString() == rankCondition.UserId.ToString())
+                {
+                    row.DefaultCellStyle.BackColor = Color.SkyBlue;
+                    row.DefaultCellStyle.ForeColor = Color.Black;
+
+                }    
+            }    
         }
 
         private async void cmbGames_SelectionChangeCommitted(object sender, EventArgs e)
@@ -53,8 +76,8 @@ namespace WinformUI
 
             if (senderComboBox.SelectionLength > 0)
             {
-                string name = senderComboBox.GetItemText(senderComboBox.SelectedItem);
-                await LoadDataAsync(name);
+                int Id = int.Parse(senderComboBox.SelectedValue.ToString());
+                await LoadDataAsync(Id);
             }
         }
     }

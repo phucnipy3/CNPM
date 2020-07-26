@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.ptbPlayGround = new System.Windows.Forms.PictureBox();
             this.rchTxtChat = new System.Windows.Forms.RichTextBox();
             this.rchTxtMessage = new System.Windows.Forms.RichTextBox();
             this.btnSendMessage = new System.Windows.Forms.Button();
@@ -38,16 +37,9 @@
             this.btnInvite = new System.Windows.Forms.Button();
             this.btnReady = new System.Windows.Forms.Button();
             this.btnAddFriend = new System.Windows.Forms.Button();
+            this.ptbPlayGround = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.ptbPlayGround)).BeginInit();
             this.SuspendLayout();
-            // 
-            // ptbPlayGround
-            // 
-            this.ptbPlayGround.Location = new System.Drawing.Point(13, 12);
-            this.ptbPlayGround.Name = "ptbPlayGround";
-            this.ptbPlayGround.Size = new System.Drawing.Size(400, 400);
-            this.ptbPlayGround.TabIndex = 0;
-            this.ptbPlayGround.TabStop = false;
             // 
             // rchTxtChat
             // 
@@ -133,6 +125,16 @@
             this.btnAddFriend.TabIndex = 5;
             this.btnAddFriend.Text = "Kết bạn";
             this.btnAddFriend.UseVisualStyleBackColor = true;
+            // 
+            // ptbPlayGround
+            // 
+            this.ptbPlayGround.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ptbPlayGround.Location = new System.Drawing.Point(13, 12);
+            this.ptbPlayGround.Name = "ptbPlayGround";
+            this.ptbPlayGround.Size = new System.Drawing.Size(400, 400);
+            this.ptbPlayGround.TabIndex = 0;
+            this.ptbPlayGround.TabStop = false;
+            this.ptbPlayGround.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ptbPlayGround_MouseClick);
             // 
             // frmPlayGame
             // 

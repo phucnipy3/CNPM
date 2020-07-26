@@ -21,6 +21,8 @@
         CreateRoom = 13,
         RefreshRooms = 15,
         JoinRoom = 17,
-        RefreshCurrentRoom = 19
+        RefreshCurrentRoom = 19,
+        CaroMove = 40,
+        InvalidMove = 41,
     }
 }

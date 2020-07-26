@@ -1,5 +1,6 @@
 ﻿using Data.BusinessLogic;
 using Data.Entities;
+using Helper.Client;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -41,7 +42,7 @@ namespace WinformUI
                 notification.TimeEnd = DateTime.Parse(timeEnd);
                 notification.Status = true;
 
-                await bLNotification.AddNotificationAsync(notification);
+                await ClientHelper.AddNotificationAsync(notification);
                 MessageBox.Show("Đã cập nhật thông báo!");
                 Close();
             }

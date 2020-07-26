@@ -181,10 +181,63 @@ namespace Server
                     break;
                 case (int)MessageCode.ManageUser:
                     ConsoleLog(client.User.Name + " manage users ");
-                    messageModel.Data = await BLUser.ManagerUserAsync(int.Parse(messageModel.Data.ToString()));
+                    messageModel.Data = await BLUser.ManagerUserAsync();
                     await client.ReceivingClient.SendMessageAsync(JsonConvert.SerializeObject(messageModel));
                     break;
+                case (int)MessageCode.ChangeStatus:
+                    ConsoleLog(client.User.Name + " change status user");
+                    var changeStatus = JsonConvert.DeserializeObject<ChangeStatusModel>(messageModel.Data.ToString());
+                    bool hasChangeStatus = await BLUser.ChangeStatusAsync(changeStatus.UserName, changeStatus.Status);
+                    await client.ReceivingClient.SendMessageAsync(JsonConvert.SerializeObject(new MessageModel { Code = hasChangeStatus ? (int)MessageCode.Success : (int)MessageCode.Error }));
+                    break;
+                case (int)MessageCode.GetAllUser:
+                    ConsoleLog(client.User.Name + " get all user");
+                    messageModel.Data = await BLUser.GetAllManageUserAsync();
+                    await client.ReceivingClient.SendMessageAsync(JsonConvert.SerializeObject(messageModel));
+                    break;
+                case (int)MessageCode.AddNotification:
+                    ConsoleLog(client.User.Name + " Add notification");
+                    await BLNotification.AddNotificationAsync(JsonConvert.DeserializeObject<Notification>(messageModel.Data.ToString()));
+                    await client.ReceivingClient.SendMessageAsync(JsonConvert.SerializeObject(new MessageModel { Code = (int)MessageCode.Success }));
+                    break;
+                case (int)MessageCode.GetFeedback:
+                    ConsoleLog(client.User.Name + " get all feedback");
+                    messageModel.Data = await BLFeedback.GetAllFeedbackAsync();
+                    await client.ReceivingClient.SendMessageAsync(JsonConvert.SerializeObject(messageModel));
+                    break;
+                case (int)MessageCode.CheckFeedback:
+                    ConsoleLog(client.User.Name + " check feedback");
+                    messageModel.Data = await BLFeedback.CheckFeedbackAsync();
+                    await client.ReceivingClient.SendMessageAsync(JsonConvert.SerializeObject(messageModel));
+                    break;
+                case (int)MessageCode.Maintain:
+                    ConsoleLog(client.User.Name + " add maintaince information");
+                    await BLMaintaince.AddMaintainceAsync(JsonConvert.DeserializeObject<MaintainceInfomation>(messageModel.Data.ToString()));
+                    await client.ReceivingClient.SendMessageAsync(JsonConvert.SerializeObject(new MessageModel { Code = (int)MessageCode.Success }));
+                    break;
+                case (int)MessageCode.ForceLogout:
+                    ConsoleLog(client.User.Name + " send request force logout");
+                    bool hasForceLogout = await ForceLogoutAsync(messageModel.Data);
+                    await client.ReceivingClient.SendMessageAsync(JsonConvert.SerializeObject(new MessageModel { Code = hasForceLogout ? (int)MessageCode.Success : (int)MessageCode.Error }));
+                    break;
             }
+        }
+
+        private async Task<bool> ForceLogoutAsync(object data)
+        {
+            int id;
+            if (int.TryParse(data.ToString(), out id))
+            {
+                var user = users.FirstOrDefault(x => x.User.Id == id);
+                if (user != null)
+                {
+                    users.Remove(user);
+                    ConsoleLog(user.User.Name + " force logout");
+                    await new BLUser().ChangeActiveAsync(id, false);
+                    return true;
+                }
+            }
+            return false;
         }
 
         private async Task LogoutAsync(object data)

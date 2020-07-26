@@ -1,5 +1,7 @@
-﻿using Data.BusinessLogic;
+﻿using Common.Enums;
+using Data.BusinessLogic;
 using Data.Entities;
+using Helper.Client;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -32,8 +34,8 @@ namespace WinformUI
             maintaince.StartTime = DateTime.Parse(startTime);
             maintaince.EndTime = DateTime.Parse(endTime);
             maintaince.Status = true;
-
-            if (await bLMaintaince.AddMaintainceAsync(maintaince))
+            var result = await ClientHelper.AddMaintainAsync(maintaince);
+            if (result.Code == (int)MessageCode.Success)
             {
                 MessageBox.Show("Thành công!");
                 Close();

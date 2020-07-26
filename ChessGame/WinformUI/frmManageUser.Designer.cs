@@ -63,8 +63,10 @@
             this.dgvUser.Location = new System.Drawing.Point(22, 85);
             this.dgvUser.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dgvUser.Name = "dgvUser";
+            this.dgvUser.ReadOnly = true;
+            this.dgvUser.RowHeadersVisible = false;
             this.dgvUser.RowHeadersWidth = 62;
-            this.dgvUser.Size = new System.Drawing.Size(807, 402);
+            this.dgvUser.Size = new System.Drawing.Size(897, 402);
             this.dgvUser.TabIndex = 1;
             this.dgvUser.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUser_CellClick);
             this.dgvUser.Paint += new System.Windows.Forms.PaintEventHandler(this.dgvUser_Paint);
@@ -80,21 +82,19 @@
             // 
             // Ingame
             // 
-            this.Ingame.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Ingame.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Ingame.DataPropertyName = "Ingame";
             this.Ingame.HeaderText = "Ingame";
             this.Ingame.MinimumWidth = 8;
             this.Ingame.Name = "Ingame";
-            this.Ingame.Width = 190;
             // 
             // Status
             // 
-            this.Status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Status.DataPropertyName = "Status";
             this.Status.HeaderText = "Trạng thái";
             this.Status.MinimumWidth = 8;
             this.Status.Name = "Status";
-            this.Status.Width = 180;
             // 
             // Lock
             // 
@@ -106,7 +106,7 @@
             this.Lock.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.Lock.Text = "Khóa/ Mở";
             this.Lock.UseColumnTextForButtonValue = true;
-            this.Lock.Width = 147;
+            this.Lock.Width = 140;
             // 
             // Logout
             // 
@@ -118,13 +118,13 @@
             this.Logout.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.Logout.Text = "Đăng xuất";
             this.Logout.UseColumnTextForButtonValue = true;
-            this.Logout.Width = 146;
+            this.Logout.Width = 140;
             // 
             // frmManageUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(856, 515);
+            this.ClientSize = new System.Drawing.Size(932, 515);
             this.Controls.Add(this.dgvUser);
             this.Controls.Add(this.btnAdd);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);

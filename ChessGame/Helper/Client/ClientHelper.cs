@@ -108,6 +108,16 @@ namespace Helper.Client
             }
         }
 
+        public static async Task<MessageModel> ForceLogout(string id)
+        {
+            await SendingMessageAsync((int)MessageCode.ForceLogout, id);
+
+            MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(await Client.SendingClient.ReceiveMessageAsync());
+            if (messageModel == null)
+                messageModel = new MessageModel() { Code = (int)MessageCode.Error, Data = "Lỗi không xác định" };
+            return messageModel;
+        }
+
         public static async Task<string> ForgetPasswordAsync(string username)
         {
             try
@@ -227,15 +237,79 @@ namespace Helper.Client
             return messageModel;
         }
 
-        public static async Task<List<ManagerUser>> GetManagerUserAsync(int id)
+        public static async Task<List<ManagerUser>> GetManagerUserAsync()
         {
-            await SendingMessageAsync((int)MessageCode.ManageUser, id);
+            await SendingMessageAsync((int)MessageCode.ManageUser, null);
 
             MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(await Client.SendingClient.ReceiveMessageAsync());
             if (messageModel.Data == null)
                 return new List<ManagerUser>();
 
             return JsonConvert.DeserializeObject<List<ManagerUser>>(messageModel.Data.ToString());
+        }
+
+        public static async Task<MessageModel> ChangeStatusAsync(string userName, bool status)
+        {
+            ChangeStatusModel changeStatus = new ChangeStatusModel() { UserName = userName, Status = status };
+            await SendingMessageAsync((int)MessageCode.ChangeStatus, changeStatus);
+
+            MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(await Client.SendingClient.ReceiveMessageAsync());
+            if (messageModel == null)
+                messageModel = new MessageModel() { Code = (int)MessageCode.Error, Data = "Lỗi không xác định" };
+            return messageModel;
+        }
+
+        public static async Task<List<UserModel>> GetAllManageUserAsync()
+        {
+            await SendingMessageAsync((int)MessageCode.GetAllUser, null);
+
+            MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(await Client.SendingClient.ReceiveMessageAsync());
+            if (messageModel.Data == null)
+                return new List<UserModel>();
+
+            return JsonConvert.DeserializeObject<List<UserModel>>(messageModel.Data.ToString());
+        }
+
+        public static async Task<MessageModel> AddNotificationAsync(Notification notification)
+        {
+            await SendingMessageAsync((int)MessageCode.AddNotification, notification);
+
+            MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(await Client.SendingClient.ReceiveMessageAsync());
+            if (messageModel == null)
+                messageModel = new MessageModel() { Code = (int)MessageCode.Error, Data = "Lỗi không xác định" };
+            return messageModel;
+        }
+
+        public static async Task<List<FeedbackModel>> GetAllFeedbackAsync()
+        {
+            await SendingMessageAsync((int)MessageCode.GetFeedback, null);
+
+            MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(await Client.SendingClient.ReceiveMessageAsync());
+            if (messageModel.Data == null)
+                return new List<FeedbackModel>();
+
+            return JsonConvert.DeserializeObject<List<FeedbackModel>>(messageModel.Data.ToString());
+        }
+
+        public static async Task<List<CheckFeedback>> CheckFeedbackAsync()
+        {
+            await SendingMessageAsync((int)MessageCode.CheckFeedback, null);
+
+            MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(await Client.SendingClient.ReceiveMessageAsync());
+            if (messageModel.Data == null)
+                return new List<CheckFeedback>();
+
+            return JsonConvert.DeserializeObject<List<CheckFeedback>>(messageModel.Data.ToString());
+        }
+
+        public static async Task<MessageModel> AddMaintainAsync(MaintainceInfomation maintaince)
+        {
+            await SendingMessageAsync((int)MessageCode.Maintain, maintaince);
+
+            MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(await Client.SendingClient.ReceiveMessageAsync());
+            if (messageModel == null)
+                messageModel = new MessageModel() { Code = (int)MessageCode.Error, Data = "Lỗi không xác định" };
+            return messageModel;
         }
     }
 }

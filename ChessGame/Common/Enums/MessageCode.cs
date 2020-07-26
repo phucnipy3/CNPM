@@ -18,5 +18,12 @@
         GetRank = 16,
         AddFeedback = 18,
         ManageUser = 20,
+        ChangeStatus = 22,
+        GetAllUser = 24,
+        AddNotification = 26,
+        GetFeedback = 28,
+        CheckFeedback = 30,
+        Maintain = 32,
+        ForceLogout = 34,
     }
 }

@@ -9,7 +9,7 @@ namespace Data.BusinessLogic
 {
     public class BLMaintaince
     {
-        public async Task<bool> AddMaintainceAsync(MaintainceInfomation maintaince )
+        public async static Task<bool> AddMaintainceAsync(MaintainceInfomation maintaince )
         {
             using (DatabaseContext db = new DatabaseContext())
             {

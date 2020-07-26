@@ -10,7 +10,7 @@ namespace Data.BusinessLogic
 {
     public class BLNotification
     {
-        public async Task AddNotificationAsync (Notification notification)
+        public async static Task AddNotificationAsync (Notification notification)
         {
             using (DatabaseContext db = new DatabaseContext())
             {

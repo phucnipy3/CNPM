@@ -1,5 +1,6 @@
 ﻿using Data.BusinessLogic;
 using Data.Common;
+using Helper.Client;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -44,9 +45,6 @@ namespace WinformUI
         {
             frmManageUser manageUser = new frmManageUser();
             manageUser.Show();
-
-            //frmInvite invite = new frmInvite();
-            //invite.Show();
         }
 
         private async void frmMainAdmin_FormClosing(object sender, FormClosingEventArgs e)
@@ -57,8 +55,7 @@ namespace WinformUI
                 DialogResult result = MessageBox.Show("Bạn có muốn thoát không?", "Thoát", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information);
                 if (result == DialogResult.Yes)
                 {
-                    await bLUser.ChangeActiveAsync(Constant.ADMINNAME, false);
-                    Application.Exit();
+                    await ClientHelper.LogoutAsync();
                 }
                 else
                 {

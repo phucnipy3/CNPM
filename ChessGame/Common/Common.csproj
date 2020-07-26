@@ -53,6 +53,7 @@
     <Compile Include="Extensions\TcpClientExtension.cs" />
     <Compile Include="Logger\Logger.cs" />
     <Compile Include="Models\ChangePasswordModel.cs" />
+    <Compile Include="Models\ChangeStatusModel.cs" />
     <Compile Include="Models\FeedbackModel.cs" />
     <Compile Include="Models\FriendshipModel.cs" />
     <Compile Include="Models\GameModel.cs" />

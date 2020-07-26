@@ -37,37 +37,27 @@ namespace WinformUI
         }
         private void dataGridView2_Paint(object sender, PaintEventArgs e)
         {
-            //Offsets to adjust the position of the merged Header.
-            int heightOffset = -5;
-            int widthOffset = -2;
+            int heightOffset = -3;
+            int widthOffset = 0;
             int xOffset = 0;
-            int yOffset = 4;
+            int yOffset = 0;
 
-            //Index of Header column from where the merging will start.
-            int columnIndex = 2;
+            int columnIndex = 0;
 
-            //Number of Header columns to be merged.
             int columnCount = 3;
 
-            //Get the position of the Header Cell.
-            Rectangle headerCellRectangle = dgvFriends.GetCellDisplayRectangle(columnIndex, 0, true);
+            Rectangle headerCellRectangle = dgvFriends.GetCellDisplayRectangle(columnIndex, -1, true);
 
-            //X coordinate of the merged Header Column.
             int xCord = headerCellRectangle.Location.X + xOffset;
 
-            //Y coordinate of the merged Header Column.
-            int yCord = headerCellRectangle.Location.Y - headerCellRectangle.Height + yOffset;
+            int yCord = headerCellRectangle.Location.Y + yOffset;
 
-            //Calculate Width of merged Header Column by adding the widths of all Columns to be merged.
-            int mergedHeaderWidth = dgvFriends.Columns[columnIndex].Width + dgvFriends.Columns[columnIndex + columnCount - 1].Width +  dgvFriends.Columns[columnIndex + columnCount - 2].Width + widthOffset;
+            int mergedHeaderWidth = dgvFriends.Columns[columnIndex].Width + dgvFriends.Columns[columnIndex + columnCount - 1].Width + dgvFriends.Columns[columnIndex + columnCount - 2].Width + widthOffset;
 
-            //Generate the merged Header Column Rectangle.
             Rectangle mergedHeaderRect = new Rectangle(xCord, yCord, mergedHeaderWidth, headerCellRectangle.Height + heightOffset);
 
-            //Draw the merged Header Column Rectangle.
             e.Graphics.FillRectangle(new SolidBrush(Color.White), mergedHeaderRect);
 
-            //Draw the merged Header Column Text.
             e.Graphics.DrawString("Thao tác", dgvFriends.ColumnHeadersDefaultCellStyle.Font, Brushes.Black, xCord + 2, yCord + 3);
         }
 
@@ -125,7 +115,7 @@ namespace WinformUI
 
         private async void frmManageFriends_Activated(object sender, EventArgs e)
         {
-            await LoadFriendAsync();
+            //await LoadFriendAsync();
         }
     }
 }

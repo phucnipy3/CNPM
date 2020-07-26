@@ -68,6 +68,26 @@ namespace Data.BusinessLogic
             }
         }
 
+        public async static Task<List<UserModel>> GetAllManageUserAsync()
+        {
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                //return await db.Users.ToListAsync();
+                return await db.Users.Select(x => new UserModel()
+                {
+                    Id = x.Id,
+                    Username = x.Username,
+                    Name = x.Name,
+                    Avatar = x.Avatar,
+                    Phone = x.Phone,
+                    Email = x.Email,
+                    Experience = x.Experience ?? 0,
+                    Permission = x.Permission ?? 0
+                }).ToListAsync();
+            }
+        }
+
+
         public async Task<string> GetEmailByUsernameAsync(string username)
         {
             using (DatabaseContext db = new DatabaseContext())
@@ -92,11 +112,22 @@ namespace Data.BusinessLogic
             }
         }
 
-        public async Task<User> GetJustUserByIDAsync(int ID)
+        public async static Task<UserModel> GetJustUserByIDAsync(int ID)
         {
             using (DatabaseContext db = new DatabaseContext())
             {
-                return await db.Users.Where(x => x.Id == ID).SingleOrDefaultAsync();
+               // return await db.Users.Where(x => x.Id == ID).SingleOrDefaultAsync();
+                return await db.Users.Where(x => x.Id == ID).Select(x => new UserModel()
+                {
+                    Id = x.Id,
+                    Username = x.Username,
+                    Name = x.Name,
+                    Avatar = x.Avatar,
+                    Phone = x.Phone,
+                    Email = x.Email,
+                    Experience = x.Experience ?? 0,
+                    Permission = x.Permission ?? 0
+                }).FirstOrDefaultAsync();
             }
         }
 
@@ -153,51 +184,53 @@ namespace Data.BusinessLogic
             }
         }
 
-        public async Task ChangeStatusAsync(string userName, bool status)
-        {
-            using (DatabaseContext db = new DatabaseContext())
-            {
-                User user = await db.Users.Where(x => x.Username == userName).SingleOrDefaultAsync();
-                if (user != null)
-                {
-                    user.Status = status;
-                    await db.SaveChangesAsync();
-                }
-
-            }
-        }
-
-        public async Task ChangePasswordAsync(string userName, string newpass)
+        public async static Task<bool> ChangeStatusAsync(string userName, bool status)
         {
             using (DatabaseContext db = new DatabaseContext())
             {
                 User user = await db.Users.Where(x => x.Username == userName).FirstOrDefaultAsync();
-                user.Password = Encryptor.MD5Hash(newpass);
-                await db.SaveChangesAsync();
+                if (user != null)
+                {
+                    user.Status = status;
+                    await db.SaveChangesAsync();
+                    return true;
+                }
+                return false;
+
             }
         }
 
-        public async static Task<List<ManagerUser>> ManagerUserAsync(int id)
+        public async Task<bool> ChangePasswordAsync(string userName, string newpass)
         {
             using (DatabaseContext db = new DatabaseContext())
             {
-                List<ManagerUser> lstManagerUsers = new List<ManagerUser>();
-                List<User> lstUsers = await GetAllUserAsync();
-
-                for (int i = 0; i < lstUsers.Count; i++)
+                try
                 {
-                    if (lstUsers[i].Id != id && lstUsers[i].Permission != 1)
-                    {
-                        ManagerUser managerUser = new ManagerUser();
-                        managerUser.ID = lstUsers[i].Id;
-                        managerUser.Ingame = lstUsers[i].Username;
-                        managerUser.Status = lstUsers[i].Status.GetValueOrDefault();
-
-                        lstManagerUsers.Add(managerUser);
-                    }
+                    User user = await db.Users.Where(x => x.Username == userName).FirstOrDefaultAsync();
+                    user.Password = Encryptor.MD5Hash(newpass);
+                    await db.SaveChangesAsync();
+                    return true;
                 }
+                catch
+                {
+                    return false;
+                }
+                
+            }
+        }
 
-                return lstManagerUsers;
+        public async static Task<List<ManagerUser>> ManagerUserAsync()
+        {
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                var data = await db.Users.Where(x => x.Permission == (int)UserRole.Player).Select(x => new ManagerUser()
+                {
+                    ID = x.Id,
+                    Ingame = x.Username,
+                    Status = x.Status ?? false
+                }).ToListAsync();
+
+                return data;
             }
         }
 

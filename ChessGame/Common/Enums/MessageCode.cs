@@ -34,11 +34,12 @@
         ReplyAddFriend = 40,
         InvitePlay = 42,
         ReplyInvitePlay = 44,
+        SendMessage = 46,
         CaroMove = 43,
         InvalidMove = 41,
         ChangeReadyState = 45,
         OutRoom = 47,
-        Notification = 46,
+        Notification = 49,
         GameStarted = 48,
         GameEnded = 50
     }

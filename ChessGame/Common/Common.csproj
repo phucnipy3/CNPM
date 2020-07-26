@@ -72,6 +72,7 @@
     <Compile Include="Models\RankConditionModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\RoomInfomationModel.cs" />
+    <Compile Include="Models\SendMessageModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SendMail\SendEmail.cs" />

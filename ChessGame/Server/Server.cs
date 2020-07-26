@@ -382,6 +382,12 @@ namespace Server
                         await client.SendingClient.SendMessageAsync(JsonConvert.SerializeObject(messageModel));
                     }
                     break;
+                case (int)MessageCode.SendMessage:
+                    ConsoleLog(client.User.Name + " send message");
+                    /////////////////////////////////////////
+                    string addMessage = await BLMesssage.AddMessageAsync(JsonConvert.DeserializeObject<SendMessageModel>(messageModel.Data.ToString()));
+                    await client.ReceivingClient.SendMessageAsync(JsonConvert.SerializeObject(new MessageModel { Code = addMessage ? (int)MessageCode.Success : (int)MessageCode.Error}));
+                    break;
                 case (int)MessageCode.CaroMove:
                     var gameMoveModel = JsonConvert.DeserializeObject<GameMoveModel>(messageModel.Data.ToString());
 
@@ -426,6 +432,8 @@ namespace Server
                 await loser.SendingClient.SendMessageAsync(JsonConvert.SerializeObject(new MessageModel() { Code = (int)MessageCode.RefreshCurrentRoom, Data = room }));
             }
         }
+
+        
 
         private async Task<string> ReplyInvitePlayAsync(object data)
         {

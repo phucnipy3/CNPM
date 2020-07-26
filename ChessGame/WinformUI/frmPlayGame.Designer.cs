@@ -45,6 +45,7 @@
             // 
             this.rchTxtChat.Location = new System.Drawing.Point(419, 12);
             this.rchTxtChat.Name = "rchTxtChat";
+            this.rchTxtChat.ReadOnly = true;
             this.rchTxtChat.Size = new System.Drawing.Size(204, 335);
             this.rchTxtChat.TabIndex = 1;
             this.rchTxtChat.Text = "";
@@ -65,6 +66,7 @@
             this.btnSendMessage.TabIndex = 3;
             this.btnSendMessage.Text = "Gửi";
             this.btnSendMessage.UseVisualStyleBackColor = true;
+            this.btnSendMessage.Click += new System.EventHandler(this.btnSendMessage_Click);
             // 
             // lblPlayerName
             // 
@@ -73,7 +75,7 @@
             this.lblPlayerName.Name = "lblPlayerName";
             this.lblPlayerName.Size = new System.Drawing.Size(155, 37);
             this.lblPlayerName.TabIndex = 4;
-            this.lblPlayerName.Text = "Tên người chơi ";
+            this.lblPlayerName.Text = "Chờ đối thủ...";
             this.lblPlayerName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblOpponentName
@@ -83,7 +85,7 @@
             this.lblOpponentName.Name = "lblOpponentName";
             this.lblOpponentName.Size = new System.Drawing.Size(155, 37);
             this.lblOpponentName.TabIndex = 4;
-            this.lblOpponentName.Text = "Tên đối thủ";
+            this.lblOpponentName.Text = "Chờ đối thủ...";
             this.lblOpponentName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label3
@@ -126,6 +128,7 @@
             this.btnAddFriend.TabIndex = 5;
             this.btnAddFriend.Text = "Kết bạn";
             this.btnAddFriend.UseVisualStyleBackColor = true;
+            this.btnAddFriend.Click += new System.EventHandler(this.btnAddFriend_Click);
             // 
             // ptbPlayGround
             // 

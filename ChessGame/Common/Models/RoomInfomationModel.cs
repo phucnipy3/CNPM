@@ -18,7 +18,7 @@
         public UserModel FirstPlayer { get; set; }
         public UserModel SecondPlayer { get; set; }
         public bool IsInGame { get; set; }
-        public bool IsFriend { get; set; } = true;
+        public bool IsFriend { get; set; } = false;
         public bool FirstPlayerReady { get; set; } = false;
         public bool SecondPlayerReady { get; set; } = false;
     }

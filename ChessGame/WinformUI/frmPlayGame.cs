@@ -6,6 +6,7 @@ using GameEngine.Client;
 using Helper.Client;
 using System;
 using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WinformUI
@@ -61,17 +62,13 @@ namespace WinformUI
             btnReady.Enabled = !roomInfo.IsInGame;
             btnInvite.Enabled = roomInfo.Count < 2;
             ptbPlayGround.Enabled = roomInfo.IsInGame;
+            btnAddFriend.Visible = !roomInfo.IsFriend;
             frmPlayGame_Load(this, null);
             if (roomInfo.IsInGame)
             {
                 var chessman = CaroChessman.O;
-                if (roomInfo.FirstPlayer.Id == ClientHelper.Client.User.Id)
-                    frmNotification.ShowNotification("Trận đấu đã bắt đầu. Bạn là người đi trước!");
-                else
-                {
+                if (roomInfo.FirstPlayer.Id != ClientHelper.Client.User.Id)
                     chessman = CaroChessman.X;
-                    frmNotification.ShowNotification("Trận đấu đã bắt đầu. Bạn là người đi sau!");
-                }
 
                 ClientHelper.StartGame(ptbPlayGround.Width, ptbPlayGround.Height, chessman, roomInfo.RoomId);
             }
@@ -121,6 +118,31 @@ namespace WinformUI
         public void RefreshBoard()
         {
             ptbPlayGround.Image = new Bitmap(ptbPlayGround.Width, ptbPlayGround.Height);
+        }
+
+        private async void btnAddFriend_Click(object sender, EventArgs e)
+        {
+            await ClientHelper.AddFriendAsync(roomInfo.FirstPlayer.Id == ClientHelper.Client.User.Id ? roomInfo.SecondPlayer.Username : roomInfo.FirstPlayer.Username);
+        }
+
+        public async Task RefreshCurrentRoomAsync()
+        {
+            var room = await ClientHelper.GetCurrentRoomAsync(roomInfo.RoomId);
+            if (room != null)
+                RefreshCurrentRoom(room);
+        }
+
+        public void AppendMessage(string message)
+        {
+            rchTxtChat.AppendText(message + "\n");
+            rchTxtChat.SelectionLength = rchTxtChat.Text.Length;
+            rchTxtChat.ScrollToCaret();
+        }
+
+        private async void btnSendMessage_Click(object sender, EventArgs e)
+        {
+            await ClientHelper.SendingMessageAsync((int)MessageCode.RoomMessage, new RoomMessageModel() { RoomId = roomInfo.RoomId, Content = rchTxtMessage.Text });
+            rchTxtMessage.Clear();
         }
     }
 }

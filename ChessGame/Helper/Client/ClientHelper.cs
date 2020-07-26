@@ -112,6 +112,17 @@ namespace Helper.Client
             return messageModel;
         }
 
+        public static async Task<RoomInfomationModel> GetCurrentRoomAsync(int roomId)
+        {
+            await SendingMessageAsync((int)MessageCode.GetCurrentRoom, roomId);
+
+            MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(await Client.SendingClient.ReceiveMessageAsync());
+            if (messageModel == null || messageModel.Data == null)
+                return null;
+
+            return JsonConvert.DeserializeObject<RoomInfomationModel>(messageModel.Data.ToString());
+        }
+
         private static void Client_Disconnected(object sender, EventArgs e)
         {
             MessageBox.Show("Mất kết nối đến máy chủ!", "Thông báo");
@@ -151,7 +162,12 @@ namespace Helper.Client
                 case (int)MessageCode.RefreshCurrentRoom:
                     var frmCurrentRoom = Find("frmPlayGame") as IPlayGameForm;
                     if (frmCurrentRoom != null)
-                        frmCurrentRoom.RefreshCurrentRoom(JsonConvert.DeserializeObject<RoomInfomationModel>(messageModel.Data.ToString()));
+                    {
+                        if (messageModel.Data != null)
+                            frmCurrentRoom.RefreshCurrentRoom(JsonConvert.DeserializeObject<RoomInfomationModel>(messageModel.Data.ToString()));
+                        else await frmCurrentRoom.RefreshCurrentRoomAsync();
+                    }
+
                     break;
                 case (int)MessageCode.CaroMove:
                     try
@@ -185,27 +201,21 @@ namespace Helper.Client
                 case (int)MessageCode.GameEnded:
                     var frmGame = Find("frmPlayGame") as IPlayGameForm;
                     if (frmGame != null)
-                    {
                         frmGame.RefreshCurrentRoom(JsonConvert.DeserializeObject<RoomInfomationModel>(messageModel.Data.ToString()));
-                        //frmGame.RefreshBoard();
-                    }    
+                    
                     break;
                 case (int)MessageCode.SendMessage:
                     frmNotification.ShowNotification("Bạn nhận được một tin nhắn!");
                     break;
+
+                case (int)MessageCode.RoomMessage:
+                    var frmMessage = Find("frmPlayGame") as IPlayGameForm;
+                    if (frmMessage != null)
+                        frmMessage.AppendMessage(messageModel.Data.ToString());
+                    
+                    break;
             }
         }
-
-        //private static void ReceiveMessage(MessageModel message)
-        //{
-        //    //if (message.Code == (int)MessageCode.Success)
-        //    //{
-        //    //    frmInvite frmInvite = new frmInvite("Bạn có một tin nhắn từ người chơi","",null );
-        //    //    frmInvite.Show();
-        //    //}
-        //    frmInvite frmInvite = new frmInvite("Bạn có một tin nhắn từ người chơi", " ", null);
-        //    frmInvite.Show();
-        //}
 
 
         private static void ReceiveInvitePlay(object data)

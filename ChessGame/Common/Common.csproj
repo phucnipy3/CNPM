@@ -60,6 +60,7 @@
     <Compile Include="Models\ChangePasswordModel.cs" />
     <Compile Include="FormInterfaces\IGameMove.cs" />
     <Compile Include="Models\GameMoveModel.cs" />
+    <Compile Include="Models\RoomMessageModel.cs" />
     <Compile Include="Models\UserRequestRoomModel.cs" />
     <Compile Include="Models\ChangeStatusModel.cs" />
     <Compile Include="Models\FeedbackModel.cs" />

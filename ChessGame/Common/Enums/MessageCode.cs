@@ -41,6 +41,8 @@
         OutRoom = 47,
         Notification = 49,
         GameStarted = 48,
-        GameEnded = 50
+        GameEnded = 50,
+        GetCurrentRoom = 51,
+        RoomMessage = 52
     }
 }

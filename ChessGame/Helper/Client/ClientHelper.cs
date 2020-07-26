@@ -100,7 +100,6 @@ namespace Helper.Client
             return messageModel;
         }
 
-        private static void User_MessageReceived(object sender, MessageReceivedEventArgs e)
         private static async void User_MessageReceivedAsync(object sender, MessageReceivedEventArgs e)
         {
             MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(e.Message);
@@ -135,7 +134,7 @@ namespace Helper.Client
                     // Popup message
                     break;
                 case (int)MessageCode.GameNotification:
-                    
+                    frmNotification.ShowNotification(messageModel.Data.ToString());
                     break;
                 case (int)MessageCode.AddFriend:
                     ReceiveAddFriend(messageModel.Data);

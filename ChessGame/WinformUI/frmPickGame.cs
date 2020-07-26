@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace WinformUI
 {
-    public partial class frmPickGame : Form, IPickGameForm
+    public partial class frmPickGame : Form, IPickGameForm, IPlayGame
     {
         private int gameId = (int)GameType.Caro;
         private List<RoomInfomationModel> rooms;
@@ -37,10 +37,12 @@ namespace WinformUI
         private string GetStatus(RoomInfomationModel room)
         {
             if (room.Count == 2)
-                return "Playing...";
+                if (room.IsInGame)
+                    return "Đang chơi...";
+                else return "Phòng đã đầy";
             if (room.Count == 1)
-                return "Waiting second player...";
-            return "No action";
+                return "Đợi người chơi khác...";
+            return "Phòng trống";
         }
 
         private void txtInputSearchRoom_KeyDown(object sender, KeyEventArgs e)
@@ -84,7 +86,7 @@ namespace WinformUI
             frmPickGame_Load(this, null);
         }
 
-        private void PlayGame(RoomInfomationModel roomInfo)
+        public void PlayGame(RoomInfomationModel roomInfo)
         {
             if (roomInfo != null)
             {

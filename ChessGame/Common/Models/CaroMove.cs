@@ -1,13 +1,8 @@
 ﻿using Common.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace GameEngine.Models
+namespace Common.Models
 {
-    public class CaroMove: IGameMove
+    public class CaroMove : IGameMove
     {
         public CaroChessman Chessman { get; set; }
         public int X { get; set; }

@@ -71,8 +71,6 @@ namespace WinformUI
                 MessageBox.Show("Gửi lời mời kết bạn thành công!");
                 frmManageFriends_Load(this, null);
             }    
-
-            
         }
 
         private void dgvFriends_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -86,12 +84,10 @@ namespace WinformUI
             int row_index = e.RowIndex;
             if (row_index != -1)
             {
-               
-                int friend_ID = int.Parse(dgv.Rows[row_index].Cells["ID"].Value.ToString());
-                string opponentName = dgv.Rows[row_index].Cells["Ingame"].Value.ToString();
+                int friendId = int.Parse(dgv.Rows[row_index].Cells["ID"].Value.ToString());
                 if (dgv.Columns[e.ColumnIndex].Name == "Action")
                 {
-                    MessageModel message = await ClientHelper.InvitePlayAsync(opponentName);
+                    MessageModel message = await ClientHelper.InvitePlayAsync(friendId);
                     if (message.Code == (int)MessageCode.Success)
                     {
                         this.DialogResult = DialogResult.OK;
@@ -105,22 +101,18 @@ namespace WinformUI
                 else if (dgv.Columns[e.ColumnIndex].Name == "Message")
                 {
                     Constant.FRIENDNAME = dgv.Rows[row_index].Cells[3].Value.ToString();
-                    Constant.FRIEND_ID = friend_ID;
+                    Constant.FRIEND_ID = friendId;
                     frmMessage message = new frmMessage();
                     message.Show();
                 }
                 else if (dgv.Columns[e.ColumnIndex].Name == "Delete")
                 {
-
                     var result = MessageBox.Show("Bạn có muôn xóa người bạn này không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                     if (result == DialogResult.Yes)
                     {
-                        await ClientHelper.DeleteFriendshipAsync(friend_ID);
+                        await ClientHelper.DeleteFriendshipAsync(friendId);
                         await LoadFriendAsync();
                     }    
-                    
-
-
                 }  
             }
         }

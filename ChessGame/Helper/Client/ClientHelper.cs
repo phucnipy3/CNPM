@@ -10,7 +10,6 @@ using Communication.Common;
 using Data.Common;
 using Data.Entities;
 using GameEngine.Client;
-using GameEngine.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -69,6 +68,35 @@ namespace Helper.Client
             }
         }
 
+        public static void StartGame(int width, int height, CaroChessman chessman, int roomId)
+        {
+            GameClient = new CaroClient(width, height, chessman, roomId);
+            GameClient.BoardUpdated += GameClient_BoardUpdated;
+            GameClient.NewMoveMaked += GameClient_NewMoveMaked;
+            GameClient.GameEnded += GameClient_GameEnded;
+            var bm = GameClient.BoardImage;
+            var frmPlayGame = Find("frmPlayGame") as IPlayGameForm;
+            if (frmPlayGame != null)
+                frmPlayGame.RefreshBoard(bm);
+        }
+
+        private static async void GameClient_GameEnded(object sender, GameEndedEventArgs e)
+        {
+            await SendingMessageAsync((int)MessageCode.CaroMove, new GameMoveModel() { CaroMove = new CaroMove() { GameEnded = true }, RoomId = e.RoomId });
+        }
+
+        private static async void GameClient_NewMoveMaked(object sender, NewMoveMakedEventArgs e)
+        {
+            await SendingMessageAsync((int)MessageCode.CaroMove, new GameMoveModel() { CaroMove = e.Move, RoomId = e.RoomId });
+        }
+
+        private static void GameClient_BoardUpdated(object sender, BoardUpdatedEventArgs e)
+        {
+            var frmPlayGame = Find("frmPlayGame") as IPlayGameForm;
+            if (frmPlayGame != null)
+                frmPlayGame.RefreshBoard(e.BoardImage);
+        }
+
         public static async Task ChangeReadyStateAsync(int roomId)
         {
             await SendingMessageAsync((int)MessageCode.ChangeReadyState, new UserRequestRoomModel() { UserId = Client.User.Id, RoomId = roomId });
@@ -76,7 +104,7 @@ namespace Helper.Client
 
         public static async Task<MessageModel> AddFriendAsync(string friendName)
         {
-            await SendingMessageAsync((int)MessageCode.AddFriend, new AddFriendModel() { UserName = Client.User.Username, FriendName = friendName});
+            await SendingMessageAsync((int)MessageCode.AddFriend, new AddFriendModel() { UserName = Client.User.Username, FriendName = friendName });
 
             MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(await Client.SendingClient.ReceiveMessageAsync());
             if (messageModel == null)
@@ -90,14 +118,19 @@ namespace Helper.Client
             Application.Exit();
         }
 
-        public static async Task<MessageModel> InvitePlayAsync(string opponentName)
+        public static async Task<MessageModel> InvitePlayAsync(int opponentId)
         {
-            await SendingMessageAsync((int)MessageCode.InvitePlay, new InvitePlayModel() { UserName = Client.User.Username, OpponentName = opponentName });
+            await SendingMessageAsync((int)MessageCode.InvitePlay, new InvitePlayModel() { UserId = Client.User.Id, OpponentId = opponentId });
 
             MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(await Client.SendingClient.ReceiveMessageAsync());
             if (messageModel == null)
                 messageModel = new MessageModel() { Code = (int)MessageCode.Error, Data = "Lỗi không xác định" };
             return messageModel;
+        }
+
+        public static async Task OutRoom(int roomId)
+        {
+            await SendingMessageAsync((int)MessageCode.OutRoom, new UserRequestRoomModel() { UserId = Client.User.Id, RoomId = roomId });
         }
 
         private static async void User_MessageReceivedAsync(object sender, MessageReceivedEventArgs e)
@@ -133,21 +166,29 @@ namespace Helper.Client
                 case (int)MessageCode.InvalidMove:
                     // Popup message
                     break;
-                case (int)MessageCode.GameNotification:
+                case (int)MessageCode.Notification:
                     frmNotification.ShowNotification(messageModel.Data.ToString());
                     break;
                 case (int)MessageCode.AddFriend:
                     ReceiveAddFriend(messageModel.Data);
                     break;
 
-                case (int)MessageCode.ReplyAddFriend:
-                    frmNotification.ShowNotification(messageModel.Data.ToString());
-                    break;
                 case (int)MessageCode.InvitePlay:
                     ReceiveInvitePlay(messageModel.Data);
                     break;
                 case (int)MessageCode.ReplyInvitePlay:
-                    frmNotification.ShowNotification(messageModel.Data.ToString());
+                    var frmMain = Find("frmMainClient") as IPlayGame;
+                    if (frmMain != null)
+                        frmMain.PlayGame(JsonConvert.DeserializeObject<RoomInfomationModel>(messageModel.Data.ToString()));
+                    break;
+
+                case (int)MessageCode.GameEnded:
+                    var frmGame = Find("frmPlayGame") as IPlayGameForm;
+                    if (frmGame != null)
+                    {
+                        frmGame.RefreshCurrentRoom(JsonConvert.DeserializeObject<RoomInfomationModel>(messageModel.Data.ToString()));
+                        //frmGame.RefreshBoard();
+                    }    
                     break;
             }
         }
@@ -155,7 +196,7 @@ namespace Helper.Client
         private static void ReceiveInvitePlay(object data)
         {
             var model = JsonConvert.DeserializeObject<AddFriendModel>(data.ToString());
-            frmInvite frmInvite = new frmInvite("Bạn có một lời mời chơi từ người chơi:", model.UserName, data);
+            frmInvite frmInvite = new frmInvite("Bạn có một lời mời chơi game Caro từ người chơi:", model.UserName, data);
             frmInvite.ReplyInvite += FrmInvite_ReplyInvitePlay;
             frmInvite.Show();
         }
@@ -284,7 +325,7 @@ namespace Helper.Client
             return JsonConvert.DeserializeObject<List<GameModel>>(messageModel.Data.ToString());
         }
 
-        public static async Task<List<Friend>>GetListFriendAsync()
+        public static async Task<List<Friend>> GetListFriendAsync()
         {
             await SendingMessageAsync((int)MessageCode.GetListFriend, Client.User.Id);
 
@@ -308,7 +349,7 @@ namespace Helper.Client
 
         public static async Task<MessageModel> DeleteFriendshipAsync(int friendId)
         {
-            await SendingMessageAsync((int)MessageCode.DeleteFriendship, new FriendshipModel { UserId = Client.User.Id, FriendId = friendId});
+            await SendingMessageAsync((int)MessageCode.DeleteFriendship, new FriendshipModel { UserId = Client.User.Id, FriendId = friendId });
 
             MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(await Client.SendingClient.ReceiveMessageAsync());
             if (messageModel == null)

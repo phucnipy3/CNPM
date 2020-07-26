@@ -14,6 +14,7 @@ namespace CommonUI
         {
             frmNotification frmNotificationForm = new frmNotification(message);
             frmNotificationForm.Show();
+            frmNotificationForm.TopMost = true;
         }
 
         private void btnAccept_Click(object sender, System.EventArgs e)

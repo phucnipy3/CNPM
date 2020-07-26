@@ -338,6 +338,10 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CommonUI\CommonUI.csproj">
+      <Project>{766842A1-46E0-42B3-93EE-12B3C291637A}</Project>
+      <Name>CommonUI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{8CFD75A8-8768-4CE5-A4FD-1523DE8A0CF1}</Project>
       <Name>Common</Name>

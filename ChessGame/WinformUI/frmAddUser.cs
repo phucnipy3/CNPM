@@ -33,10 +33,9 @@ namespace WinformUI
             }
             else
             {
-
-                if (await CheckUserAsync(username))
+                var user = await ClientHelper.RegisterAsync(username, pass);
+                if (user != null)
                 {
-                    await ClientHelper.RegisterAsync(username, pass);
                     MessageBox.Show("Đăng ký thành công!");
 
                     DialogResult = DialogResult.OK;
@@ -49,19 +48,6 @@ namespace WinformUI
                 }
 
             }
-        }
-
-        private async Task<bool> CheckUserAsync(string username)
-        {
-            List<UserModel> lstAllUser = await ClientHelper.GetAllManageUserAsync();
-            for (int i = 0; i < lstAllUser.Count; i++)
-            {
-                if (username == lstAllUser[i].Username)
-                {
-                    return false;
-                }
-            }
-            return true;
         }
     }
 }

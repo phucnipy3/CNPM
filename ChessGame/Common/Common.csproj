@@ -52,10 +52,14 @@
     <Compile Include="Enums\UserRole.cs" />
     <Compile Include="Extensions\TcpClientExtension.cs" />
     <Compile Include="FormInterfaces\IPickGameForm.cs" />
+    <Compile Include="FormInterfaces\IPlayGame.cs" />
     <Compile Include="FormInterfaces\IPlayGameForm.cs" />
     <Compile Include="Logger\Logger.cs" />
     <Compile Include="Models\AddFriendModel.cs" />
+    <Compile Include="Models\CaroMove.cs" />
     <Compile Include="Models\ChangePasswordModel.cs" />
+    <Compile Include="FormInterfaces\IGameMove.cs" />
+    <Compile Include="Models\GameMoveModel.cs" />
     <Compile Include="Models\UserRequestRoomModel.cs" />
     <Compile Include="Models\ChangeStatusModel.cs" />
     <Compile Include="Models\FeedbackModel.cs" />

@@ -38,6 +38,8 @@
         InvalidMove = 41,
         ChangeReadyState = 45,
         OutRoom = 47,
-        GameNotification = 46
+        Notification = 46,
+        GameStarted = 48,
+        GameEnded = 50
     }
 }

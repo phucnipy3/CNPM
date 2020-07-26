@@ -1,10 +1,12 @@
-﻿using Helper.Client;
+﻿using Common.FormInterfaces;
+using Common.Models;
+using Helper.Client;
 using System;
 using System.Windows.Forms;
 
 namespace WinformUI
 {
-    public partial class frmMainClient : Form
+    public partial class frmMainClient : Form, IPlayGame
     {
         private bool loggingOut = false;
 
@@ -72,6 +74,23 @@ namespace WinformUI
         }
 
         private void FrmPickGame_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Show();
+        }
+
+        public void PlayGame(RoomInfomationModel roomInfo)
+        {
+            if (roomInfo != null)
+            {
+                frmPlayGame frmPlayGame = new frmPlayGame(roomInfo);
+                frmPlayGame.FormClosed += FrmPlayGame_FormClosed;
+                Hide();
+                frmPlayGame.Show();
+            }
+            else MessageBox.Show("Lỗi không xác định! Vui lòng thử lại");
+        }
+
+        private void FrmPlayGame_FormClosed(object sender, FormClosedEventArgs e)
         {
             Show();
         }

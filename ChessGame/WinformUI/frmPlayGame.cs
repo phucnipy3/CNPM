@@ -1,7 +1,7 @@
-﻿using Common.Constants;
-using Common.Enums;
+﻿using Common.Enums;
 using Common.FormInterfaces;
 using Common.Models;
+using CommonUI;
 using GameEngine.Client;
 using Helper.Client;
 using System;
@@ -60,9 +60,22 @@ namespace WinformUI
             this.roomInfo = roomInfo;
             btnReady.Enabled = !roomInfo.IsInGame;
             btnInvite.Enabled = roomInfo.Count < 2;
+            ptbPlayGround.Enabled = roomInfo.IsInGame;
             frmPlayGame_Load(this, null);
-        }
+            if (roomInfo.IsInGame)
+            {
+                var chessman = CaroChessman.O;
+                if (roomInfo.FirstPlayer.Id == ClientHelper.Client.User.Id)
+                    frmNotification.ShowNotification("Trận đấu đã bắt đầu. Bạn là người đi trước!");
+                else
+                {
+                    chessman = CaroChessman.X;
+                    frmNotification.ShowNotification("Trận đấu đã bắt đầu. Bạn là người đi sau!");
+                }
 
+                ClientHelper.StartGame(ptbPlayGround.Width, ptbPlayGround.Height, chessman, roomInfo.RoomId);
+            }
+        }
 
         private void ptbPlayGround_MouseClick(object sender, MouseEventArgs e)
         {
@@ -98,6 +111,16 @@ namespace WinformUI
                 }
                 else await ClientHelper.OutRoom(roomInfo.RoomId);
             }
+        }
+
+        public void RefreshBoard(Bitmap bitmap)
+        {
+            ptbPlayGround.Image = bitmap;
+        }
+
+        public void RefreshBoard()
+        {
+            ptbPlayGround.Image = new Bitmap(ptbPlayGround.Width, ptbPlayGround.Height);
         }
     }
 }

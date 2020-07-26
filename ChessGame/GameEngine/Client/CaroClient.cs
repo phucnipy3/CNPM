@@ -1,6 +1,6 @@
 ﻿using Common.Constants;
 using Common.Enums;
-using GameEngine.Models;
+using Common.Models;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -12,6 +12,7 @@ namespace GameEngine.Client
         private CaroChessman[,] board;
         private int boardWidth;
         private int boardHeight;
+        private int roomId;
 
         private int cellSize;
         public int CellSize
@@ -24,20 +25,21 @@ namespace GameEngine.Client
 
         private int xOffset;
         private int yOffset;
-        private CaroChessman currentChessman = CaroChessman.Empty;
+        private CaroChessman lastChessman = CaroChessman.X;
 
         private CaroChessman chessman;
 
         public Bitmap BoardImage { get; private set; }
 
-        public CaroClient(int boardWidth, int boardHeight, CaroChessman chessman)
+        public CaroClient(int boardWidth, int boardHeight, CaroChessman chessman, int roomId)
         {
+            this.roomId = roomId;
             board = new CaroChessman[CaroConstant.BOARD_SIZE, CaroConstant.BOARD_SIZE];
             this.boardWidth = boardWidth;
             this.boardHeight = boardHeight;
             cellSize = boardWidth < boardHeight ? (int)boardWidth / CaroConstant.BOARD_SIZE : (int)boardHeight / CaroConstant.BOARD_SIZE;
-            int xOffset = (boardWidth - CaroConstant.BOARD_SIZE * cellSize) / 2;
-            int yOffset = (boardHeight - CaroConstant.BOARD_SIZE * cellSize) / 2;
+            xOffset = (boardWidth - CaroConstant.BOARD_SIZE * cellSize) / 2;
+            yOffset = (boardHeight - CaroConstant.BOARD_SIZE * cellSize) / 2;
             this.chessman = chessman;
 
             DrawBoard(new CaroMove { Chessman = CaroChessman.Empty });
@@ -46,7 +48,7 @@ namespace GameEngine.Client
         protected override void DrawBoard(IGameMove move)
         {
             CaroMove currentMove = move as CaroMove;
-            currentChessman = currentMove.Chessman;
+            lastChessman = currentMove.Chessman;
             Bitmap b = new Bitmap(boardWidth, boardHeight);
             Graphics g = Graphics.FromImage(b);
 
@@ -65,15 +67,18 @@ namespace GameEngine.Client
                     }
                     g.DrawImage(image, x * cellSize + xOffset, y * cellSize + yOffset, cellSize, cellSize);
                 }
-            if (currentChessman == CaroChessman.O)
+            if (lastChessman == CaroChessman.O)
             {
                 g.DrawImage(Properties.Resources.CurrentO, currentMove.X * cellSize + xOffset, currentMove.Y * cellSize + yOffset, cellSize, cellSize);
             }
-            else if (currentChessman == CaroChessman.X)
+            else if (lastChessman == CaroChessman.X)
             {
                 g.DrawImage(Properties.Resources.CurrentX, currentMove.X * cellSize + xOffset, currentMove.Y * cellSize + yOffset, cellSize, cellSize);
             }
-
+            else
+            {
+                lastChessman = CaroChessman.X;
+            }
             BoardImage = b;
             OnBoardUpdated(new BoardUpdatedEventArgs { BoardImage = b });
         }
@@ -81,7 +86,7 @@ namespace GameEngine.Client
         public void MakeOwnMove(int x, int y)
         {
 
-            if (currentChessman == chessman)
+            if (lastChessman == chessman)
                 return;
 
             if (OutSideBoard(x, y))
@@ -97,7 +102,7 @@ namespace GameEngine.Client
                 move.GameEnded = true;
             };
 
-            OnNewMoveMaked(new NewMoveMakedEventArgs { Move = move });
+            OnNewMoveMaked(new NewMoveMakedEventArgs { Move = move, RoomId = roomId });
             DrawBoard(move);
         }
 
@@ -106,7 +111,7 @@ namespace GameEngine.Client
             if (move.Chessman != chessman.OppositeChessman())
                 throw new InvalidOperationException("Invalid move");
 
-            if (move.Chessman == currentChessman)
+            if (move.Chessman == lastChessman)
                 throw new InvalidOperationException("Invalid move");
 
             if (OutSideBoard(move.X, move.Y))
@@ -120,20 +125,21 @@ namespace GameEngine.Client
                 throw new InvalidOperationException("Invalid move");
             }
             DrawBoard(move);
+
+            if (move.GameEnded)
+                OnGameEnded(new GameEndedEventArgs() { RoomId = roomId });
         }
 
-
-
-        private CaroFactor[] factors = {
-            new CaroFactor { Factors = { new Point(0, -1), new Point(0, 1) } },
-            new CaroFactor { Factors = { new Point(-1, 0),  new Point(1, 0) } },
-            new CaroFactor { Factors = { new Point(-1, 1), new Point(1, -1) } },
-            new CaroFactor { Factors = { new Point(-1, -1), new Point(1, 1) } }
+        private List<CaroFactor> factors = new List<CaroFactor>() {
+            new CaroFactor { Factors = new List<Point>() { new Point(0, -1), new Point(0, 1) } },
+            new CaroFactor { Factors = new List<Point>() { new Point(-1, 0),  new Point(1, 0) } },
+            new CaroFactor { Factors = new List<Point>() { new Point(-1, 1), new Point(1, -1) } },
+            new CaroFactor { Factors = new List<Point>() { new Point(-1, -1), new Point(1, 1) } }
         };
         private bool MakeMove(CaroMove move)
         {
             board[move.Y, move.X] = move.Chessman;
-            currentChessman = move.Chessman;
+            lastChessman = move.Chessman;
 
 
             foreach (var factor in factors)
@@ -151,13 +157,13 @@ namespace GameEngine.Client
                         if (OutSideBoard(x, y))
                             break;
 
-                        if (board[y, x] == currentChessman)
+                        if (board[y, x] == lastChessman)
                         {
                             count++;
                         }
                         else
                         {
-                            if (board[y, x] == currentChessman.OppositeChessman())
+                            if (board[y, x] == lastChessman.OppositeChessman())
                             {
                                 otherCount++;
                             }
@@ -180,10 +186,20 @@ namespace GameEngine.Client
         }
 
         public event EventHandler<NewMoveMakedEventArgs> NewMoveMaked;
+        public event EventHandler<GameEndedEventArgs> GameEnded;
 
         public virtual void OnNewMoveMaked(NewMoveMakedEventArgs e)
         {
             EventHandler<NewMoveMakedEventArgs> handler = NewMoveMaked;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
+
+        public virtual void OnGameEnded(GameEndedEventArgs e)
+        {
+            EventHandler<GameEndedEventArgs> handler = GameEnded;
             if (handler != null)
             {
                 handler(this, e);
@@ -194,6 +210,12 @@ namespace GameEngine.Client
     public class NewMoveMakedEventArgs : EventArgs
     {
         public CaroMove Move { get; set; }
+        public int RoomId { get; set; }
+    }
+
+    public class GameEndedEventArgs : EventArgs
+    {
+        public int RoomId { get; set; }
     }
 
     public class CaroFactor

@@ -35,10 +35,9 @@
             // lblNotification
             // 
             this.lblNotification.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.25F);
-            this.lblNotification.Location = new System.Drawing.Point(3, 66);
-            this.lblNotification.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblNotification.Location = new System.Drawing.Point(33, 9);
             this.lblNotification.Name = "lblNotification";
-            this.lblNotification.Size = new System.Drawing.Size(555, 49);
+            this.lblNotification.Size = new System.Drawing.Size(319, 154);
             this.lblNotification.TabIndex = 1;
             this.lblNotification.Text = "Bạn có một lời mời từ người chơi:";
             this.lblNotification.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -47,10 +46,9 @@
             // 
             this.btnAccept.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnAccept.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
-            this.btnAccept.Location = new System.Drawing.Point(191, 201);
-            this.btnAccept.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnAccept.Location = new System.Drawing.Point(146, 166);
             this.btnAccept.Name = "btnAccept";
-            this.btnAccept.Size = new System.Drawing.Size(138, 48);
+            this.btnAccept.Size = new System.Drawing.Size(92, 31);
             this.btnAccept.TabIndex = 2;
             this.btnAccept.Text = "OK";
             this.btnAccept.UseVisualStyleBackColor = true;
@@ -58,16 +56,17 @@
             // 
             // frmNotification
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(583, 322);
+            this.ClientSize = new System.Drawing.Size(389, 209);
             this.Controls.Add(this.btnAccept);
             this.Controls.Add(this.lblNotification);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmNotification";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Notification";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Thông báo";
             this.ResumeLayout(false);
 
         }

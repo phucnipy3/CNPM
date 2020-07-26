@@ -1,16 +1,11 @@
-﻿using GameEngine.Models;
+﻿using Common.Models;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GameEngine.Client
 {
     public abstract class GameClient
     {
-
         protected abstract void DrawBoard(IGameMove currentMove);
 
         public event EventHandler<BoardUpdatedEventArgs> BoardUpdated;

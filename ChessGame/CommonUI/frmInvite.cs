@@ -14,6 +14,7 @@ namespace WinformUI
             InitializeComponent();
             lblMessage.Text = message;
             lblUsername.Text = username;
+            TopMost = true;
         }
 
         protected virtual void OnReplyInvite(ReplyInviteEventArgs e)

@@ -1,6 +1,9 @@
-﻿using Data.BusinessLogic;
+﻿using Common.Enums;
+using Common.Models;
+using Data.BusinessLogic;
 using Data.Common;
 using Data.Entities;
+using Helper.Client;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -31,28 +34,16 @@ namespace WinformUI
 
         private async void btnAddFriend_Click(object sender, EventArgs e)
         {
-            string friend_name = txtInputIngame.Text.Trim().ToString();
-            if (await bLUser.Exists(friend_name))
+            string friendName = txtInputIngame.Text.Trim().ToString();
+            MessageModel message = await ClientHelper.AddFriendAsync(friendName);
+            if (message.Code == (int)MessageCode.Success)
             {
-                User friend = await bLUser.GetJustUserAsync(friend_name);
-                if (! await bLFriend.ExistsFriendship(Constant.USER_ID, friend.Id))
-                {
-                    Friendship friendship = new Friendship();
-                    friendship.UserId = Constant.USER_ID;
-                    friendship.FriendId = friend.Id;
-                    friendship.AddTime = DateTime.Now;
-
-                    await bLFriend.AddFriendAsync(friendship);
-
-                    MessageBox.Show("Kết bạn thành công!");
-
-                    Close();
-                }
-                
+                this.DialogResult = DialogResult.OK;
+                Close();
             }
-            else
+            else if (message.Code == (int)MessageCode.Error)
             {
-                MessageBox.Show("Kết bạn thất bại!");
+                MessageBox.Show(message.Data.ToString());
             }
         }
     }

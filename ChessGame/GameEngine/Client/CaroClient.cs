@@ -4,10 +4,6 @@ using GameEngine.Models;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace GameEngine.Client
 {
@@ -84,12 +80,17 @@ namespace GameEngine.Client
 
         public void MakeOwnMove(int x, int y)
         {
+
+            if (currentChessman == chessman)
+                return;
+
+            if (OutSideBoard(x, y))
+                return;
+
+            if (board[y, x] != CaroChessman.Empty)
+                return;
+
             CaroMove move = new CaroMove { Chessman = chessman, X = x, Y = y };
-
-            // coordinate, turn
-            //if(move valid)
-
-
 
             if (MakeMove(move))
             {
@@ -102,9 +103,17 @@ namespace GameEngine.Client
 
         public void MakeOpponentMove(CaroMove move)
         {
-            // coordinate, turn
-            //if(move valid)
-            //else throw
+            if (move.Chessman != chessman.OppositeChessman())
+                throw new InvalidOperationException("Invalid move");
+
+            if (move.Chessman == currentChessman)
+                throw new InvalidOperationException("Invalid move");
+
+            if (OutSideBoard(move.X, move.Y))
+                throw new InvalidOperationException("Invalid move");
+
+            if (board[move.Y, move.Y] != CaroChessman.Empty)
+                throw new InvalidOperationException("Invalid move");
 
             if (MakeMove(move) != move.GameEnded)
             {
@@ -113,12 +122,61 @@ namespace GameEngine.Client
             DrawBoard(move);
         }
 
+
+
+        private CaroFactor[] factors = {
+            new CaroFactor { Factors = { new Point(0, -1), new Point(0, 1) } },
+            new CaroFactor { Factors = { new Point(-1, 0),  new Point(1, 0) } },
+            new CaroFactor { Factors = { new Point(-1, 1), new Point(1, -1) } },
+            new CaroFactor { Factors = { new Point(-1, -1), new Point(1, 1) } }
+        };
         private bool MakeMove(CaroMove move)
         {
             board[move.Y, move.X] = move.Chessman;
+            currentChessman = move.Chessman;
 
-            //check win
-            return false; //win or not;
+
+            foreach (var factor in factors)
+            {
+                int count = 1;
+                int otherCount = 0;
+
+                foreach (var point in factor.Factors)
+
+                    for (int i = 1; i <= 5; i++)
+                    {
+                        int x = move.X + i * point.X;
+                        int y = move.Y + i * point.Y;
+
+                        if (OutSideBoard(x, y))
+                            break;
+
+                        if (board[y, x] == currentChessman)
+                        {
+                            count++;
+                        }
+                        else
+                        {
+                            if (board[y, x] == currentChessman.OppositeChessman())
+                            {
+                                otherCount++;
+                            }
+                            break;
+                        }
+                    }
+                if (count > 5 || (count == 5 && otherCount < 2))
+                    return true;
+            }
+
+            return false;
+        }
+
+
+
+        private bool OutSideBoard(int x, int y)
+        {
+            return x < 0 || x >= CaroConstant.BOARD_SIZE || y < 0 || y >= CaroConstant.BOARD_SIZE;
+
         }
 
         public event EventHandler<NewMoveMakedEventArgs> NewMoveMaked;
@@ -138,5 +196,8 @@ namespace GameEngine.Client
         public CaroMove Move { get; set; }
     }
 
-
+    public class CaroFactor
+    {
+        public List<Point> Factors { get; set; }
+    }
 }

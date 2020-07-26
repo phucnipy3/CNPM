@@ -4,6 +4,7 @@ using Common.Extensions;
 using Common.FormInterfaces;
 using Common.Logger;
 using Common.Models;
+using CommonUI;
 using Communication.Client;
 using Communication.Common;
 using Data.Common;
@@ -18,6 +19,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WinformUI;
 
 namespace Helper.Client
 {
@@ -67,10 +69,35 @@ namespace Helper.Client
             }
         }
 
+        public static async Task ChangeReadyStateAsync(int roomId)
+        {
+            await SendingMessageAsync((int)MessageCode.ChangeReadyState, new UserRequestRoomModel() { UserId = Client.User.Id, RoomId = roomId });
+        }
+
+        public static async Task<MessageModel> AddFriendAsync(string friendName)
+        {
+            await SendingMessageAsync((int)MessageCode.AddFriend, new AddFriendModel() { UserName = Client.User.Username, FriendName = friendName});
+
+            MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(await Client.SendingClient.ReceiveMessageAsync());
+            if (messageModel == null)
+                messageModel = new MessageModel() { Code = (int)MessageCode.Error, Data = "Lỗi không xác định" };
+            return messageModel;
+        }
+
         private static void Client_Disconnected(object sender, EventArgs e)
         {
             MessageBox.Show("Mất kết nối đến máy chủ!", "Thông báo");
             Application.Exit();
+        }
+
+        public static async Task<MessageModel> InvitePlayAsync(string opponentName)
+        {
+            await SendingMessageAsync((int)MessageCode.InvitePlay, new InvitePlayModel() { UserName = Client.User.Username, OpponentName = opponentName });
+
+            MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(await Client.SendingClient.ReceiveMessageAsync());
+            if (messageModel == null)
+                messageModel = new MessageModel() { Code = (int)MessageCode.Error, Data = "Lỗi không xác định" };
+            return messageModel;
         }
 
         private static async void User_MessageReceivedAsync(object sender, MessageReceivedEventArgs e)
@@ -78,6 +105,10 @@ namespace Helper.Client
             MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(e.Message);
             switch (messageModel.Code)
             {
+                case (int)MessageCode.Disconnected:
+                    Client_Disconnected(null, null);
+                    break;
+
                 case (int)MessageCode.RefreshRooms:
                     var frmRooms = Find("frmPickGame") as IPickGameForm;
                     if (frmRooms != null)
@@ -102,7 +133,49 @@ namespace Helper.Client
                 case (int)MessageCode.InvalidMove:
                     // Popup message
                     break;
+                case (int)MessageCode.GameNotification:
+                    frmNotification.ShowNotification(messageModel.Data.ToString());
+                    break;
+                case (int)MessageCode.AddFriend:
+                    ReceiveAddFriend(messageModel.Data);
+                    break;
+
+                case (int)MessageCode.ReplyAddFriend:
+                    frmNotification.ShowNotification(messageModel.Data.ToString());
+                    break;
+                case (int)MessageCode.InvitePlay:
+                    ReceiveInvitePlay(messageModel.Data);
+                    break;
+                case (int)MessageCode.ReplyInvitePlay:
+                    frmNotification.ShowNotification(messageModel.Data.ToString());
+                    break;
             }
+        }
+
+        private static void ReceiveInvitePlay(object data)
+        {
+            var model = JsonConvert.DeserializeObject<AddFriendModel>(data.ToString());
+            frmInvite frmInvite = new frmInvite("Bạn có một lời mời chơi từ người chơi:", model.UserName, data);
+            frmInvite.ReplyInvite += FrmInvite_ReplyInvitePlay;
+            frmInvite.Show();
+        }
+
+        private static async void FrmInvite_ReplyInvitePlay(object sender, ReplyInviteEventArgs e)
+        {
+            await SendingMessageAsync((int)MessageCode.ReplyInvitePlay, new MessageModel() { Code = e.Reply ? (int)MessageCode.Success : (int)MessageCode.Error, Data = e.Data });
+        }
+
+        private static void ReceiveAddFriend(object data)
+        {
+            var model = JsonConvert.DeserializeObject<AddFriendModel>(data.ToString());
+            frmInvite frmInvite = new frmInvite("Bạn có một lời mời kết bạn từ người chơi:", model.UserName, data);
+            frmInvite.ReplyInvite += FrmInvite_ReplyInviteAddFriend;
+            frmInvite.Show();
+        }
+
+        private static async void FrmInvite_ReplyInviteAddFriend(object sender, ReplyInviteEventArgs e)
+        {
+            await SendingMessageAsync((int)MessageCode.ReplyAddFriend, new MessageModel() { Code = e.Reply ? (int)MessageCode.Success : (int)MessageCode.Error, Data = e.Data });
         }
 
         public static async Task SendingMessageAsync(int code, object dataModel)
@@ -143,6 +216,16 @@ namespace Helper.Client
                 await SendingMessageAsync((int)MessageCode.Logout, Client.User.Id);
                 Client = null;
             }
+        }
+
+        public static async Task<MessageModel> ForceLogoutAsync(string id)
+        {
+            await SendingMessageAsync((int)MessageCode.ForceLogout, id);
+
+            MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(await Client.SendingClient.ReceiveMessageAsync());
+            if (messageModel == null)
+                messageModel = new MessageModel() { Code = (int)MessageCode.Error, Data = "Lỗi không xác định" };
+            return messageModel;
         }
 
         public static async Task<string> ForgetPasswordAsync(string username)
@@ -264,15 +347,79 @@ namespace Helper.Client
             return messageModel;
         }
 
-        public static async Task<List<ManagerUser>> GetManagerUserAsync(int id)
+        public static async Task<List<ManagerUser>> GetManagerUserAsync()
         {
-            await SendingMessageAsync((int)MessageCode.ManageUser, id);
+            await SendingMessageAsync((int)MessageCode.ManageUser, null);
 
             MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(await Client.SendingClient.ReceiveMessageAsync());
             if (messageModel.Data == null)
                 return new List<ManagerUser>();
 
             return JsonConvert.DeserializeObject<List<ManagerUser>>(messageModel.Data.ToString());
+        }
+
+        public static async Task<MessageModel> ChangeStatusAsync(string userName, bool status)
+        {
+            ChangeStatusModel changeStatus = new ChangeStatusModel() { UserName = userName, Status = status };
+            await SendingMessageAsync((int)MessageCode.ChangeStatus, changeStatus);
+
+            MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(await Client.SendingClient.ReceiveMessageAsync());
+            if (messageModel == null)
+                messageModel = new MessageModel() { Code = (int)MessageCode.Error, Data = "Lỗi không xác định" };
+            return messageModel;
+        }
+
+        public static async Task<List<UserModel>> GetAllManageUserAsync()
+        {
+            await SendingMessageAsync((int)MessageCode.GetAllUser, null);
+
+            MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(await Client.SendingClient.ReceiveMessageAsync());
+            if (messageModel.Data == null)
+                return new List<UserModel>();
+
+            return JsonConvert.DeserializeObject<List<UserModel>>(messageModel.Data.ToString());
+        }
+
+        public static async Task<MessageModel> AddNotificationAsync(Notification notification)
+        {
+            await SendingMessageAsync((int)MessageCode.AddNotification, notification);
+
+            MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(await Client.SendingClient.ReceiveMessageAsync());
+            if (messageModel == null)
+                messageModel = new MessageModel() { Code = (int)MessageCode.Error, Data = "Lỗi không xác định" };
+            return messageModel;
+        }
+
+        public static async Task<List<FeedbackModel>> GetAllFeedbackAsync()
+        {
+            await SendingMessageAsync((int)MessageCode.GetFeedback, null);
+
+            MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(await Client.SendingClient.ReceiveMessageAsync());
+            if (messageModel.Data == null)
+                return new List<FeedbackModel>();
+
+            return JsonConvert.DeserializeObject<List<FeedbackModel>>(messageModel.Data.ToString());
+        }
+
+        public static async Task<List<CheckFeedback>> CheckFeedbackAsync()
+        {
+            await SendingMessageAsync((int)MessageCode.CheckFeedback, null);
+
+            MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(await Client.SendingClient.ReceiveMessageAsync());
+            if (messageModel.Data == null)
+                return new List<CheckFeedback>();
+
+            return JsonConvert.DeserializeObject<List<CheckFeedback>>(messageModel.Data.ToString());
+        }
+
+        public static async Task<MessageModel> AddMaintainAsync(MaintainceInfomation maintaince)
+        {
+            await SendingMessageAsync((int)MessageCode.Maintain, maintaince);
+
+            MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(await Client.SendingClient.ReceiveMessageAsync());
+            if (messageModel == null)
+                messageModel = new MessageModel() { Code = (int)MessageCode.Error, Data = "Lỗi không xác định" };
+            return messageModel;
         }
 
         public static async Task<RoomInfomationModel> CreateRoom(int gameId)

@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.dgvRank = new System.Windows.Forms.DataGridView();
-            this.label1 = new System.Windows.Forms.Label();
-            this.cmbGames = new System.Windows.Forms.ComboBox();
             this.Rank = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Ingame = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Elo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cmbGames = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRank)).BeginInit();
             this.SuspendLayout();
             // 
@@ -48,10 +48,38 @@
             this.dgvRank.Location = new System.Drawing.Point(18, 58);
             this.dgvRank.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dgvRank.Name = "dgvRank";
+            this.dgvRank.ReadOnly = true;
             this.dgvRank.RowHeadersVisible = false;
             this.dgvRank.RowHeadersWidth = 62;
             this.dgvRank.Size = new System.Drawing.Size(564, 348);
             this.dgvRank.TabIndex = 0;
+            this.dgvRank.SelectionChanged += new System.EventHandler(this.dgvRank_SelectionChanged);
+            // 
+            // Rank
+            // 
+            this.Rank.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Rank.DataPropertyName = "rank";
+            this.Rank.HeaderText = "Hạng";
+            this.Rank.MinimumWidth = 8;
+            this.Rank.Name = "Rank";
+            this.Rank.ReadOnly = true;
+            this.Rank.Width = 80;
+            // 
+            // Ingame
+            // 
+            this.Ingame.DataPropertyName = "ingame";
+            this.Ingame.HeaderText = "Ingame";
+            this.Ingame.MinimumWidth = 8;
+            this.Ingame.Name = "Ingame";
+            this.Ingame.ReadOnly = true;
+            // 
+            // Elo
+            // 
+            this.Elo.DataPropertyName = "point";
+            this.Elo.HeaderText = "Điểm Elo";
+            this.Elo.MinimumWidth = 8;
+            this.Elo.Name = "Elo";
+            this.Elo.ReadOnly = true;
             // 
             // label1
             // 
@@ -64,6 +92,7 @@
             // 
             // cmbGames
             // 
+            this.cmbGames.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbGames.FormattingEnabled = true;
             this.cmbGames.Items.AddRange(new object[] {
             "caro"});
@@ -71,30 +100,9 @@
             this.cmbGames.Name = "cmbGames";
             this.cmbGames.Size = new System.Drawing.Size(182, 28);
             this.cmbGames.TabIndex = 2;
+            this.cmbGames.SelectedIndexChanged += new System.EventHandler(this.cmbGames_SelectedIndexChanged);
             this.cmbGames.SelectionChangeCommitted += new System.EventHandler(this.cmbGames_SelectionChangeCommitted);
-            // 
-            // Rank
-            // 
-            this.Rank.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Rank.DataPropertyName = "rank";
-            this.Rank.HeaderText = "Hạng";
-            this.Rank.MinimumWidth = 8;
-            this.Rank.Name = "Rank";
-            this.Rank.Width = 80;
-            // 
-            // Ingame
-            // 
-            this.Ingame.DataPropertyName = "ingame";
-            this.Ingame.HeaderText = "Ingame";
-            this.Ingame.MinimumWidth = 8;
-            this.Ingame.Name = "Ingame";
-            // 
-            // Elo
-            // 
-            this.Elo.DataPropertyName = "point";
-            this.Elo.HeaderText = "Điểm Elo";
-            this.Elo.MinimumWidth = 8;
-            this.Elo.Name = "Elo";
+            this.cmbGames.SelectedValueChanged += new System.EventHandler(this.cmbGames_SelectedValueChanged);
             // 
             // frmRank
             // 

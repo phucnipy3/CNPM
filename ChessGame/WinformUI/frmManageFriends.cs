@@ -1,4 +1,6 @@
-﻿using Data.BusinessLogic;
+﻿using Common.Enums;
+using Common.Models;
+using Data.BusinessLogic;
 using Data.Common;
 using Data.Entities;
 using Helper.Client;
@@ -37,44 +39,40 @@ namespace WinformUI
         }
         private void dataGridView2_Paint(object sender, PaintEventArgs e)
         {
-            //Offsets to adjust the position of the merged Header.
-            int heightOffset = -5;
-            int widthOffset = -2;
+            int heightOffset = -3;
+            int widthOffset = 0;
             int xOffset = 0;
-            int yOffset = 4;
+            int yOffset = 0;
 
-            //Index of Header column from where the merging will start.
-            int columnIndex = 2;
+            int columnIndex = 0;
 
-            //Number of Header columns to be merged.
             int columnCount = 3;
 
-            //Get the position of the Header Cell.
-            Rectangle headerCellRectangle = dgvFriends.GetCellDisplayRectangle(columnIndex, 0, true);
+            Rectangle headerCellRectangle = dgvFriends.GetCellDisplayRectangle(columnIndex, -1, true);
 
-            //X coordinate of the merged Header Column.
             int xCord = headerCellRectangle.Location.X + xOffset;
 
-            //Y coordinate of the merged Header Column.
-            int yCord = headerCellRectangle.Location.Y - headerCellRectangle.Height + yOffset;
+            int yCord = headerCellRectangle.Location.Y + yOffset;
 
-            //Calculate Width of merged Header Column by adding the widths of all Columns to be merged.
-            int mergedHeaderWidth = dgvFriends.Columns[columnIndex].Width + dgvFriends.Columns[columnIndex + columnCount - 1].Width +  dgvFriends.Columns[columnIndex + columnCount - 2].Width + widthOffset;
+            int mergedHeaderWidth = dgvFriends.Columns[columnIndex].Width + dgvFriends.Columns[columnIndex + columnCount - 1].Width + dgvFriends.Columns[columnIndex + columnCount - 2].Width + widthOffset;
 
-            //Generate the merged Header Column Rectangle.
             Rectangle mergedHeaderRect = new Rectangle(xCord, yCord, mergedHeaderWidth, headerCellRectangle.Height + heightOffset);
 
-            //Draw the merged Header Column Rectangle.
             e.Graphics.FillRectangle(new SolidBrush(Color.White), mergedHeaderRect);
 
-            //Draw the merged Header Column Text.
             e.Graphics.DrawString("Thao tác", dgvFriends.ColumnHeadersDefaultCellStyle.Font, Brushes.Black, xCord + 2, yCord + 3);
         }
 
         private void btnAddFriend_Click(object sender, EventArgs e)
         {
             frmAddFriend addFriend = new frmAddFriend();
-            addFriend.Show();
+            if (addFriend.ShowDialog() == DialogResult.OK)
+            {
+                MessageBox.Show("Gửi lời mời kết bạn thành công!");
+                frmManageFriends_Load(this, null);
+            }    
+
+            
         }
 
         private void dgvFriends_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -90,10 +88,19 @@ namespace WinformUI
             {
                
                 int friend_ID = int.Parse(dgv.Rows[row_index].Cells["ID"].Value.ToString());
-
+                string opponentName = dgv.Rows[row_index].Cells["Ingame"].Value.ToString();
                 if (dgv.Columns[e.ColumnIndex].Name == "Action")
                 {
-                    MessageBox.Show("Mời");
+                    MessageModel message = await ClientHelper.InvitePlayAsync(opponentName);
+                    if (message.Code == (int)MessageCode.Success)
+                    {
+                        this.DialogResult = DialogResult.OK;
+                        Close();
+                    }
+                    else if (message.Code == (int)MessageCode.Error)
+                    {
+                        MessageBox.Show(message.Data.ToString());
+                    }
                 }
                 else if (dgv.Columns[e.ColumnIndex].Name == "Message")
                 {
@@ -125,7 +132,7 @@ namespace WinformUI
 
         private async void frmManageFriends_Activated(object sender, EventArgs e)
         {
-            await LoadFriendAsync();
+            //await LoadFriendAsync();
         }
     }
 }

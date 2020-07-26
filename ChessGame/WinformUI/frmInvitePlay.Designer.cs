@@ -28,79 +28,61 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.lblName = new System.Windows.Forms.Label();
-            this.btnRefuse = new System.Windows.Forms.Button();
-            this.btnAccept = new System.Windows.Forms.Button();
+            this.dgvInvite = new System.Windows.Forms.DataGridView();
+            this.Ingame = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Action = new System.Windows.Forms.DataGridViewButtonColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvInvite)).BeginInit();
             this.SuspendLayout();
             // 
-            // label1
+            // dgvInvite
             // 
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.25F);
-            this.label1.Location = new System.Drawing.Point(12, 25);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(370, 32);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Bạn có một lời mời từ người chơi:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.dgvInvite.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvInvite.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvInvite.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Ingame,
+            this.Action});
+            this.dgvInvite.Location = new System.Drawing.Point(20, 11);
+            this.dgvInvite.Name = "dgvInvite";
+            this.dgvInvite.RowHeadersWidth = 62;
+            this.dgvInvite.Size = new System.Drawing.Size(295, 247);
+            this.dgvInvite.TabIndex = 0;
+            this.dgvInvite.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvInvite_CellClick);
+            this.dgvInvite.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvInvite_CellContentClick);
             // 
-            // lblName
+            // Ingame
             // 
-            this.lblName.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.25F);
-            this.lblName.Location = new System.Drawing.Point(12, 57);
-            this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(370, 32);
-            this.lblName.TabIndex = 0;
-            this.lblName.Text = "Tên người chơi";
-            this.lblName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Ingame.DataPropertyName = "ingame";
+            this.Ingame.HeaderText = "Ingame";
+            this.Ingame.MinimumWidth = 8;
+            this.Ingame.Name = "Ingame";
             // 
-            // btnRefuse
+            // Action
             // 
-            this.btnRefuse.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnRefuse.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
-            this.btnRefuse.Location = new System.Drawing.Point(78, 117);
-            this.btnRefuse.Name = "btnRefuse";
-            this.btnRefuse.Size = new System.Drawing.Size(92, 31);
-            this.btnRefuse.TabIndex = 1;
-            this.btnRefuse.Text = "Từ chối";
-            this.btnRefuse.UseVisualStyleBackColor = true;
+            this.Action.HeaderText = "Thao tác";
+            this.Action.MinimumWidth = 8;
+            this.Action.Name = "Action";
+            this.Action.Text = "Mời";
+            this.Action.UseColumnTextForButtonValue = true;
             // 
-            // btnAccept
+            // frmInvite
             // 
-            this.btnAccept.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnAccept.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
-            this.btnAccept.Location = new System.Drawing.Point(221, 117);
-            this.btnAccept.Name = "btnAccept";
-            this.btnAccept.Size = new System.Drawing.Size(92, 31);
-            this.btnAccept.TabIndex = 1;
-            this.btnAccept.Text = "Chấp nhận";
-            this.btnAccept.UseVisualStyleBackColor = true;
-            // 
-            // frmInvitePlay
-            // 
-            this.AcceptButton = this.btnAccept;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.btnRefuse;
-            this.ClientSize = new System.Drawing.Size(387, 184);
-            this.Controls.Add(this.btnAccept);
-            this.Controls.Add(this.btnRefuse);
-            this.Controls.Add(this.lblName);
-            this.Controls.Add(this.label1);
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "frmInvitePlay";
+            this.ClientSize = new System.Drawing.Size(337, 272);
+            this.Controls.Add(this.dgvInvite);
+            this.Name = "frmInvite";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Lời mời chơi";
+            this.Text = "Mời người chơi";
+            this.Load += new System.EventHandler(this.frmInvite_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvInvite)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label lblName;
-        private System.Windows.Forms.Button btnRefuse;
-        private System.Windows.Forms.Button btnAccept;
+        private System.Windows.Forms.DataGridView dgvInvite;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Ingame;
+        private System.Windows.Forms.DataGridViewButtonColumn Action;
     }
 }

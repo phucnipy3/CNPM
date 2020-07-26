@@ -1,5 +1,6 @@
 ﻿using Data.BusinessLogic;
 using Data.Common;
+using Helper.Client;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -17,7 +18,7 @@ namespace WinformUI
 
         private async void frmCheckFeedBack_Load(object sender, EventArgs e)
         {
-            List<CheckFeedback> lstcheckFeedbacks = await bLFeedback.CheckFeedbackAsync();
+            List<CheckFeedback> lstcheckFeedbacks = await ClientHelper.CheckFeedbackAsync();
             dgvFeedBack.DataSource = lstcheckFeedbacks;
         }
 
@@ -31,6 +32,7 @@ namespace WinformUI
                 if (dgv.Columns[e.ColumnIndex].Name == "Content")
                 {
                     MessageBox.Show(dgv.Rows[row_index].Cells[1].Value.ToString());
+
                 }
 
             }

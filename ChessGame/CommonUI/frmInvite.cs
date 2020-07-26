@@ -5,9 +5,12 @@ namespace WinformUI
 {
     public partial class frmInvite : Form
     {
+        private object data;
         public event EventHandler<ReplyInviteEventArgs> ReplyInvite;
-        public frmInvite(string message, string username)
+        private bool reply = false;
+        public frmInvite(string message, string username, object data)
         {
+            this.data = data;
             InitializeComponent();
             lblMessage.Text = message;
             lblUsername.Text = username;
@@ -24,7 +27,8 @@ namespace WinformUI
 
         private void btnAccept_Click(object sender, EventArgs e)
         {
-            OnReplyInvite(new ReplyInviteEventArgs() { Reply = true });
+            reply = true;
+            Close();
         }
 
         private void btnRefuse_Click(object sender, EventArgs e)
@@ -34,12 +38,13 @@ namespace WinformUI
 
         private void frmInvitePlay_FormClosed(object sender, FormClosedEventArgs e)
         {
-            OnReplyInvite(new ReplyInviteEventArgs() { Reply = false });
+            OnReplyInvite(new ReplyInviteEventArgs() { Reply = reply, Data = data });
         }
     }
 
     public class ReplyInviteEventArgs : EventArgs
     {
         public bool Reply { get; set; }
+        public object Data { get; set; }
     }
 }

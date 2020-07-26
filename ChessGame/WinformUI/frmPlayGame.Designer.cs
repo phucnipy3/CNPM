@@ -115,6 +115,7 @@
             this.btnReady.TabIndex = 5;
             this.btnReady.Text = "Sẵn sàng";
             this.btnReady.UseVisualStyleBackColor = true;
+            this.btnReady.Click += new System.EventHandler(this.btnReady_Click);
             // 
             // btnAddFriend
             // 
@@ -156,6 +157,7 @@
             this.Name = "frmPlayGame";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Trò chơi";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmPlayGame_FormClosing);
             this.Load += new System.EventHandler(this.frmPlayGame_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ptbPlayGround)).EndInit();
             this.ResumeLayout(false);

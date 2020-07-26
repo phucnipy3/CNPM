@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEngine", "GameEngine\GameEngine.csproj", "{9670B6CB-A01E-4E41-94ED-20CC04210CFF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonUI", "CommonUI\CommonUI.csproj", "{766842A1-46E0-42B3-93EE-12B3C291637A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{E5CCC9C7-DD27-4442-A720-4EE1839D81B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E5CCC9C7-DD27-4442-A720-4EE1839D81B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E5CCC9C7-DD27-4442-A720-4EE1839D81B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{766842A1-46E0-42B3-93EE-12B3C291637A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{766842A1-46E0-42B3-93EE-12B3C291637A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{766842A1-46E0-42B3-93EE-12B3C291637A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{766842A1-46E0-42B3-93EE-12B3C291637A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9670B6CB-A01E-4E41-94ED-20CC04210CFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9670B6CB-A01E-4E41-94ED-20CC04210CFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9670B6CB-A01E-4E41-94ED-20CC04210CFF}.Release|Any CPU.ActiveCfg = Release|Any CPU

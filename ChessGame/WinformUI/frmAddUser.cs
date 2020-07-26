@@ -1,6 +1,8 @@
-﻿using Data.BusinessLogic;
+﻿using Common.Models;
+using Data.BusinessLogic;
 using Data.Common;
 using Data.Entities;
+using Helper.Client;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -34,17 +36,10 @@ namespace WinformUI
 
                 if (await CheckUserAsync(username))
                 {
-                    User user = new User();
-                    user.Username = username;
-                    user.Password = Encryptor.MD5Hash(pass);
-                    user.Experience = 0;
-                    user.Active = false;
-                    user.Status = true;
-                    user.Permission = 2;
-
-                    await bLUser.SignupAsync(user);
+                    await ClientHelper.RegisterAsync(username, pass);
                     MessageBox.Show("Đăng ký thành công!");
 
+                    DialogResult = DialogResult.OK;
                     Close();
                 }
                 else
@@ -58,7 +53,7 @@ namespace WinformUI
 
         private async Task<bool> CheckUserAsync(string username)
         {
-            List<User> lstAllUser = await BLUser.GetAllUserAsync();
+            List<UserModel> lstAllUser = await ClientHelper.GetAllManageUserAsync();
             for (int i = 0; i < lstAllUser.Count; i++)
             {
                 if (username == lstAllUser[i].Username)

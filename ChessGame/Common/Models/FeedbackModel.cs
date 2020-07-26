@@ -9,11 +9,11 @@ namespace Common.Models
     public class FeedbackModel
     {
         public int Id { get; set; }
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
         public string Email { get; set; }
         public string Content { get; set; }
-        public DateTime SendTime { get; set; }
-        public bool Seen { get; set; }
-        public bool Status { get; set; }
+        public DateTime? SendTime { get; set; }
+        public bool? Seen { get; set; }
+        public bool? Status { get; set; }
     }
 }

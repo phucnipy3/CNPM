@@ -31,18 +31,18 @@ namespace Data.BusinessLogic
             }
         }
 
-        public async Task<List<CheckFeedback>> CheckFeedbackAsync()
+        public async static Task<List<CheckFeedback>> CheckFeedbackAsync()
         {
             using (DatabaseContext db = new DatabaseContext())
             {
                 List<CheckFeedback> lstcheckFeedbacks = new List<CheckFeedback>();
 
-                List<Feedback> feedbacks = await GetAllFeedbackAsync();
+                List<FeedbackModel> feedbacks = await GetAllFeedbackAsync();
 
                 for (int i=0; i< feedbacks.Count; i++)
                 {
                     BLUser bLUser = new BLUser();
-                    User user = await bLUser.GetJustUserByIDAsync(feedbacks[i].UserId.Value);
+                    UserModel user = await BLUser.GetJustUserByIDAsync(feedbacks[i].UserId.Value);
                     CheckFeedback checkFeedback = new CheckFeedback();
                     checkFeedback.sender = user.Name;
                     checkFeedback.content = feedbacks[i].Content;
@@ -55,11 +55,21 @@ namespace Data.BusinessLogic
             }
         }
 
-        public async Task<List<Feedback>> GetAllFeedbackAsync()
+        public async static Task<List<FeedbackModel>> GetAllFeedbackAsync()
         {
             using (DatabaseContext db = new DatabaseContext())
             {
-                return await db.Feedbacks.Where(x => x.Status == true).ToListAsync();
+                //return await db.Feedbacks.Where(x => x.Status == true).ToListAsync();
+                return await db.Feedbacks.Where(x => x.Status == true).Select(x => new FeedbackModel()
+                {
+                    Id = x.Id,
+                    UserId = x.UserId,
+                    Email = x.Email,
+                    Content = x.Content,
+                    SendTime = x.SendTime,
+                    Seen = x.Seen,
+                    Status = x.Status,
+                }).ToListAsync();
             }
         }
     }

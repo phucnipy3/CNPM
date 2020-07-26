@@ -1,4 +1,6 @@
-﻿using Data.BusinessLogic;
+﻿using Common.Enums;
+using Common.Models;
+using Data.BusinessLogic;
 using Data.Common;
 using Data.Entities;
 using Helper.Client;
@@ -16,65 +18,57 @@ namespace WinformUI
 {
     public partial class frmManageUser : Form
     {
-        private BLUser bLUser;
         public frmManageUser()
         {
-            bLUser = new BLUser();
             InitializeComponent();
         }
 
         private void dgvUser_Paint(object sender, PaintEventArgs e)
         {
-            //Offsets to adjust the position of the merged Header.
-            int heightOffset = -5;
-            int widthOffset = -2;
+            int heightOffset = -3;
+            int widthOffset = 0;
             int xOffset = 0;
-            int yOffset = 4;
+            int yOffset = 0;
 
-            //Index of Header column from where the merging will start.
             int columnIndex = 0;
 
-            //Number of Header columns to be merged.
-            int columnCount = 2;
+            int columnCount = 3;
 
-            //Get the position of the Header Cell.
-            Rectangle headerCellRectangle = dgvUser.GetCellDisplayRectangle(columnIndex, 0, true);
+            Rectangle headerCellRectangle = dgvUser.GetCellDisplayRectangle(columnIndex, -1, true);
 
-            //X coordinate of the merged Header Column.
             int xCord = headerCellRectangle.Location.X + xOffset;
 
-            //Y coordinate of the merged Header Column.
-            int yCord = headerCellRectangle.Location.Y - headerCellRectangle.Height + yOffset;
+            int yCord = headerCellRectangle.Location.Y + yOffset;
 
-            //Calculate Width of merged Header Column by adding the widths of all Columns to be merged.
-            int mergedHeaderWidth = dgvUser.Columns[columnIndex].Width + dgvUser.Columns[columnIndex + columnCount - 1].Width + widthOffset;
+            int mergedHeaderWidth = dgvUser.Columns[columnIndex].Width + dgvUser.Columns[columnIndex + columnCount - 1].Width + dgvUser.Columns[columnIndex + columnCount - 2].Width + widthOffset;
 
-            //Generate the merged Header Column Rectangle.
             Rectangle mergedHeaderRect = new Rectangle(xCord, yCord, mergedHeaderWidth, headerCellRectangle.Height + heightOffset);
 
-            //Draw the merged Header Column Rectangle.
             e.Graphics.FillRectangle(new SolidBrush(Color.White), mergedHeaderRect);
 
-            //Draw the merged Header Column Text.
             e.Graphics.DrawString("Thao tác", dgvUser.ColumnHeadersDefaultCellStyle.Font, Brushes.Black, xCord + 2, yCord + 3);
         }
 
         private async void frmManageUser_Load(object sender, EventArgs e)
         {
-            List<ManagerUser> managerUsers = await ClientHelper.GetManagerUserAsync(ClientHelper.Client.User.Id);
+            List<ManagerUser> managerUsers = await ClientHelper.GetManagerUserAsync();
             dgvUser.DataSource = managerUsers;
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
             frmAddUser frmAddUser = new frmAddUser();
-            frmAddUser.Show();
+            
+            if (frmAddUser.ShowDialog() == DialogResult.OK)
+            {
+                frmManageUser_Load(this, null);
+            }
         }
 
         private async void frmManageUser_Activated(object sender, EventArgs e)
         {
-            List<ManagerUser> managerUsers = await ClientHelper.GetManagerUserAsync(ClientHelper.Client.User.Id);
-            dgvUser.DataSource = managerUsers;
+            //List<ManagerUser> managerUsers = await ClientHelper.GetManagerUserAsync(ClientHelper.Client.User.Id);
+            //dgvUser.DataSource = managerUsers;
         }
 
         private async void dgvUser_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -83,35 +77,51 @@ namespace WinformUI
             int row_index = e.RowIndex;
             if (row_index != -1)
             {
-                User user = await bLUser.GetJustUserAsync(dgv.Rows[row_index].Cells[3].Value.ToString());
-
-                //MessageBox.Show(user.ID.ToString());
-
                 if (dgv.Columns[e.ColumnIndex].Name == "Lock")
                 {
-                    bool status = !user.Status.GetValueOrDefault();
-                    await bLUser.ChangeStatusAsync(user.Username, status);
-                    if (status)
+                    string Status = dgv.Rows[row_index].Cells["Status"].Value.ToString();
+                    string userName = dgv.Rows[row_index].Cells["Ingame"].Value.ToString();
+                    bool status;
+                    if (Status == "True")
                     {
-                        MessageBox.Show("Bạn vừa mở tài khoản " + user.Username);
+                        status = false;
                     }
                     else
                     {
-                        MessageBox.Show("Bạn vừa khóa tài khoản " + user.Username);
+                        status = true;
+                    }
+                    
+                    var changeStatus = await ClientHelper.ChangeStatusAsync(userName, status);
+                    if (changeStatus.Code == (int)MessageCode.Success)
+                    {
+                        if (status)
+                        {
+                            MessageBox.Show("Bạn vừa mở tài khoản " + userName);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Bạn vừa khóa tài khoản " + userName);
+                        }
+                        frmManageUser_Load(this, null);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Lỗi không xác định!");
                     }
                     
                 }
                 else if (dgv.Columns[e.ColumnIndex].Name == "Logout")
                 {
-                    bool active = user.Active.GetValueOrDefault();
-                    if (active)
+                    string id = dgv.Rows[row_index].Cells["Id"].Value.ToString();
+                    string userName = dgv.Rows[row_index].Cells["Ingame"].Value.ToString();
+                    MessageModel message = await ClientHelper.ForceLogoutAsync(id);
+                    if (message.Code == (int)MessageCode.Success)
                     {
-                        await bLUser.ChangeActiveAsync(user.Username, !active);
-                        MessageBox.Show("Đăng xuất tài khoản " + user.Username);
+                        MessageBox.Show("Tài khoản " + userName + " đã đăng xuất!");
                     }
-                    else
+                    else if (message.Code == (int)MessageCode.Error)
                     {
-                        MessageBox.Show("Tài khoản " + user.Username +" đang ở trạng thái đăng xuất!" );
+                        MessageBox.Show(message.Data.ToString());
                     }
                 }
             }

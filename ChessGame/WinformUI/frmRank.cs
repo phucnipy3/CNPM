@@ -30,11 +30,9 @@ namespace WinformUI
         private async void frmRank_Load(object sender, EventArgs e)
         {
             var lstGame = await ClientHelper.GetGameAsync();
-            cmbGames.DataSource = lstGame;
             cmbGames.DisplayMember = "Name";
             cmbGames.ValueMember = "Id";
-
-            cmbGames.SelectedIndex = 0;
+            cmbGames.DataSource = lstGame;
 
             await LoadDataAsync(int.Parse(cmbGames.SelectedValue.ToString()));
         }
@@ -46,39 +44,68 @@ namespace WinformUI
             rankCondition.GameId = GameId;
             rankCondition.UserId = ClientHelper.Client.User.Id;
 
-            List<RankTable> lstRank = await BLElo.GetRankTableAsync(rankCondition);
-            for (int i = 0; i < lstRank.Count; i ++)
+            List<RankTable> lstRank = await ClientHelper.GetRankAsync(rankCondition);
+            if (lstRank != null)
             {
-                if (i > 9)
+                for (int i = 0; i < lstRank.Count; i++)
                 {
-                    lstRank[i].Rank = "10+";
-                }    
-                lstRank[i].Rank = (i+1).ToString();
-            }    
+                    if (i > 9)
+                    {
+                        lstRank[i].Rank = "10+";
+                    }
+                    lstRank[i].Rank = (i+1).ToString();
+                }
 
-            
-            dgvRank.DataSource = lstRank;
 
-            foreach(DataGridViewRow row in dgvRank.Rows)
+                dgvRank.DataSource = lstRank;
+
+                foreach (DataGridViewRow row in dgvRank.Rows)
+                {
+                    if (row.Cells["Id"].Value.ToString() == rankCondition.UserId.ToString())
+                    {
+                        row.DefaultCellStyle.BackColor = Color.SkyBlue;
+                        row.DefaultCellStyle.ForeColor = Color.Black;
+
+                    }
+                }
+            }
+            else
             {
-                if (row.Cells["Id"].Value.ToString() == rankCondition.UserId.ToString())
-                {
-                    row.DefaultCellStyle.BackColor = Color.SkyBlue;
-                    row.DefaultCellStyle.ForeColor = Color.Black;
-
-                }    
-            }    
+                dgvRank.DataSource = new List<RankTable>(); 
+            }
+               
         }
 
         private async void cmbGames_SelectionChangeCommitted(object sender, EventArgs e)
         {
+            //ComboBox senderComboBox = (ComboBox)sender;
+
+            //if (senderComboBox.SelectionLength > 0)
+            //{
+            //    int Id = int.Parse(senderComboBox.SelectedValue.ToString());
+            //    await LoadDataAsync(Id);
+            //}
+        }
+
+        private void dgvRank_SelectionChanged(object sender, EventArgs e)
+        {
+            (sender as DataGridView).ClearSelection();
+        }
+
+        private async void cmbGames_SelectedValueChanged(object sender, EventArgs e)
+        {
             ComboBox senderComboBox = (ComboBox)sender;
 
-            if (senderComboBox.SelectionLength > 0)
+            if (senderComboBox.SelectedValue != null)
             {
                 int Id = int.Parse(senderComboBox.SelectedValue.ToString());
                 await LoadDataAsync(Id);
             }
+        }
+
+        private void cmbGames_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
         }
     }
 }

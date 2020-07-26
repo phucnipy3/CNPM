@@ -24,14 +24,18 @@ namespace Data.BusinessLogic
                     Point = y.EloPoint ?? 0
                 }).OrderByDescending(z => z.Point).Take(10).ToListAsync();
 
-                if(!model.Select(x => x.Id).Contains(rankCondition.UserId))
+                if(model != null && !model.Select(x => x.Id).Contains(rankCondition.UserId))
                 {
-                    model.Add(await db.Elos.Where(x => x.GameId == rankCondition.GameId && x.UserId == rankCondition.UserId).Select(y => new RankTable
+                    var userRank = await db.Elos.Where(x => x.GameId == rankCondition.GameId && x.UserId == rankCondition.UserId).Select(y => new RankTable
                     {
                         Id = y.User.Id,
                         Ingame = y.User.Username,
                         Point = y.EloPoint ?? 0
-                    }).FirstOrDefaultAsync());
+                    }).FirstOrDefaultAsync();
+                    if (userRank != null)
+                    {
+                        model.Add(userRank);
+                    }
                 }
 
                 return model;

@@ -114,7 +114,7 @@ namespace WinformUI
                 {
                     string id = dgv.Rows[row_index].Cells["Id"].Value.ToString();
                     string userName = dgv.Rows[row_index].Cells["Ingame"].Value.ToString();
-                    MessageModel message = await ClientHelper.ForceLogout(id);
+                    MessageModel message = await ClientHelper.ForceLogoutAsync(id);
                     if (message.Code == (int)MessageCode.Success)
                     {
                         MessageBox.Show("Tài khoản " + userName + " đã đăng xuất!");

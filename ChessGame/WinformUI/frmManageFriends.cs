@@ -1,4 +1,6 @@
-﻿using Data.BusinessLogic;
+﻿using Common.Enums;
+using Common.Models;
+using Data.BusinessLogic;
 using Data.Common;
 using Data.Entities;
 using Helper.Client;
@@ -64,7 +66,13 @@ namespace WinformUI
         private void btnAddFriend_Click(object sender, EventArgs e)
         {
             frmAddFriend addFriend = new frmAddFriend();
-            addFriend.Show();
+            if (addFriend.ShowDialog() == DialogResult.OK)
+            {
+                MessageBox.Show("Gửi lời mời kết bạn thành công!");
+                frmManageFriends_Load(this, null);
+            }    
+
+            
         }
 
         private void dgvFriends_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -80,10 +88,19 @@ namespace WinformUI
             {
                
                 int friend_ID = int.Parse(dgv.Rows[row_index].Cells["ID"].Value.ToString());
-
+                string opponentName = dgv.Rows[row_index].Cells["Ingame"].Value.ToString();
                 if (dgv.Columns[e.ColumnIndex].Name == "Action")
                 {
-                    MessageBox.Show("Mời");
+                    MessageModel message = await ClientHelper.InvitePlayAsync(opponentName);
+                    if (message.Code == (int)MessageCode.Success)
+                    {
+                        this.DialogResult = DialogResult.OK;
+                        Close();
+                    }
+                    else if (message.Code == (int)MessageCode.Error)
+                    {
+                        MessageBox.Show(message.Data.ToString());
+                    }
                 }
                 else if (dgv.Columns[e.ColumnIndex].Name == "Message")
                 {

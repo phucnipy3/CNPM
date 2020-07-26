@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8CFD75A8-8768-4CE5-A4FD-1523DE8A0CF1}</ProjectGuid>
+    <ProjectGuid>{766842A1-46E0-42B3-93EE-12B3C291637A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Common</RootNamespace>
-    <AssemblyName>Common</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <RootNamespace>CommonUI</RootNamespace>
+    <AssemblyName>CommonUI</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
@@ -43,33 +43,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constants\CaroConstant.cs" />
-    <Compile Include="Constants\ClientConstant.cs" />
-    <Compile Include="Constants\NetworkConstant.cs" />
-    <Compile Include="Enums\CaroChessman.cs" />
-    <Compile Include="Enums\GameType.cs" />
-    <Compile Include="Enums\MessageCode.cs" />
-    <Compile Include="Enums\UserRole.cs" />
-    <Compile Include="Extensions\TcpClientExtension.cs" />
-    <Compile Include="FormInterfaces\IPickGameForm.cs" />
-    <Compile Include="FormInterfaces\IPlayGameForm.cs" />
-    <Compile Include="Logger\Logger.cs" />
-    <Compile Include="Models\AddFriendModel.cs" />
-    <Compile Include="Models\ChangePasswordModel.cs" />
-    <Compile Include="Models\ChangeStatusModel.cs" />
-    <Compile Include="Models\FeedbackModel.cs" />
-    <Compile Include="Models\FriendshipModel.cs" />
-    <Compile Include="Models\GameModel.cs" />
-    <Compile Include="Models\InvitePlayModel.cs" />
-    <Compile Include="Models\RoomRequestModel.cs" />
-    <Compile Include="Models\LoginModel.cs" />
-    <Compile Include="Models\MessageModel.cs" />
-    <Compile Include="Models\RankConditionModel.cs" />
-    <Compile Include="Models\RegisterModel.cs" />
-    <Compile Include="Models\RoomInfomationModel.cs" />
-    <Compile Include="Models\UserModel.cs" />
+    <Compile Include="frmInvite.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmInvite.Designer.cs">
+      <DependentUpon>frmInvite.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmNotification.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmNotification.Designer.cs">
+      <DependentUpon>frmNotification.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SendMail\SendEmail.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="frmInvite.resx">
+      <DependentUpon>frmInvite.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmNotification.resx">
+      <DependentUpon>frmNotification.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

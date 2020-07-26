@@ -19,6 +19,7 @@
         AddFeedback = 18,
         ManageUser = 20,
         CreateRoom = 13,
+        Disconnected = 36,
         RefreshRooms = 15,
         JoinRoom = 17,
         RefreshCurrentRoom = 19,
@@ -29,5 +30,9 @@
         CheckFeedback = 30,
         Maintain = 32,
         ForceLogout = 34,
+        AddFriend = 38,
+        ReplyAddFriend = 40,
+        InvitePlay = 42,
+        ReplyInvitePlay = 44,
     }
 }

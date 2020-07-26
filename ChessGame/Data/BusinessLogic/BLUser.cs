@@ -2,6 +2,7 @@
 using Common.Models;
 using Data.Common;
 using Data.Entities;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.OleDb;
@@ -302,6 +303,35 @@ namespace Data.BusinessLogic
 
                 messageModel.Code = (int)MessageCode.Error;
                 return messageModel;
+            }
+        }
+
+        public async Task<bool> AddFriend(AddFriendModel addFriendModel)
+        {
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                int? userId = await db.Users.Where(x => x.Username == addFriendModel.UserName).Select(x => x.Id).FirstOrDefaultAsync();
+                int? friendId = await db.Users.Where(x => x.Username == addFriendModel.FriendName).Select(x => x.Id).FirstOrDefaultAsync();
+
+                if (!userId.HasValue || !friendId.HasValue)
+                    return false;
+
+                db.Friendships.Add(new Friendship()
+                {
+                    UserId = userId,
+                    FriendId = friendId,
+                    AddTime = DateTime.Now
+                });
+
+                db.Friendships.Add(new Friendship()
+                {
+                    UserId = friendId,
+                    FriendId = userId,
+                    AddTime = DateTime.Now
+                });
+
+                await db.SaveChangesAsync();
+                return true;
             }
         }
     }

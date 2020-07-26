@@ -102,6 +102,7 @@ namespace GameEngine.Client
 
         public void MakeOpponentMove(CaroMove move)
         {
+            
             // coordinate, turn
             //if(move valid)
             //else throw

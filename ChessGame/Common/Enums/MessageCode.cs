@@ -31,5 +31,8 @@
         ForceLogout = 34,
         CaroMove = 40,
         InvalidMove = 41,
+        ChangeReadyState = 42,
+        OutRoom = 44,
+        GameNotification = 46
     }
 }

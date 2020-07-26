@@ -67,6 +67,11 @@ namespace Helper.Client
             }
         }
 
+        public static async Task ChangeReadyStateAsync(int roomId)
+        {
+            await SendingMessageAsync((int)MessageCode.ChangeReadyState, new UserRequestRoomModel() { UserId = Client.User.Id, RoomId = roomId });
+        }
+
         private static void Client_Disconnected(object sender, EventArgs e)
         {
             MessageBox.Show("Mất kết nối đến máy chủ!", "Thông báo");
@@ -102,7 +107,15 @@ namespace Helper.Client
                 case (int)MessageCode.InvalidMove:
                     // Popup message
                     break;
+                case (int)MessageCode.GameNotification:
+                    
+                    break;
             }
+        }
+
+        public static async Task OutRoom(int roomId)
+        {
+            await SendingMessageAsync((int)MessageCode.OutRoom, new UserRequestRoomModel() { UserId = Client.User.Id, RoomId = roomId });
         }
 
         public static async Task SendingMessageAsync(int code, object dataModel)

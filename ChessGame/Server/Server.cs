@@ -21,10 +21,12 @@ namespace Server
         private CommunicationComponent sendingComponent;
         private CommunicationComponent receivingComponent;
         private List<UserOnServerSide> users;
+        private List<RoomInfomationModel> rooms;
 
         public CommunicationServer(string ip)
         {
             users = new List<UserOnServerSide>();
+            rooms = new List<RoomInfomationModel>();
             sendingComponent = new CommunicationComponent(ip, NetworkConstant.SERVER_SENDING_PORT);
             sendingComponent.NewClientAccepted += SendingComponent_NewClientAccepted;
             _ = sendingComponent.StartListenAsync();
@@ -44,7 +46,7 @@ namespace Server
 
                     var userModel = await new BLUser().LoginAsync(loginModel.Username, loginModel.Password);
                     await e.Client.SendMessageAsync(JsonConvert.SerializeObject(new MessageModel() { Code = (int)MessageCode.Login, Data = userModel }));
-                    
+
                     if (userModel != null)
                     {
                         users.Add(new UserOnServerSide(userModel, e.Client));
@@ -105,7 +107,7 @@ namespace Server
                 }
             }
             await e.Client.SendMessageAsync(JsonConvert.SerializeObject(new MessageModel() { Code = (int)MessageCode.Error, Data = "Lỗi" }));
-        
+
         }
 
         private async void CommunicationServer_MessageReceivedAsync(object sender, MessageReceivedEventArgs e)
@@ -143,10 +145,8 @@ namespace Server
                         ConsoleLog(client.User.Name + " get list friend");
                         messageModel.Data = await new BLFriend().GetFriendByUserNameAsync(id);
                     }
-                    else
-                    {
-                        messageModel.Data = null;
-                    }
+                    else messageModel.Data = null;
+
                     await client.ReceivingClient.SendMessageAsync(JsonConvert.SerializeObject(messageModel));
                     break;
 
@@ -157,9 +157,9 @@ namespace Server
                     break;
 
                 case (int)MessageCode.GetRooms:
-                    var getRoomModel = JsonConvert.DeserializeObject<RoomRequestModel>(messageModel.Data.ToString());
+                    var roomRequestModel = JsonConvert.DeserializeObject<RoomRequestModel>(messageModel.Data.ToString());
 
-                    messageModel.Data = await BLRoom.GetRoomsAsync(getRoomModel.GameId, getRoomModel.Search);
+                    messageModel.Data = rooms.Where(x => x.GameId == roomRequestModel.GameId && x.RoomId.ToString().Contains(roomRequestModel.Search));
                     ConsoleLog(client.User.Name + " get rooms");
 
                     await client.ReceivingClient.SendMessageAsync(JsonConvert.SerializeObject(messageModel));
@@ -168,7 +168,21 @@ namespace Server
                 case (int)MessageCode.CreateRoom:
                     var createRoomModel = JsonConvert.DeserializeObject<RoomRequestModel>(messageModel.Data.ToString());
 
-                    messageModel.Data = await BLRoom.CreateRoom(createRoomModel.UserId, createRoomModel.GameId);
+                    int newRoomId;
+                    do
+                    {
+                        newRoomId = new Random().Next(10000, 99999);
+                    } while (rooms.Any(x => x.RoomId == newRoomId));
+
+                    var newRoom = new RoomInfomationModel()
+                    {
+                        RoomId = newRoomId,
+                        GameId = createRoomModel.GameId,
+                        FirstPlayer = await BLUser.GetJustUserByIDAsync(createRoomModel.UserId)
+                    };
+                    rooms.Add(newRoom);
+
+                    messageModel.Data = newRoom;
                     ConsoleLog(client.User.Name + " create rooms");
 
                     _ = SendingAllUserAsync(new MessageModel() { Code = (int)MessageCode.RefreshRooms });
@@ -179,21 +193,33 @@ namespace Server
                 case (int)MessageCode.JoinRoom:
                     var joinRoomModel = JsonConvert.DeserializeObject<RoomRequestModel>(messageModel.Data.ToString());
 
-                    var roomInfo = await BLRoom.JoinRoom(joinRoomModel.UserId, joinRoomModel.RoomId);
-                    messageModel.Data = roomInfo;
-                    ConsoleLog(client.User.Name + " join rooms");
+                    var joinRoom = rooms.Where(x => x.RoomId == joinRoomModel.RoomId).FirstOrDefault();
+                    messageModel.Data = joinRoom;
 
-                    UserOnServerSide opponent;
-                    if (roomInfo.Count == 2)
+                    if (joinRoom != null)
                     {
-                        if (roomInfo.FirstPlayer.Id == joinRoomModel.UserId)
-                            opponent = users.Where(x => x.User.Id == roomInfo.SecondPlayer.Id).FirstOrDefault();
-                        else opponent = users.Where(x => x.User.Id == roomInfo.FirstPlayer.Id).FirstOrDefault();
+                        if (joinRoom.FirstPlayer == null)
+                        {
+                            joinRoom.FirstPlayer = await BLUser.GetJustUserByIDAsync(joinRoomModel.UserId);
+                            if (joinRoom.SecondPlayer != null)
+                            {
+                                var secondPlayer = users.Where(x => x.User.Id == joinRoom.SecondPlayer.Id).FirstOrDefault();
+                                if (secondPlayer != null)
+                                    await secondPlayer.SendingClient.SendMessageAsync(JsonConvert.SerializeObject(new MessageModel() { Code = (int)MessageCode.RefreshCurrentRoom, Data = joinRoom }));
+                            }
+                        }
+                        else if (joinRoom.SecondPlayer == null)
+                        {
+                            joinRoom.SecondPlayer = await BLUser.GetJustUserByIDAsync(joinRoomModel.UserId);
+                            var secondPlayer = users.Where(x => x.User.Id == joinRoom.FirstPlayer.Id).FirstOrDefault();
+                            if (secondPlayer != null)
+                                await secondPlayer.SendingClient.SendMessageAsync(JsonConvert.SerializeObject(new MessageModel() { Code = (int)MessageCode.RefreshCurrentRoom, Data = joinRoom }));
+                        }
+                        else messageModel.Data = null;
 
-                        await opponent.SendingClient.SendMessageAsync(JsonConvert.SerializeObject(new MessageModel() { Code = (int)MessageCode.RefreshCurrentRoom, Data = roomInfo }));
+                        if (messageModel.Data != null)
+                            _ = SendingAllUserAsync(new MessageModel() { Code = (int)MessageCode.RefreshRooms });
                     }
-
-                    _ = SendingAllUserAsync(new MessageModel() { Code = (int)MessageCode.RefreshRooms });
 
                     await client.ReceivingClient.SendMessageAsync(JsonConvert.SerializeObject(messageModel));
                     break;
@@ -252,6 +278,45 @@ namespace Server
                     ConsoleLog(client.User.Name + " send request force logout");
                     bool hasForceLogout = await ForceLogoutAsync(messageModel.Data);
                     await client.ReceivingClient.SendMessageAsync(JsonConvert.SerializeObject(new MessageModel { Code = hasForceLogout ? (int)MessageCode.Success : (int)MessageCode.Error }));
+                    break;
+                case (int)MessageCode.ChangeReadyState:
+                    ConsoleLog(client.User.Name + " change ready in room");
+                    var changeReadyModel = JsonConvert.DeserializeObject<UserRequestRoomModel>(messageModel.Data.ToString());
+
+                    var roomChangeReady = rooms.Where(x => x.RoomId == changeReadyModel.RoomId).FirstOrDefault();
+                    if (roomChangeReady.FirstPlayer.Id == changeReadyModel.UserId)
+                        roomChangeReady.FirstPlayerReady = !roomChangeReady.FirstPlayerReady;
+                    else roomChangeReady.SecondPlayerReady = !roomChangeReady.SecondPlayerReady;
+
+                    await client.SendingClient.SendMessageAsync(JsonConvert.SerializeObject(new MessageModel { Code = (int)MessageCode.RefreshCurrentRoom, Data = roomChangeReady }));
+                    break;
+                case (int)MessageCode.OutRoom:
+                    ConsoleLog(client.User.Name + " change ready in room");
+                    var outRoomModel = JsonConvert.DeserializeObject<UserRequestRoomModel>(messageModel.Data.ToString());
+
+                    var outRoom = rooms.Where(x => x.RoomId == outRoomModel.RoomId).FirstOrDefault();
+                    UserOnServerSide opponentInOutRoom;
+                    if (outRoom.FirstPlayer.Id == outRoomModel.UserId)
+                    {
+                        outRoom.FirstPlayer = null;
+                        outRoom.FirstPlayerReady = false;
+                        opponentInOutRoom = users.Where(x => x.User.Id == outRoom.SecondPlayer.Id).FirstOrDefault();
+                    }
+                    else
+                    {
+                        outRoom.SecondPlayer = null;
+                        outRoom.SecondPlayerReady = false;
+                        opponentInOutRoom = users.Where(x => x.User.Id == outRoom.FirstPlayer.Id).FirstOrDefault();
+                    }
+                    if (opponentInOutRoom == null)
+                        rooms.Remove(outRoom);
+                    else
+                    {
+                        if (outRoom.IsInGame)
+                            await opponentInOutRoom.SendingClient.SendMessageAsync(JsonConvert.SerializeObject(new MessageModel { Code = (int)MessageCode.GameNotification, Data = "Đối thủ đã thoát. Bạn được xử thắng!" }));
+
+                        await opponentInOutRoom.SendingClient.SendMessageAsync(JsonConvert.SerializeObject(new MessageModel { Code = (int)MessageCode.RefreshCurrentRoom, Data = outRoom })); 
+                    }
                     break;
             }
         }

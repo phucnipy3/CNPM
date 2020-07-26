@@ -8,9 +8,12 @@ using Communication.Client;
 using Communication.Common;
 using Data.Common;
 using Data.Entities;
+using GameEngine.Client;
+using GameEngine.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
@@ -22,6 +25,8 @@ namespace Helper.Client
     {
         public static string IP { get; set; } = "127.0.0.1";
         public static UserOnClientSide Client { get; private set; }
+        public static CaroClient GameClient { get; private set; }
+
 
         public static async Task<UserModel> LoginAsync(string username, string password)
         {
@@ -49,7 +54,7 @@ namespace Helper.Client
                 {
                     Client = new UserOnClientSide(sendingClient, receivingClient);
                     Client.User = userLogin;
-                    Client.MessageReceived += User_MessageReceived;
+                    Client.MessageReceived += User_MessageReceivedAsync;
                     Client.Disconnected += Client_Disconnected;
                     return userLogin;
                 }
@@ -68,7 +73,7 @@ namespace Helper.Client
             Application.Exit();
         }
 
-        private static void User_MessageReceived(object sender, MessageReceivedEventArgs e)
+        private static async void User_MessageReceivedAsync(object sender, MessageReceivedEventArgs e)
         {
             MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(e.Message);
             switch (messageModel.Code)
@@ -83,6 +88,19 @@ namespace Helper.Client
                     var frmCurrentRoom = Find("frmPlayGame") as IPlayGameForm;
                     if (frmCurrentRoom != null)
                         frmCurrentRoom.RefreshCurrentRoom(JsonConvert.DeserializeObject<RoomInfomationModel>(messageModel.Data.ToString()));
+                    break;
+                case (int)MessageCode.CaroMove:
+                    try
+                    {
+                        GameClient.MakeOpponentMove(JsonConvert.DeserializeObject<CaroMove>(messageModel.Data.ToString()));
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        await SendingMessageAsync((int)MessageCode.InvalidMove, null);
+                    }
+                    break;
+                case (int)MessageCode.InvalidMove:
+                    // Popup message
                     break;
             }
         }
@@ -366,5 +384,16 @@ namespace Helper.Client
             }
             return null;
         }
+
+        public static void MakeMove(Point mouseLocation, Cursor cur)
+        {
+            int mouseXOffset = -cur.Size.Width / 2;
+            int mouseYOffset = cur.Size.Height / 2;
+            int x = (mouseLocation.X + mouseXOffset) / GameClient.CellSize;
+            int y = (mouseLocation.Y + mouseYOffset) / GameClient.CellSize;
+
+            GameClient.MakeOwnMove(x, y);
+        }
+
     }
 }

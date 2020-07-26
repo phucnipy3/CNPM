@@ -79,10 +79,6 @@
       <Project>{553053BE-644A-43FD-AEF7-F435C069816A}</Project>
       <Name>Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GameEngine\GameEngine.csproj">
-      <Project>{A8FF7CB4-F892-46A8-B465-437317E8E4CF}</Project>
-      <Name>GameEngine</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

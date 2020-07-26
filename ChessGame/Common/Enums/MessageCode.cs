@@ -29,5 +29,7 @@
         CheckFeedback = 30,
         Maintain = 32,
         ForceLogout = 34,
+        CaroMove = 40,
+        InvalidMove = 41,
     }
 }

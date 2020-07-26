@@ -123,8 +123,23 @@ namespace Helper.Client
                 case (int)MessageCode.ReplyInvitePlay:
                     frmNotification.ShowNotification(messageModel.Data.ToString());
                     break;
+                case (int)MessageCode.SendMessage:
+                    frmNotification.ShowNotification("Bạn nhận được một tin nhắn!");
+                    break;
             }
         }
+
+        //private static void ReceiveMessage(MessageModel message)
+        //{
+        //    //if (message.Code == (int)MessageCode.Success)
+        //    //{
+        //    //    frmInvite frmInvite = new frmInvite("Bạn có một tin nhắn từ người chơi","",null );
+        //    //    frmInvite.Show();
+        //    //}
+        //    frmInvite frmInvite = new frmInvite("Bạn có một tin nhắn từ người chơi", " ", null);
+        //    frmInvite.Show();
+        //}
+
 
         private static void ReceiveInvitePlay(object data)
         {
@@ -195,6 +210,16 @@ namespace Helper.Client
         public static async Task<MessageModel> ForceLogoutAsync(string id)
         {
             await SendingMessageAsync((int)MessageCode.ForceLogout, id);
+
+            MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(await Client.SendingClient.ReceiveMessageAsync());
+            if (messageModel == null)
+                messageModel = new MessageModel() { Code = (int)MessageCode.Error, Data = "Lỗi không xác định" };
+            return messageModel;
+        }
+
+        public static async Task<MessageModel> AddMessageAsync(SendMessageModel sendMessage)
+        {
+            await SendingMessageAsync((int)MessageCode.SendMessage, sendMessage);
 
             MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(await Client.SendingClient.ReceiveMessageAsync());
             if (messageModel == null)

@@ -34,5 +34,6 @@
         ReplyAddFriend = 40,
         InvitePlay = 42,
         ReplyInvitePlay = 44,
+        SendMessage = 46,
     }
 }

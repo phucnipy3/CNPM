@@ -281,9 +281,16 @@ namespace Server
                         await client.SendingClient.SendMessageAsync(JsonConvert.SerializeObject(messageModel));
                     }
                     break;
-
+                case (int)MessageCode.SendMessage:
+                    ConsoleLog(client.User.Name + " send message");
+                    /////////////////////////////////////////
+                    string addMessage = await BLMesssage.AddMessageAsync(JsonConvert.DeserializeObject<SendMessageModel>(messageModel.Data.ToString()));
+                    await client.ReceivingClient.SendMessageAsync(JsonConvert.SerializeObject(new MessageModel { Code = addMessage ? (int)MessageCode.Success : (int)MessageCode.Error}));
+                    break;
             }
         }
+
+        
 
         private async Task<string> ReplyInvitePlayAsync(object data)
         {

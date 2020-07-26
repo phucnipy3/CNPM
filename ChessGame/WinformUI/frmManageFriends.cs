@@ -104,7 +104,7 @@ namespace WinformUI
                 }
                 else if (dgv.Columns[e.ColumnIndex].Name == "Message")
                 {
-                    Constant.FRIENDNAME = dgv.Rows[row_index].Cells[3].Value.ToString();
+                    Constant.FRIENDNAME = dgv.Rows[row_index].Cells["Ingame"].Value.ToString();
                     Constant.FRIEND_ID = friend_ID;
                     frmMessage message = new frmMessage();
                     message.Show();

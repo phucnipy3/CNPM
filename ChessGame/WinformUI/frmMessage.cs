@@ -10,6 +10,9 @@ using System.Windows.Forms;
 using System.Data.Entity;
 using Data.Common;
 using Data.BusinessLogic;
+using Common.Models;
+using Helper.Client;
+using Common.Enums;
 
 namespace WinformUI
 {
@@ -25,18 +28,18 @@ namespace WinformUI
         private async void btnSendMessage_Click(object sender, EventArgs e)
         {
             btnSendMessage.Enabled = false;
-            Data.Entities.Message message = new Data.Entities.Message();
-            message.SenderId = Constant.USER_ID;
-            message.ReceiverId = Constant.FRIEND_ID;
-            message.Content = txtInputMessage.Text.Trim().ToString();
-            message.SendTime = DateTime.Now;
+            SendMessageModel sendMessage = new SendMessageModel();
+            sendMessage.SenderName = ClientHelper.Client.User.Username; ;
+            sendMessage.ReceiverName = Constant.FRIENDNAME;
+            sendMessage.Content = txtInputMessage.Text.Trim().ToString();
 
-            if (await bLMesssage.AddMessageAsync(message))
+            var message = await ClientHelper.AddMessageAsync(sendMessage);
+            if (message.Code == (int)MessageCode.Success)
             {
                 MessageBox.Show("Gửi thành công!");
                 Close();
             }
-            else
+            else if (message.Code == (int)MessageCode.Error)
             {
                 MessageBox.Show("Gửi thất bại!");
 

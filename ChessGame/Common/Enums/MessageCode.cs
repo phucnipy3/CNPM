@@ -18,6 +18,10 @@
         GetRank = 16,
         AddFeedback = 18,
         ManageUser = 20,
+        CreateRoom = 13,
+        RefreshRooms = 15,
+        JoinRoom = 17,
+        RefreshCurrentRoom = 19
         ChangeStatus = 22,
         GetAllUser = 24,
         AddNotification = 26,

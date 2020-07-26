@@ -44,6 +44,7 @@ namespace Server
 
                     var userModel = await new BLUser().LoginAsync(loginModel.Username, loginModel.Password);
                     await e.Client.SendMessageAsync(JsonConvert.SerializeObject(new MessageModel() { Code = (int)MessageCode.Login, Data = userModel }));
+                    
                     if (userModel != null)
                     {
                         users.Add(new UserOnServerSide(userModel, e.Client));
@@ -104,6 +105,7 @@ namespace Server
                 }
             }
             await e.Client.SendMessageAsync(JsonConvert.SerializeObject(new MessageModel() { Code = (int)MessageCode.Error, Data = "Lỗi" }));
+        
         }
 
         private async void CommunicationServer_MessageReceivedAsync(object sender, MessageReceivedEventArgs e)
@@ -147,20 +149,51 @@ namespace Server
                     }
                     await client.ReceivingClient.SendMessageAsync(JsonConvert.SerializeObject(messageModel));
                     break;
+
                 case (int)MessageCode.DeleteFriendship:
                     ConsoleLog(client.User.Name + " delete friend");
                     await new BLFriend().DeleteFriendAsync(JsonConvert.DeserializeObject<FriendshipModel>(messageModel.Data.ToString()));
-                    await client.ReceivingClient.SendMessageAsync(JsonConvert.SerializeObject(new MessageModel { Code = (int)MessageCode.Success}));
+                    await client.ReceivingClient.SendMessageAsync(JsonConvert.SerializeObject(new MessageModel { Code = (int)MessageCode.Success }));
                     break;
 
                 case (int)MessageCode.GetRooms:
-                    int gameId;
-                    if (int.TryParse(messageModel.Data.ToString(), out gameId))
+                    var getRoomModel = JsonConvert.DeserializeObject<RoomRequestModel>(messageModel.Data.ToString());
+
+                    messageModel.Data = await BLRoom.GetRoomsAsync(getRoomModel.GameId, getRoomModel.Search);
+                    ConsoleLog(client.User.Name + " get rooms");
+
+                    await client.ReceivingClient.SendMessageAsync(JsonConvert.SerializeObject(messageModel));
+                    break;
+
+                case (int)MessageCode.CreateRoom:
+                    var createRoomModel = JsonConvert.DeserializeObject<RoomRequestModel>(messageModel.Data.ToString());
+
+                    messageModel.Data = await BLRoom.CreateRoom(createRoomModel.UserId, createRoomModel.GameId);
+                    ConsoleLog(client.User.Name + " create rooms");
+
+                    _ = SendingAllUserAsync(new MessageModel() { Code = (int)MessageCode.RefreshRooms });
+
+                    await client.ReceivingClient.SendMessageAsync(JsonConvert.SerializeObject(messageModel));
+                    break;
+
+                case (int)MessageCode.JoinRoom:
+                    var joinRoomModel = JsonConvert.DeserializeObject<RoomRequestModel>(messageModel.Data.ToString());
+
+                    var roomInfo = await BLRoom.JoinRoom(joinRoomModel.UserId, joinRoomModel.RoomId);
+                    messageModel.Data = roomInfo;
+                    ConsoleLog(client.User.Name + " join rooms");
+
+                    UserOnServerSide opponent;
+                    if (roomInfo.Count == 2)
                     {
-                        ConsoleLog(client.User.Name + " get rooms");
-                        messageModel.Data = await BLRoom.GetRoomsAsync(gameId);
+                        if (roomInfo.FirstPlayer.Id == joinRoomModel.UserId)
+                            opponent = users.Where(x => x.User.Id == roomInfo.SecondPlayer.Id).FirstOrDefault();
+                        else opponent = users.Where(x => x.User.Id == roomInfo.FirstPlayer.Id).FirstOrDefault();
+
+                        await opponent.SendingClient.SendMessageAsync(JsonConvert.SerializeObject(new MessageModel() { Code = (int)MessageCode.RefreshCurrentRoom, Data = roomInfo }));
                     }
-                    else messageModel.Data = null;
+
+                    _ = SendingAllUserAsync(new MessageModel() { Code = (int)MessageCode.RefreshRooms });
 
                     await client.ReceivingClient.SendMessageAsync(JsonConvert.SerializeObject(messageModel));
                     break;
@@ -238,6 +271,15 @@ namespace Server
                 }
             }
             return false;
+        }
+
+        private async Task SendingAllUserAsync(MessageModel message)
+        {
+            foreach (var user in users)
+            {
+                var str = JsonConvert.SerializeObject(message);
+                await user.SendingClient.SendMessageAsync(str);
+            }
         }
 
         private async Task LogoutAsync(object data)

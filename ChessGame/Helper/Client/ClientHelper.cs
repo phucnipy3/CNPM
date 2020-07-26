@@ -1,6 +1,7 @@
 ﻿using Common.Constants;
 using Common.Enums;
 using Common.Extensions;
+using Common.FormInterfaces;
 using Common.Logger;
 using Common.Models;
 using Communication.Client;
@@ -13,6 +14,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Helper.Client
 {
@@ -48,6 +50,7 @@ namespace Helper.Client
                     Client = new UserOnClientSide(sendingClient, receivingClient);
                     Client.User = userLogin;
                     Client.MessageReceived += User_MessageReceived;
+                    Client.Disconnected += Client_Disconnected;
                     return userLogin;
                 }
                 return null;
@@ -59,12 +62,28 @@ namespace Helper.Client
             }
         }
 
+        private static void Client_Disconnected(object sender, EventArgs e)
+        {
+            MessageBox.Show("Mất kết nối đến máy chủ!", "Thông báo");
+            Application.Exit();
+        }
+
         private static void User_MessageReceived(object sender, MessageReceivedEventArgs e)
         {
             MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(e.Message);
             switch (messageModel.Code)
             {
-                case (int)MessageCode.Success: break;
+                case (int)MessageCode.RefreshRooms:
+                    var frmRooms = Find("frmPickGame") as IPickGameForm;
+                    if (frmRooms != null)
+                        frmRooms.RefreshRooms();
+                    break;
+
+                case (int)MessageCode.RefreshCurrentRoom:
+                    var frmCurrentRoom = Find("frmPlayGame") as IPlayGameForm;
+                    if (frmCurrentRoom != null)
+                        frmCurrentRoom.RefreshCurrentRoom(JsonConvert.DeserializeObject<RoomInfomationModel>(messageModel.Data.ToString()));
+                    break;
             }
         }
 
@@ -185,15 +204,15 @@ namespace Helper.Client
             return JsonConvert.DeserializeObject<List<Friend>>(messageModel.Data.ToString());
         }
 
-        public static async Task<List<RoomModel>> GetRoomsAsync(int gameId)
+        public static async Task<List<RoomInfomationModel>> GetRoomsAsync(int gameId, string search)
         {
-            await SendingMessageAsync((int)MessageCode.GetRooms, gameId);
+            await SendingMessageAsync((int)MessageCode.GetRooms, new RoomRequestModel() { GameId = gameId, Search = search });
 
             MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(await Client.SendingClient.ReceiveMessageAsync());
             if (messageModel.Data == null)
-                return new List<RoomModel>();
+                return new List<RoomInfomationModel>();
 
-            return JsonConvert.DeserializeObject<List<RoomModel>>(messageModel.Data.ToString());
+            return JsonConvert.DeserializeObject<List<RoomInfomationModel>>(messageModel.Data.ToString());
         }
 
         public static async Task<MessageModel> DeleteFriendshipAsync(int friendId)
@@ -310,6 +329,42 @@ namespace Helper.Client
             if (messageModel == null)
                 messageModel = new MessageModel() { Code = (int)MessageCode.Error, Data = "Lỗi không xác định" };
             return messageModel;
+        }
+
+        public static async Task<RoomInfomationModel> CreateRoom(int gameId)
+        {
+            await SendingMessageAsync((int)MessageCode.CreateRoom, new RoomRequestModel() { UserId = Client.User.Id, GameId = gameId });
+
+            MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(await Client.SendingClient.ReceiveMessageAsync());
+            if (messageModel.Data == null)
+                return null;
+
+            return JsonConvert.DeserializeObject<RoomInfomationModel>(messageModel.Data.ToString());
+        }
+
+        public static async Task<RoomInfomationModel> JoinRoom(int roomId)
+        {
+            await SendingMessageAsync((int)MessageCode.JoinRoom, new RoomRequestModel() { UserId = Client.User.Id, RoomId = roomId });
+
+            MessageModel messageModel = JsonConvert.DeserializeObject<MessageModel>(await Client.SendingClient.ReceiveMessageAsync());
+            if (messageModel.Data == null)
+                return null;
+
+            return JsonConvert.DeserializeObject<RoomInfomationModel>(messageModel.Data.ToString());
+        }
+
+        private static Form Find(string frmName)
+        {
+            FormCollection fc = Application.OpenForms;
+
+            foreach (Form frm in fc)
+            {
+                if (frm.Name == frmName)
+                {
+                    return frm;
+                }
+            }
+            return null;
         }
     }
 }
